@@ -51,8 +51,9 @@ class Email_Save_This extends Tool {
 		$data['saveThis']['spotlight'] 				= ( isset( $settings['display']['spotlight'] ) ) ? sanitize_text_field( ( $settings['display']['spotlight'] ) ) : '';
 		$data['saveThis']['successMessage'] 		= ( isset( $settings['display']['successmessage'] ) ) ? sanitize_text_field( ( $settings['display']['successmessage'] ) ) : '';
 		$data['saveThis']['consent']				= ( isset( $settings['display']['consent'] ) ) ? sanitize_text_field( ( $settings['display']['consent'] ) ) : '';
+		$data['saveThis']['consentForMailingList']	= ( isset( $settings['display']['consent_for_mailing_list'] ) ) ? sanitize_text_field( ( $settings['display']['consent_for_mailing_list'] ) ) : '';
 		$data['saveThis']['position']				= ( isset( $settings['display']['position'] ) ) ? sanitize_text_field( ( $settings['display']['position'] ) ) : '';
-		$data['saveThis']['mailingListService']				= ( isset( $settings['connection']['service'] ) ) ? sanitize_text_field( ( $settings['connection']['service'] ) ) : '';
+		$data['saveThis']['mailingListService']		= ( isset( $settings['connection']['service'] ) ) ? sanitize_text_field( ( $settings['connection']['service'] ) ) : '';
 
 		return $data;
 	}

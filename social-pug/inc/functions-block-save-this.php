@@ -20,5 +20,14 @@ function dpsp_register_save_this_block() {
 }
 
 function dpsp_save_this_email_error( $wp_error ) {
-    error_log( 'Hubbub: Save This Email Error ' . print_r( $wp_error, true ) );
+    if ( is_wp_error( $wp_error ) ) {
+        if ( $wp_error->get_error_code() !== 'wp_mail_failed' ) return;
+
+        $error_message = $wp_error->get_error_message();
+
+        if ( strpos( $error_message, 'hubbub' ) > 0 ) {
+            error_log( 'Hubbub: Save This Email Error : ' . $error_message );
+        }
+    }
+    
 }  

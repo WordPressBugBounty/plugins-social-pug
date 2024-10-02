@@ -199,12 +199,21 @@ class DPSP_Network_Buttons_Outputter {
 		$button_data['button_classes'] = esc_attr( implode( ' ', array_filter( $button_data['button_classes'] ) ) );
 
 		// Load pinterest and grow as a button when no href value is used
-		if ( ( 'pinterest' === $slug || 'grow' === $slug || 'mastodon' === $slug ) && 'share' === $data['action'] ) {
+		if ( ( 'pinterest' === $slug || 'grow' === $slug || 'mastodon' === $slug || 'messenger' === $slug ) && 'share' === $data['action'] ) {
 			$button_data['tag']            = 'button';
 			$button_data['href_attribute'] = 'data-href="' . esc_url( $network_share_link ) . '"';
 		} else {
+
+			if ( 'twitter' === $slug || 'x' === $slug ) { // See GH #1844
+				$network_share_link = 'mailto:'.$network_share_link;
+				$network_share_link = esc_url( $network_share_link );
+				$network_share_link = str_replace( 'mailto:', '', $network_share_link );
+			} else {
+				$network_share_link = esc_url( $network_share_link );
+			}
+
 			$button_data['tag']            = 'a';
-			$button_data['href_attribute'] = 'href="' . esc_url( $network_share_link ) . '"';
+			$button_data['href_attribute'] = 'href="' . $network_share_link . '"';
 		}
 
 		// Filter the "rel" attribute before adding it.
@@ -307,7 +316,7 @@ class DPSP_Network_Buttons_Outputter {
 			// Network doesn't support share counts
 			return false;
 		}
-		if ( ! ( 0 < intval( $network_shares ) ) ) {
+		if ( 0 <= intval( $network_shares ) ) {
 			//Shares are not more than zero
 			return false;
 		}

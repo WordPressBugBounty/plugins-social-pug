@@ -97,7 +97,7 @@ class Frontend_Data extends Asset_Loader {
 	 * Output data as data attribute on div.
 	 */
 	public function output_data() {
-		if ( ( is_home() && is_front_page() ) || is_archive() ) {
+		if ( ( is_home() && is_front_page() ) || is_archive() || is_admin() ) {
 			// If this is an archive or a non static front page, don't output data
 			return;
 		}

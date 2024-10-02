@@ -2,9 +2,9 @@
 Contributors: eatingrules, cdevroe, nerdpressteam, iova.mihai
 Tags: social share, social sharing, social media, social network, social buttons
 Requires at least: 5.3
-Tested up to: 6.5
-Requires PHP: 7.1
-Stable tag: 1.34.3
+Tested up to: 6.7
+Requires PHP: 7.2.24
+Stable tag: 1.34.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,6 +86,11 @@ Hubbub Pro has additional add-ons for migrating data from a few popular alternat
 
 == Changelog ==
 This changelog is for Hubbub Lite. Here is [the changelog for Hubbub Pro](https://morehubbub.com/changelog/).
+
+= 1.34.4 =
+* October 2, 2024
+* Fix: Possible XSS vulnerability in custom network labels. Thanks to Artykom K. for responsible disclosure.
+* Removed third-party plugin updater.
 
 = 1.34.3 =
 * July 16, 2024

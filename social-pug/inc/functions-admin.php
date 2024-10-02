@@ -35,7 +35,7 @@ function dpsp_get_admin_header( string $page ) : string {
 		$license_tier 		= 'Lite';
 	}
 	
-	$logo_base_url 		= plugins_url() . '/social-pug/assets/dist/hubbub-logo-white.svg?' . MV_GROW_VERSION;
+	$logo_base_url 		= DPSP_PLUGIN_DIR_URL . 'assets/dist/hubbub-logo-white.svg?' . MV_GROW_VERSION;
 
 	// translators: %1$s is replaced by the type of logo (e.g. Hubbub).
 	$logo_alt           = esc_attr( sprintf( __( '%1$s logo', 'mediavine' ), __( 'Hubbub', 'mediavine' ) ) );
@@ -163,7 +163,7 @@ function dpsp_output_tool_box( string $tool_slug, array $tool ) : void {
 		}
 
 		if ( $tool_slug == 'email_save_this' && ( $license_tier == 'pro' || ! $license_tier ) ) {
-			echo '<p style="text-align: center; font-size: 15px; font-weight: bold; margin: 0 0 10px 0;">Available with Hubbub Lite+ and Priority</p>';
+			echo '<p style="text-align: center; font-size: 15px; font-weight: bold; margin: 0 0 10px 0;">Upgrade to Plus or Priority to get Save This</p>';
 			echo '<div style="text-align: center"><a style="margin-bottom: 10px;" class="dpsp-button-primary" target="_blank" href="https://morehubbub.com/save-this/?utm_source=hubbub_plugin&utm_content=save_this_announce_learn_more_button" title="Learn more about the Save This tool and our Pro+ and Priority licenses">Learn More</a><br/>';
 			$check_license_url = esc_attr( add_query_arg( [ '_wpnonce' => wp_create_nonce( 'dpsp_check_license' ), 'dpsp_check_license' => 'dpsp_check_license' ] ), remove_query_arg( ['_wpnonce', 'dpsp_check_license' ], $_SERVER['REQUEST_URI'] ) );
 			echo 'Already upgraded? <a style="text-decoration: underline; color: #2271b1;" class="dpsp-get-license" href="' . $check_license_url . '">Refresh your license.</a></div>';
@@ -454,7 +454,7 @@ function dpsp_output_sortable_networks( array $networks, string $settings_name =
 
 			// The label edit field
 			$output .= '<div class="dpsp-list-input-wrapper">';
-			$output .= '<input type="text" placeholder="' . __( 'This button has no label text.', 'social-pug' ) . '" name="' . esc_attr( $settings_name ) . '[networks][' . $network_slug . '][label]" value="' . ( $network_label ) . '" />';
+			$output .= '<input type="text" placeholder="' . __( 'This button has no label text.', 'social-pug' ) . '" name="' . esc_attr( $settings_name ) . '[networks][' . $network_slug . '][label]" value="' . ( esc_attr( $network_label ) ) . '" />';
 			$output .= '</div>';
 
 			// List item actions

@@ -32,6 +32,11 @@ function dpsp_get_output_total_share_count( $location = '', $networks = [] ) {
 	}
 
 	$total_shares = Share_Counts::post_total_share_counts( $post_obj->ID, $location );
+
+	if ( 0 == intval( $total_shares ) ) {
+		return '';
+	}
+
 	if ( is_null( $total_shares ) ) {
 		return '';
 	}

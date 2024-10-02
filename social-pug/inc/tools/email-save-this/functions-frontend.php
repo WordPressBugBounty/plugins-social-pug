@@ -26,10 +26,6 @@ function dpsp_output_front_end_email_save_this( $content ) {
         return $content;
     }
 
-    if ( dpsp_has_save_this_shortcode() ) { // If we have the shortcode, do not inject the form (may remove this)
-        return $content;
-    }
-
     if ( ! dpsp_is_location_displayable( 'email_save_this' ) ) {
         return $content;
     }
@@ -60,6 +56,14 @@ function dpsp_output_front_end_email_save_this( $content ) {
         }
     }
 
+    // If shortcode(s) are present 
+    // and none of them contain allow_injection="yes", discontinue
+    if ( dpsp_has_save_this_shortcode() ) {
+        if ( strpos( $content, 'allow_injection="yes"' ) === false ) {
+            return $content;
+        }
+    }
+
     $tool_container = \Mediavine\Grow\Tools\Toolkit::get_instance();
     $tool_instance  = $tool_container->get( 'email_save_this' );
     if ( $tool_instance->has_rendered() ) {
@@ -70,7 +74,7 @@ function dpsp_output_front_end_email_save_this( $content ) {
 
     $settings               = \Mediavine\Grow\Tools\Email_Save_This::get_prepared_settings();
 
-    $email_save_this_form = dpsp_email_save_this_get_form();
+    $email_save_this_form   = dpsp_email_save_this_get_form();
 
     switch( $settings['display']['position'] ) {
         case 'top':
@@ -326,7 +330,7 @@ function dpsp_has_save_this_shortcode() {
  * Builds the Save This form into a variable
  * @return string html
  */
-function dpsp_email_save_this_get_form() {
+function dpsp_email_save_this_get_form( $attrs = [] ) {
 
     if ( ! dpsp_is_tool_active( 'email_save_this' ) ) {
         return '';
@@ -335,9 +339,20 @@ function dpsp_email_save_this_get_form() {
     global $post;
 
     // // Get saved settings
-	$settings               = \Mediavine\Grow\Tools\Email_Save_This::get_prepared_settings();
-    $connection             = $settings['connection'];
-    $display                = $settings['display'];
+	$settings                   = \Mediavine\Grow\Tools\Email_Save_This::get_prepared_settings();
+    $connection                 = $settings['connection'];
+    $display                    = $settings['display'];
+    $is_shortcode               = false;
+
+    // Find all images in the message and disable Image Hover
+    $pattern_find_images        = '/<img([^>]*)(?<!data-pin-nopin)>/i';
+    $replacement_find_images    = '<img$1 data-pin-nopin="true">';
+    $display['message']         = preg_replace( $pattern_find_images, $replacement_find_images, $display['message'] );
+
+    if ( ! empty( $attrs ) ) {
+        $is_shortcode = true;
+        $display = array_merge( $display, $attrs );
+    }
 
     $customCSS              = ( ! empty($display['custom_css']) ) ? '<style type="text/css">' . strip_tags( $display['custom_css'] ) . '</style>' : '';
     
@@ -345,24 +360,29 @@ function dpsp_email_save_this_get_form() {
     $postTitle 		        = get_the_title( $post->ID );
 
     $email_save_this_form = "\n" . $customCSS . '
-    <div class="dpsp-email-save-this-tool" ' . ( ( !empty($display['custom_background_color']) ) ? 'style="background-color: ' . esc_attr( $display['custom_background_color'] ) : '' ) . ';">
+    <div class="dpsp-email-save-this-tool ' . ( ( $is_shortcode ) ? 'dpsp-email-save-this-shortcode' : '' ) . '" ' . ( ( !empty($display['custom_background_color']) ) ? 'style="background-color: ' . esc_attr( $display['custom_background_color'] . ';' ) : '' ) . '">
         <div class="hubbub-save-this-form-wrapper">
             <h3 class="hubbub-save-this-heading">' . esc_html( $display['heading'] ) . '</h3>
-            <div class="hubbub-save-this-message">
-                <p class="hubbub-save-this-message-paragraph-wrapper">' . esc_html( $display['message'] ) . '</p>
-            </div>
-            <div>
+            <div class="hubbub-save-this-message">' . wp_kses_post( wpautop( $display['message'] ) ) . '</div>
+            <div class="hubbub-save-this-form-only-wrapper">
                 <form name="hubbub-save-this-form" method="post" action="">
-                    <input type="text" name="hubbub-save-this-snare" class="hubbub-save-this-snare hubbub-block-save-this-snare" />
-                    <p class="hubbub-save-this-emailaddress-paragraph-wrapper"><input aria-label="Email Address" type="email" placeholder="your.email@domain.com" name="hubbub-save-this-emailaddress" value="' . (isset($_COOKIE["hubbub-save-this-email-address"]) ? $_COOKIE["hubbub-save-this-email-address"] : '') . '" class="hubbub-block-save-this-text-control hubbub-save-this-emailaddress" required /></p>';
-                    if ( isset( $display['consent'] ) && $display['consent'] == 'yes' ) {
-                        $email_save_this_form .= '<p class="hubbub-save-this-content-paragraph-wrapper"><input type="checkbox" name="hubbub-save-this-consent" class="hubbub-save-this-consent" value="1" required /> <label for="hubbub-save-this-consent">' . $display['consent_text'] . '</label></p>';
+                    <input type="text" name="hubbub-save-this-snare" class="hubbub-save-this-snare hubbub-block-save-this-snare" />';
+                    
+                    if ( isset( $display['name_field'] ) && $display['name_field'] == 'yes' ) {
+                        $email_save_this_form .= '<p class="hubbub-save-this-name-paragraph-wrapper"><input aria-label="First Name" type="text" placeholder="First Name" name="hubbub-save-this-name" value="' . ( isset( $_COOKIE["hubbub-save-this-name"] ) ? $_COOKIE["hubbub-save-this-name"] : '' ) . '" class="hubbub-block-save-this-text-control hubbub-save-this-name" required /></p>';
                     }
+
+                    $email_save_this_form .= '<p class="hubbub-save-this-emailaddress-paragraph-wrapper"><input aria-label="Email Address" type="email" placeholder="Email Address" name="hubbub-save-this-emailaddress" value="' . (isset($_COOKIE["hubbub-save-this-email-address"]) ? $_COOKIE["hubbub-save-this-email-address"] : '') . '" class="hubbub-block-save-this-text-control hubbub-save-this-emailaddress" required /></p>';
+                    
+                    if ( isset( $display['consent'] ) && $display['consent'] != '' ) {
+                        $email_save_this_form .= '<p class="hubbub-save-this-consent-paragraph-wrapper"><input type="checkbox" name="hubbub-save-this-consent" class="hubbub-save-this-consent" value="1" required /> <label for="hubbub-save-this-consent">' . $display['consent_text'] . '</label></p>';
+                    }
+
                     $email_save_this_form .= '<p class="hubbub-save-this-submit-button-paragraph-wrapper"><input type="submit" style="' . ( ( !empty($display['custom_button_color']) ) ? 'background-color:' . esc_attr( $display['custom_button_color'] ) . ';' : '' ) . ( ( !empty($display['custom_button_text_color']) ) ? 'color:' . esc_attr( $display['custom_button_text_color'] ) . ';' : '' ) . '" value="' . ( $display['button_text'] != '' ? esc_attr( $display['button_text'] ) : __( 'Save This', 'social-pug' ) ) . '" class="hubbub-block-save-this-submit-button" name="hubbub-block-save-this-submit-button" /></p>
                     <input type="hidden" name="hubbub-save-this-postid" class="hubbub-save-this-postid" value="' . esc_attr( $post->ID ) . '" />
                     <input type="hidden" name="hubbub-save-this-posturl" class="hubbub-save-this-posturl" value="' . esc_attr( $postURL ) . '" />
                     <input type="hidden" name="hubbub-save-this-posttitle" class="hubbub-save-this-posttitle" value="' . esc_attr( $postTitle ) . '" />';
-                
+                    $email_save_this_form .= ( ( $is_shortcode ) ? '<input type="hidden" name="hubbub-save-this-is-shortcode" class="hubbub-save-this-is-shortcode" value="true" />' : '' );
                 $email_save_this_form .= '</form>
             </div>';
             if ( ! empty( $display['after_form'] ) ) {
@@ -373,7 +393,7 @@ function dpsp_email_save_this_get_form() {
         $email_save_this_form .= '</div>
     </div>'."\n";
 
-    return $email_save_this_form;
+    return str_replace( array( "\r", "\n" ), '', $email_save_this_form );
 }
 
 /**

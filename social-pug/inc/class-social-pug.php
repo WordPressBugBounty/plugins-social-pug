@@ -12,7 +12,7 @@ class Social_Pug {
 	public const API_NAMESPACE = 'mv-grow-social/v1';
 
 	/** @var string|null Build tool sets this. */
-	const VERSION = '1.34.3';
+	const VERSION = '1.34.4';
 
 	/** @var string|null Version number for this release. @deprecated Use MV_GROW_VERSION */
 	public static $VERSION;
@@ -581,9 +581,14 @@ class Social_Pug {
 	 */
 	public function add_plugin_action_links( $links ) {
 
-		$links[] = '<a href="' . esc_url( get_admin_url( null, 'admin.php?page=dpsp-toolkit' ) ) . '">' . __( 'Settings', 'social-pug' ) . '</a>';
+		$all_links = array(
+			'<a href="' . esc_url( get_admin_url( null, 'admin.php?page=dpsp-toolkit' ) ) . '">' . __( 'Settings', 'social-pug' ) . '</a>',
+			'<a target="_blank" href="https://morehubbub.com/docs/" title="Read Support Docs">' . __( 'Docs', 'social-pug' ) . '</a>',
+			'<a target="_blank" href="https://morehubbub.com/docs/upgrading-your-hubbub-pro-license/" title="Upgrade your license">' . __( 'Upgrade', 'social-pug' ) . '</a>',
+			$links['deactivate']
+		);
 
-		return $links;
+		return $all_links;
 
 	}
 

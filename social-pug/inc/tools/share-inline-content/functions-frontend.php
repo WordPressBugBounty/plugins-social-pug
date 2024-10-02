@@ -340,8 +340,12 @@ class Frontend_Content {
 		$wrapper_classes[] = ( isset( $settings['display']['show_count'] ) ? 'dpsp-has-buttons-count' : '' );
 		$wrapper_classes[] = ( isset( $settings['display']['show_mobile'] ) ? 'dpsp-show-on-mobile' : 'dpsp-hide-on-mobile' );
 
-		$wrapper_classes[] = ( isset( $settings['show_total_count'] ) && $settings['show_total_count'] ? 'dpsp-show-total-share-count' : '' );
-		$wrapper_classes[] = ( isset( $settings['show_total_count'] ) && $settings['show_total_count'] ? ( ! empty( $settings['display']['total_count_position'] ) ? 'dpsp-show-total-share-count-' . $settings['display']['total_count_position'] : 'dpsp-show-total-share-count-before' ) : '' );
+		$total_share_count = dpsp_get_output_total_share_count( 'content' );
+
+		if ( 0 != intval( $total_share_count ) ) {
+			$wrapper_classes[] = ( isset( $settings['show_total_count'] ) && $settings['show_total_count'] ? 'dpsp-show-total-share-count' : '' );
+			$wrapper_classes[] = ( isset( $settings['show_total_count'] ) && $settings['show_total_count'] ? ( ! empty( $settings['display']['total_count_position'] ) ? 'dpsp-show-total-share-count-' . $settings['display']['total_count_position'] : 'dpsp-show-total-share-count-before' ) : '' );
+		}
 
 		// Button styles
 		$wrapper_classes[] = ( isset( $settings['button_style'] ) ? 'dpsp-button-style-' . $settings['button_style'] : '' );

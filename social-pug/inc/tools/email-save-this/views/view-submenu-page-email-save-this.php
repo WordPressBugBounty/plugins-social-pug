@@ -31,12 +31,13 @@
 				<div class="wp-block-social-pug-save-this dpsp-email-save-this-tool" style="background: <?php echo ( isset( $dpsp_email_save_this['display']['custom_background_color'] ) ? $dpsp_email_save_this['display']['custom_background_color'] : '' ); ?>;">
 					<div id="dpsp-save-this-preview" class="hubbub-save-this-form-wrapper">
 						<h3 class="hubbub-save-this-heading"><?php echo ( isset( $dpsp_email_save_this['display']['heading'] ) ? $dpsp_email_save_this['display']['heading'] : 'Would you like to save this?' ); ?></h3>
-						<div class="hubbub-save-this-message"><p class="hubbub-save-this-message-paragraph-wrapper"><?php echo ( isset( $dpsp_email_save_this['display']['message'] ) ? $dpsp_email_save_this['display']['message'] : 'Message area' ); ?></p></div>
+						<div class="hubbub-save-this-message"><?php echo ( isset( $dpsp_email_save_this['display']['message'] ) ? wp_kses_post( wpautop( $dpsp_email_save_this['display']['message'] ) ) : '<p>Message area</p>' ); ?></div>
 						<div>
 							<form disabled name="hubbub-save-this-form" method="post" action="">
+								<p class="hubbub-save-this-name-paragraph-wrapper"><input disabled type="text" placeholder="First Name" name="hubbub-save-this-name" id="hubbub-save-this-name" class="hubbub-block-save-this-text-control" /></p>
 								<p class="hubbub-save-this-emailaddress-paragraph-wrapper"><input disabled type="text" placeholder="Email Address" name="hubbub-save-this-emailaddress" id="hubbub-save-this-emailaddress" class="hubbub-block-save-this-text-control" /></p>
-								<div class="hubbub-save-this-preview-consent-field-wrapper">
-									<p class="hubbub-save-this-consent-paragraph-wrapper"><input type="checkbox" name="hubbub-save-this-consent" id="hubbub-save-this-consent" value="1" /> <label class="hubbub-save-this-consent-text" for="hubbub-save-this-consent"><?php echo ( isset( $dpsp_email_save_this['display']['consent_text'] )  ? $dpsp_email_save_this['display']['consent_text'] : '' ); ?></label></p>
+								<div class="hubbub-save-this-preview-checkbox-field-wrapper">
+									<p class="hubbub-save-this-consent-paragraph-wrapper"><input type="checkbox" name="hubbub-save-this-consent" id="hubbub-save-this-consent" value="1" /> <label class="hubbub-save-this-consent-text hubbub-save-this-checkbox-text" for="hubbub-save-this-consent"><?php echo ( isset( $dpsp_email_save_this['display']['consent_text'] )  ? $dpsp_email_save_this['display']['consent_text'] : '' ); ?></label></p>
 								</div>
 								<p class="hubbub-save-this-submit-button-paragraph-wrapper"><input disabled type="submit" value="<?php echo ( isset( $dpsp_email_save_this['display']['button_text'] ) && $dpsp_email_save_this['display']['button_text']  !== '' ? $dpsp_email_save_this['display']['button_text'] : 'Save This' ); ?>" class="hubbub-block-save-this-submit-button" name="hubbub-block-save-this-submit-button" id="hubbub-block-save-this-submit-button"
 								style="background-color: <?php echo ( isset( $dpsp_email_save_this['display']['custom_button_color'] ) ? $dpsp_email_save_this['display']['custom_button_color'] : '' ); ?>; color: <?php echo ( isset( $dpsp_email_save_this['display']['custom_button_text_color'] ) ? $dpsp_email_save_this['display']['custom_button_text_color'] : '' ); ?>;"
@@ -139,14 +140,34 @@
 
 					<?php dpsp_settings_field( 'text', 'dpsp_email_save_this[display][heading]', ( isset( $dpsp_email_save_this['display']['heading'] ) ? $dpsp_email_save_this['display']['heading'] : '' ), __( 'Heading', 'social-pug' ), [ 'Would you like to save this?' ], __( 'The call-to-action headline displayed above the email input field of the form.', 'social-pug' ) ); ?>
 
-					<?php dpsp_settings_field( 'text', 'dpsp_email_save_this[display][message]', ( isset( $dpsp_email_save_this['display']['message'] ) ? $dpsp_email_save_this['display']['message'] : '' ), __( 'Message', 'social-pug' ), [ 'We\'ll email this post to you, so you can come back to it later!' ], __( 'The copy displayed between the headline above and the form below.', 'social-pug' ) ); ?>
+					<?php dpsp_settings_field( 'textarea', 'dpsp_email_save_this[display][message]', ( isset( $dpsp_email_save_this['display']['message'] ) ? $dpsp_email_save_this['display']['message'] : '' ), __( 'Message', 'social-pug' ), [ 'We\'ll email this post to you, so you can come back to it later!' ], __( 'The copy displayed between the headline above and the form below. Some HTML tags are allowed. Paragraph tags automatically added.', 'social-pug' ) ); ?>
+
+					<?php dpsp_settings_field( 'switch', 'dpsp_email_save_this[display][name_field]', ( isset( $dpsp_email_save_this['display']['name_field'] ) ? $dpsp_email_save_this['display']['name_field'] : '' ), __( 'Show name field', 'social-pug' ), [ 'yes' ], __( 'Require the user to provide a name', 'social-pug' ) ); ?>
+
+					<!-- <div class="dpsp-setting-field-wrapper dpsp-email-save-this-name-field-label-wrapper">
+						<?php // dpsp_settings_field( 'text', 'dpsp_email_save_this[display][name_field_label]', ( isset( $dpsp_email_save_this['display']['name_field_label'] ) ? $dpsp_email_save_this['display']['name_field_label'] : 'Name' ), __( 'Name field label', 'social-pug' ), [ 'Name'], __( 'The label for the name field. E.g. "Full Name" or "Name"', 'social-pug' ) ); ?>
+					</div> -->
 
 					<?php dpsp_settings_field( 'text', 'dpsp_email_save_this[display][button_text]', ( isset( $dpsp_email_save_this['display']['button_text'] ) && $dpsp_email_save_this['display']['button_text'] !== '' ? $dpsp_email_save_this['display']['button_text'] : 'Save This' ), __( 'Button text', 'social-pug' ), [ 'Save This' ], __( 'The text of the button in the Save This form.', 'social-pug' ) ); ?>
 
-					<?php dpsp_settings_field( 'switch', 'dpsp_email_save_this[display][consent]', ( isset( $dpsp_email_save_this['display']['consent'] ) ? $dpsp_email_save_this['display']['consent'] : '' ), __( 'Require consent', 'social-pug' ), [ 'yes' ], __( 'Require the user to click a checkbox before they are able to submit the form.', 'social-pug' ) ); ?>
-					
-					<div class="dpsp-setting-field-wrapper dpsp-email-save-this-consent-text-wrapper">
-						<?php dpsp_settings_field( 'text', 'dpsp_email_save_this[display][consent_text]', ( isset( $dpsp_email_save_this['display']['consent_text'] ) ? $dpsp_email_save_this['display']['consent_text'] : 'I agree to be sent email.' ), __( 'Consent text', 'social-pug' ), [ 'I agree to be sent email.'], __( 'The copy displayed next to the consent checkbox.', 'social-pug' ) ); ?>
+					<?php
+					 dpsp_settings_field(
+						'select',
+						'dpsp_email_save_this[display][consent]',
+						( isset( $dpsp_email_save_this['display']['consent'] ) ) ? $dpsp_email_save_this['display']['consent'] : '',
+						__( 'Show consent checkbox', 'social-pug' ),
+						[
+							'' => __( 'Disabled', 'social-pug' ),
+							'yes' => __( 'Consent required to submit', 'social-pug' ),
+							'mailing-list' => __( 'Consent for mailing list only', 'social-pug' ),
+						],
+						__( 'The consent checkbox can be used for sending the Save This email OR for requiring consent to be added to your mailing list.', 'social-pug' )
+					);
+
+					//dpsp_settings_field( 'switch', 'dpsp_email_save_this[display][consent]', ( isset( $dpsp_email_save_this['display']['consent'] ) ? $dpsp_email_save_this['display']['consent'] : '' ), __( 'Show checkbox', 'social-pug' ), [ 'yes' ], __( 'Display a consent checkbox on the form.', 'social-pug' ) ); ?>
+
+					<div class="dpsp-setting-field-wrapper dpsp-email-save-this-checkbox-text-wrapper">
+						<?php dpsp_settings_field( 'text', 'dpsp_email_save_this[display][consent_text]', ( isset( $dpsp_email_save_this['display']['consent_text'] ) ? $dpsp_email_save_this['display']['consent_text'] : 'I agree to be sent email.' ), __( 'Checkbox text', 'social-pug' ), [ 'I agree to be sent email.'], __( 'The copy displayed next to the checkbox.', 'social-pug' ) ); ?>
 					</div>
 
 					<?php dpsp_settings_field( 'text', 'dpsp_email_save_this[display][after_form]', ( isset( $dpsp_email_save_this['display']['after_form'] ) ? $dpsp_email_save_this['display']['after_form'] : '' ), __( 'After form text', 'social-pug' ), [], __( 'The copy displayed underneath the form.', 'social-pug' ) ); ?>
@@ -154,6 +175,8 @@
 					<?php dpsp_settings_field( 'text', 'dpsp_email_save_this[display][successmessage]', ( isset( $dpsp_email_save_this['display']['successmessage'] ) ? $dpsp_email_save_this['display']['successmessage'] : 'Saved! We\'ve emailed you a link to this page.' ), __( 'Successful Save Message', 'social-pug' ), [ 'Saved! We\'ve emailed you a link to this page.' ], __( 'After the form is successfully submitted, this message will appear in place of the Save This form. This cannot be blank.', 'social-pug' ) ); ?>
 
 					<?php dpsp_settings_field( 'switch', 'dpsp_email_save_this[display][spotlight]', ( isset( $dpsp_email_save_this['display']['spotlight'] ) ? $dpsp_email_save_this['display']['spotlight'] : '' ), __( 'Spotlight when in view?', 'social-pug' ), [ 'yes' ], __( 'When the form is in view, fade out the rest of the page, spotlighting it.', 'social-pug' ) ); ?>
+
+					<?php // Removed, perhaps temporarily dpsp_settings_field( 'switch', 'dpsp_email_save_this[display][disable_injection_shortcode]', ( isset( $dpsp_email_save_this['display']['disable_injection_shortcode'] ) ? $dpsp_email_save_this['display']['disable_injection_shortcode'] : '' ), __( 'Disable if shortcode present?', 'social-pug' ), [ 'yes' ], __( 'When enabled, do not automatically insert a Save This form if the Save This shortcode is present.', 'social-pug' ) ); ?>
 
 				</div>
 
@@ -209,8 +232,6 @@
 						<span class="dpsp-email-save-this-help-text">Need email delivery help? Please refer to <a href="https://morehubbub.com/docs/email-deliverability/" target="_blank" title="Read our support doc on email deliverability">this support doc</a>.</span>
 					</div>
 
-					<?php dpsp_settings_field( 'textarea', 'dpsp_email_save_this[email][emailmessage]', ( isset( $dpsp_email_save_this['email']['emailmessage'] ) ? $dpsp_email_save_this['email']['emailmessage'] : '' ), __( 'Email Message', 'social-pug' ), [], __( 'Text that is included in the email directly above the link to your post. Perhaps thank the person for saving your post?', 'social-pug' ) ); ?>
-
 					<?php
 					
 					echo '<div class="dpsp-setting-field-wrapper dpsp-has-field-label dpsp-setting-field-image">';
@@ -252,11 +273,22 @@
 					
 					?>
 
+					<?php dpsp_settings_field( 'switch', 'dpsp_email_save_this[email][featuredimage]', ( isset( $dpsp_email_save_this['email']['featuredimage'] ) ? $dpsp_email_save_this['email']['featuredimage'] : '' ), __( 'Display Post\'s Featured Image?', 'social-pug' ), [ 'yes' ], __( 'Include the featured image (if present) just above the link in the Save This email.', 'social-pug' ) ); ?>
+
+					<?php dpsp_settings_field( 'textarea', 'dpsp_email_save_this[email][emailmessage]', ( isset( $dpsp_email_save_this['email']['emailmessage'] ) ? $dpsp_email_save_this['email']['emailmessage'] : '' ), __( 'Email Message', 'social-pug' ), [], __( 'Included in the email directly above the link to your post. Some HTML tags allowed. Paragraphs automatically added. Thank the person for saving your post?', 'social-pug' ) ); ?>
+					<div class="dpsp-setting-field-wrapper dpsp-setting-field-text dpsp-has-field-label">
+						<span class="dpsp-email-save-this-help-text">Tip: Use merge fields to personalize the message: <span class="dpsp-email-save-this-email-message-name-field">{name}, </span>{post_title}, {email_address}, {saved_url}, {site_name}, {site_domain}. Please see <a href="https://morehubbub.com/docs/how-to-use-save-this/" target="_blank" title="Save This Support Doc">this support doc</a> for more information.</span>
+					</div>
+
+					<?php dpsp_settings_field( 'textarea', 'dpsp_email_save_this[email][emailbottomcontent]', ( isset( $dpsp_email_save_this['email']['emailbottomcontent'] ) ? $dpsp_email_save_this['email']['emailbottomcontent'] : '' ), __( 'Email Bottom Content', 'social-pug' ), [], __( 'Content area at the bottom of the Save This email. Some HTML tags allowed. Paragraphs automatically added.', 'social-pug' ) ); ?>
+
+					<?php dpsp_settings_field( 'color-picker', 'dpsp_email_save_this[email][custom_link_color]', ( isset( $dpsp_email_save_this['email']['custom_link_color'] ) ? $dpsp_email_save_this['email']['custom_link_color'] : '' ), __( 'Custom Link color', 'social-pug' ), [], __( 'The color of all links in the email. Choose a custom link color that matches your branding. Remember, link colors should be obvious and high contrast to stand out. Default is: #003ffe', 'social-pug' ) ); ?>
+
 				</div>
 
 			</div>
 
-			<!-- Connection Settings -->
+			<!-- Mailing List Settings -->
 			<div class="dpsp-card">
 
 				<div class="dpsp-card-header">
@@ -273,31 +305,38 @@
 								__( 'Mailing List Service', 'social-pug' ),
 								[
 									'none' => __( 'Disabled', 'social-pug' ),
-									'convertkit' => __( 'ConvertKit', 'social-pug' ),
+									'convertkit' => __( 'Kit (formerly ConvertKit)', 'social-pug' ),
 									'flodesk' => __( 'Flodesk', 'social-pug' ),
 									'mailchimp' => __( 'Mailchimp', 'social-pug' ),
 									'mailerlite' => __( 'MailerLite', 'social-pug' ),
+									'mailerlite-classic' => __( 'MailerLite Classic', 'social-pug' ),
 								],
 								__( 'The mailing list service you would like to use to collect email addresses using the Save This form.', 'social-pug' )
 						); ?>
 
-					<!-- Begin ConvertKit -->
+					<!-- Begin Kit -->
 					<div class="dpsp-setting-field-wrapper dpsp-setting-mailing-list-service dpsp-setting-mailing-list-service-convertkit disabled">
 						
-					<?php if ( ! isset( $dpsp_email_save_this['connection']['convertkit-apikey'] ) || $dpsp_email_save_this['connection']['convertkit-apikey'] == '' ) { ?>
-						<div class="dpsp-setting-field-wrapper dpsp-setting-field-text dpsp-has-field-label">
-							<a target="_blank" href="https://app.convertkit.com/account_settings/advanced_settings"><?php esc_html_e( 'Get ConvertKit API Credentials', 'social-pug' ); ?></a>
-						</div>
+						<?php if ( ! isset( $dpsp_email_save_this['connection']['convertkit-apikey'] ) || ! isset( $dpsp_email_save_this['connection']['convertkit-apisecret'] ) || $dpsp_email_save_this['connection']['convertkit-apikey'] == '' || $dpsp_email_save_this['connection']['convertkit-apisecret'] == '' ) { ?>
+							<div class="dpsp-setting-field-wrapper dpsp-setting-field-text dpsp-has-field-label">
+								<a target="_blank" href="https://app.kit.com/account_settings/developer_settings"><?php esc_html_e( 'Get Kit API Credentials', 'social-pug' ); ?></a>
+							</div>
 						<?php } ?>
 
-						<?php dpsp_settings_field( 'text', 'dpsp_email_save_this[connection][convertkit-apikey]', ( isset( $dpsp_email_save_this['connection']['convertkit-apikey'] ) ? $dpsp_email_save_this['connection']['convertkit-apikey'] : '' ), __( 'ConvertKit API Key', 'social-pug' ), [], __( 'Your ConverKit API Key.', 'social-pug' ) ); ?>
+						<?php dpsp_settings_field( 'text', 'dpsp_email_save_this[connection][convertkit-apikey]', ( isset( $dpsp_email_save_this['connection']['convertkit-apikey'] ) ? $dpsp_email_save_this['connection']['convertkit-apikey'] : '' ), __( 'Kit API Key', 'social-pug' ), [], __( 'Your Kit API Key.', 'social-pug' ) ); ?>
+						<?php dpsp_settings_field( 'text', 'dpsp_email_save_this[connection][convertkit-apisecret]', ( isset( $dpsp_email_save_this['connection']['convertkit-apisecret'] ) ? $dpsp_email_save_this['connection']['convertkit-apisecret'] : '' ), __( 'Kit API Secret', 'social-pug' ), [], __( 'Your Kit API Secret Key. Required for including extra post data for each subscriber.', 'social-pug' ) ); ?>
 
+						<?php if ( ! isset( $dpsp_email_save_this['connection']['convertkit-apikey'] ) ) { ?>
+							<div class="dpsp-setting-field-wrapper dpsp-setting-field-text dpsp-has-field-label">
+								<span class="dpsp-email-save-this-help-text">Click "Save Changes" button at bottom of page to continue.</span>
+							</div>
+						<?php } ?>
 						<?php if ( isset( $dpsp_email_save_this['connection']['convertkit-apikey'] ) && $dpsp_email_save_this['connection']['convertkit-apikey'] != '' ) {
 							
 								$save_this_mailing_service = \Mediavine\Grow\Connections\ConvertKit::get_instance();
 								$dpsp_convertkit_forms = $save_this_mailing_service::get_forms();
 							
-								if ( is_array( $dpsp_convertkit_forms->forms ) && count( $dpsp_convertkit_forms->forms ) > 0 ) {
+								if ( isset( $dpsp_convertkit_forms->forms ) && is_array( $dpsp_convertkit_forms->forms ) && count( $dpsp_convertkit_forms->forms ) > 0 ) {
 									$dpsp_convertkit_list = [];
 									$dpsp_convertkit_list['none'] = __( 'None', 'social-pug' );
 									
@@ -309,14 +348,14 @@
 										'select',
 										'dpsp_email_save_this[connection][convertkit-form]',
 										( isset( $dpsp_email_save_this['connection']['convertkit-form'] ) ) ? $dpsp_email_save_this['connection']['convertkit-form'] : 'none',
-										__( 'ConvertKit Form', 'social-pug' ),
+										__( 'Kit Form', 'social-pug' ),
 										$dpsp_convertkit_list,
-										__( 'Select the ConvertKit Form that you\'d like to add new subscribers to.', 'social-pug' )
+										__( 'Select the Kit Form that you\'d like to add new subscribers to.', 'social-pug' )
 									);
 
 								} else { ?>
 									<div class="dpsp-setting-field-wrapper dpsp-setting-field-text dpsp-has-field-label">
-										<?php echo __( 'No ConvertKit forms found. Please create one on ConvertKit', 'social-pug' ); ?>
+										<?php echo __( 'No Kit forms found. Please create one on Kit.', 'social-pug' ); ?>
 									</div>
 									<?php
 								}
@@ -324,6 +363,10 @@
 								
 							}
 						?>
+
+						<?php if ( isset( $dpsp_email_save_this['connection']['convertkit-apisecret'] ) && $dpsp_email_save_this['connection']['convertkit-apisecret'] != '' ) {
+							dpsp_settings_field( 'switch', 'dpsp_email_save_this[connection][convertkit-metadata]', ( isset( $dpsp_email_save_this['connection']['convertkit-metadata'] ) ? $dpsp_email_save_this['connection']['convertkit-metadata'] : '' ), __( 'Include extra data?', 'social-pug' ), [ 'yes' ], __( 'Include post title, post ID, and URL with each subscriber added. This is useful for personalization and analytics.', 'social-pug' ) );
+						} ?>
 
 					</div>
 
@@ -451,7 +494,7 @@
 								$save_this_mailing_service = \Mediavine\Grow\Connections\MailerLite::get_instance();
 								$dpsp_mailerlite_groups = $save_this_mailing_service::get_groups();
 							
-								if ( is_array( $dpsp_mailerlite_groups->data ) && count( $dpsp_mailerlite_groups->data ) > 0 ) {
+								if ( isset($dpsp_mailerlite_groups->data) && is_array( $dpsp_mailerlite_groups->data ) && count( $dpsp_mailerlite_groups->data ) > 0 ) {
 									$dpsp_mailerlite_group_list = [];
 									$dpsp_mailerlite_group_list['none'] = __( 'None', 'social-pug' );
 									
@@ -470,7 +513,12 @@
 
 								} else { ?>
 									<div class="dpsp-setting-field-wrapper dpsp-setting-field-text dpsp-has-field-label">
-										<?php echo __( 'No MailerLite Groups found. Please create one on MailerLite.', 'social-pug' ); ?>
+										<?php if ( strlen( $dpsp_email_save_this['connection']['mailerlite-token'] ) < 34 ) { // Very likely MailerLite Classic
+											echo __( 'The API Token provided appears to be an API Key for MailerLite Classic or is invalid. Please choose MailerLite Classic.', 'social-pug' ); 
+											echo '<br/>';
+										} else { ?>
+											<?php echo __( 'No MailerLite Groups found. Please create one on MailerLite.', 'social-pug' ); 
+										} ?>
 									</div>
 									<?php
 								}
@@ -480,6 +528,82 @@
 							?>
 
 					</div>
+
+					<!-- Begin MailerLite Classic -->
+					<div class="dpsp-setting-field-wrapper dpsp-setting-mailing-list-service dpsp-setting-mailing-list-service-mailerlite-classic disabled">
+							
+						<?php if ( ! isset( $dpsp_email_save_this['connection']['mailerlite-classic-apikey'] ) || $dpsp_email_save_this['connection']['mailerlite-classic-apikey'] == '' ) { ?>
+							<div class="dpsp-setting-field-wrapper dpsp-setting-field-text dpsp-has-field-label">
+								<a target="_blank" href="https://app.mailerlite.com/integrations/api/"><?php esc_html_e( 'Generate MailerLite Classic API Key', 'social-pug' ); ?></a>
+							</div>
+						<?php } ?>
+
+						<?php dpsp_settings_field( 'text', 'dpsp_email_save_this[connection][mailerlite-classic-apikey]', ( isset( $dpsp_email_save_this['connection']['mailerlite-classic-apikey'] ) ? $dpsp_email_save_this['connection']['mailerlite-classic-apikey'] : '' ), __( 'MailerLite Classic API Key', 'social-pug' ), [], __( 'Your MailerLite Classic API Key.', 'social-pug' ) ); ?>
+
+						<?php if ( isset( $dpsp_email_save_this['connection']['mailerlite-classic-apikey'] ) && $dpsp_email_save_this['connection']['mailerlite-classic-apikey'] != '' ) {
+							
+								$save_this_mailing_service = \Mediavine\Grow\Connections\MailerLiteClassic::get_instance();
+								$dpsp_mailerlite_classic_groups = $save_this_mailing_service::get_groups();
+							
+								if ( isset($dpsp_mailerlite_classic_groups) && is_array( $dpsp_mailerlite_classic_groups ) && count( $dpsp_mailerlite_classic_groups ) > 0 ) {
+									$dpsp_mailerlite_classic_group_list = [];
+									$dpsp_mailerlite_classic_group_list['none'] = __( 'None', 'social-pug' );
+									
+									foreach( $dpsp_mailerlite_classic_groups as $group ) {
+										$dpsp_mailerlite_classic_group_list[strval($group['id'])] = $group['name']; // (We are converting the ID (int) to a String here
+									}
+
+									dpsp_settings_field(
+										'select',
+										'dpsp_email_save_this[connection][mailerlite-classic-group]',
+										( isset( $dpsp_email_save_this['connection']['mailerlite-classic-group'] ) ) ? $dpsp_email_save_this['connection']['mailerlite-classic-group'] : 'none',
+										__( 'MailerLite Classic Group', 'social-pug' ),
+										$dpsp_mailerlite_classic_group_list,
+										__( 'Select the MailerLite Classic Group that you\'d like to add new subscribers to.', 'social-pug' )
+									);
+
+								} else { ?>
+									<div class="dpsp-setting-field-wrapper dpsp-setting-field-text dpsp-has-field-label">
+										<?php if ( strlen( $dpsp_email_save_this['connection']['mailerlite-classic-apikey'] ) > 33 ) { // Very likely MailerLite (not Classic)
+											echo __( 'The API Key provided appears to be an API Token for MailerLite (not Classic) or is invalid.', 'social-pug' ); 
+											echo '<br/>';
+										} else { ?>
+											<?php echo __( 'No MailerLite Classic Groups found. Please create one on MailerLite Classic.', 'social-pug' ); 
+										} ?>
+									</div>
+									<?php
+								}
+								
+								
+							}
+							?>
+
+					</div>
+				</div>
+
+			</div>
+
+			<!-- Automations Settings -->
+			<div class="dpsp-card">
+
+				<div class="dpsp-card-header">
+					<?php esc_html_e( 'Automation Settings', 'social-pug' ); ?>
+				</div>
+
+				<div class="dpsp-card-inner">
+
+					<?php dpsp_settings_field( 'switch', 'dpsp_email_save_this[automation][zapier][enabled]', ( isset( $dpsp_email_save_this['automation']['zapier']['enabled'] ) ? $dpsp_email_save_this['automation']['zapier']['enabled'] : '' ), __( 'Enable Zapier', 'social-pug' ), [ 'yes' ], __( 'When enabled, Save This form data will be sent via webhook to Zapier to trigger automations.', 'social-pug' ) ); ?>
+
+					<div class="dpsp-setting-field-wrapper dpsp-setting-automation dpsp-setting-automation-zapier disabled">
+				
+						<?php dpsp_settings_field( 'text', 'dpsp_email_save_this[automation][zapier][webhookurl]', ( isset( $dpsp_email_save_this['automation']['zapier']['webhookurl'] ) && $dpsp_email_save_this['automation']['zapier']['webhookurl'] != '' ) ? $dpsp_email_save_this['automation']['zapier']['webhookurl'] : '', __( 'Zap Webhook URL', 'social-pug' ), [ ], __( 'Your Zap\'s webhook URL.', 'social-pug' ) ); ?>
+
+						<div class="dpsp-setting-field-wrapper dpsp-setting-field-text dpsp-has-field-label">
+							<span class="dpsp-email-save-this-help-text">Need help with Zapier? Please refer to <a href="https://morehubbub.com/docs/triggering-zaps/" target="_blank" title="Read our support doc on triggering zaps">this support doc</a>.</span>
+						</div>
+
+					</div>
+
 				</div>
 
 			</div>

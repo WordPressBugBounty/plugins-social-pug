@@ -32,15 +32,18 @@ function dpsp_register_email_save_this() {
 }
 
 /**
- * Add the default settings for the image hover Pinterest button on database update.
+ * Add the default settings for the Save This feature
  */
 function dpsp_tool_email_save_this_add_default_settings() {
 	$settings = Mediavine\Grow\Settings::get_setting( 'dpsp_email_save_this', [] );
 	if ( empty( $settings ) ) {
 		return;
 	}
+	if ( ! empty( $settings['display']['heading'] ) ) {
+		return;
+	}
 
-	$settings['diplay']['heading']        			= 'Would you like to save this?';
+	$settings['display']['heading']        			= 'Would you like to save this?';
 	$settings['display']['message']           		= 'We\'ll email this post to you, so you can come back to it later!';
 	$settings['display']['consent_text']    		= 'I agree to be sent email.';
 	$settings['display']['button_text']   			= 'Save This';

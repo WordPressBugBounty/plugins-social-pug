@@ -21,6 +21,8 @@ return array(
     'Mediavine\\Grow\\Connections\\Flodesk' => $baseDir . '/inc/connections/class-flodesk.php',
     'Mediavine\\Grow\\Connections\\Mailchimp' => $baseDir . '/inc/connections/class-mailchimp.php',
     'Mediavine\\Grow\\Connections\\MailerLite' => $baseDir . '/inc/connections/class-mailerlite.php',
+    'Mediavine\\Grow\\Connections\\MailerLiteClassic' => $baseDir . '/inc/connections/class-mailerlite-classic.php',
+    'Mediavine\\Grow\\Connections\\Zapier' => $baseDir . '/inc/connections/class-zapier.php',
     'Mediavine\\Grow\\Critical_Styles' => $baseDir . '/inc/class-critical-styles.php',
     'Mediavine\\Grow\\Custom_Color' => $baseDir . '/inc/class-custom-color.php',
     'Mediavine\\Grow\\Frontend_Content' => $baseDir . '/inc/tools/share-inline-content/functions-frontend.php',

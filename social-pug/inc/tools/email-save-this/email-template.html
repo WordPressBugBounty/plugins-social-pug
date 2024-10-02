@@ -44,11 +44,6 @@
             -ms-interpolation-mode:bicubic;
         }
 
-        /* What it does: Prevents Windows 10 Mail from underlining links despite inline CSS. Styles for underlined links should be inline. */
-        a {
-            text-decoration: none;
-        }
-
         /* What it does: A work-around for email clients meddling in triggered links. */
         *[x-apple-data-detectors],  /* iOS */
         .unstyle-auto-detected-links *,
@@ -100,13 +95,6 @@
                 min-width: 414px !important;
             }
         }
-
-    </style>
-
-    <!-- CSS Reset : END -->
-
-    <!-- Progressive Enhancements : BEGIN -->
-    <style>
 
 	    .primary{
             background: #000000;
@@ -160,7 +148,7 @@
             font-family: 'Lato', sans-serif;
             color: #000000;
             margin-top: 0;
-            font-weight: 400;
+            font-weight: 700;
         }
 
         body{
@@ -171,24 +159,20 @@
             color: rgba(0,0,0,.4);
         }
 
-        a{
-            color: #003ffe;
+        a, a:visited, .ii a[href], .ii a[href]:visited {
+            color: 000LINKCOLOR000 !important;
         }
-
-        table{
-        }
-        /*LOGO*/
 
         .logo h1{
             margin: 0;
         }
-        .logo h1 a{
+        .logo h1 a {
             color: #000;
             font-size: 24px;
             font-weight: 700;
             font-family: 'Lato', sans-serif;
         }
-        /*HERO*/
+
         .hero{
             position: relative;
             z-index: 0;
@@ -212,8 +196,6 @@
             color: #000;
         }
         /*HEADING SECTION*/
-        .heading-section{
-        }
         .heading-section h2{
             color: #000000;
             font-size: 28px;
@@ -246,7 +228,6 @@
             color: rgba(255,255,255,.8);
         }
         .heading-section-white h2{
-            font-family: 
             line-height: 1;
             padding-bottom: 0;
         }
@@ -287,15 +268,13 @@
             list-style: none;
             margin-bottom: 10px;
         }
-        .footer ul li a{
+        .footer ul li a {
             color: rgba(0,0,0,1);
         }
         img {
             -ms-interpolation-mode: bicubic;
         }
-        body {
-            font-family: 'Lato', sans-serif; font-weight: 400; font-size: 15px; line-height: 1.8; color: rgba(0,0,0,.4);
-        }
+        
         .preheader {
             display: none !important;
             visibility: hidden;
@@ -314,9 +293,7 @@
     
     <div id="body" width="100%" style="mso-line-height-rule: exactly; background-color: #f1f1f1; height: 100% !important; width: 100% !important; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; margin: 0 auto; padding: 0;">
 	<center style="width: 100%; background-color: #f1f1f1; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
-    <div style="display: none; font-size: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
-      &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
-    </div>
+    
     <div style="padding-top: 70px; max-width: 600px; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; margin: 0 auto;" class="email-container">
     	<!-- BEGIN BODY -->
       <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; mso-table-lspace: 0pt !important; mso-table-rspace: 0pt !important; border-spacing: 0 !important; border-collapse: collapse !important; table-layout: fixed !important; margin: 0 auto;">
@@ -328,8 +305,9 @@
           			<td class="logo" style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; mso-table-lspace: 0pt !important; mso-table-rspace: 0pt !important;" align="center">
 			            <h1 style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; font-family: 'Lato', sans-serif; color: #000000; font-weight: 400; margin: 0;"><a href="{{SITEURL}}" style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; text-decoration: none; color: #000; font-size: 24px; font-weight: 700; font-family: 'Lato', sans-serif;">{{SITETITLE}}</a></h1>
                         {{SITELOGO}}
-			          </td>
-          		</tr>
+			        </td>
+                </tr>
+                {{CUSTOMAFTERLOGO}}
           	</table>
           </td>
 	      </tr>
@@ -339,12 +317,29 @@
             <table style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; mso-table-lspace: 0pt !important; mso-table-rspace: 0pt !important; border-spacing: 0 !important; border-collapse: collapse !important; table-layout: fixed !important; margin: 0 auto;">
             	<tr style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
             		<td style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; mso-table-lspace: 0pt !important; mso-table-rspace: 0pt !important;">
-            			<div class="text" style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: rgba(0,0,0,.3); padding: 0 2.5em;" align="center">
-                            <h3 style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; font-family: 'Lato', sans-serif; color: #000000; margin-top: 0; font-weight: 300; font-size: 18px;">{{EMAILMESSAGE}}</h3>
-            				<h2 style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; font-family: 'Lato', sans-serif; color: #000000; margin-top: 0; font-weight: 600; font-size: 16px; margin-bottom: 0; line-height: 1.4;">{{MAINHEADER}}</h2>
-            				<h3 style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; font-family: 'Lato', sans-serif; margin-top: 0; font-weight: 600; font-size: 24px; font-weight: bold;">{{BODY}}</h3>
-                            {{VERIFYBUTTON}}
-            				<p style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"><a href="{{URL}}" style="-ms-text-size-adjust: 100%; font-size: 14px; -webkit-text-size-adjust: 100%; color: #363535;">{{FULLURL}}</a></p>
+            			<div class="text" style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #000; padding: 0 2.5em;">
+                            {{EMAILMESSAGE}}
+
+                            {{CUSTOMAFTERMESSAGE}}
+
+                            <div style="padding: 15px 0px; margin: 15px 0px; border-top: 1px solid #585858; border-bottom: 1px solid #585858;" align="center">
+                                
+                                {{FEATUREDIMAGE}}
+
+            				    <h2 style="padding-top: 10px; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; font-family: 'Lato', sans-serif; color: #000000; margin-top: 0; font-weight: 600; font-size: 16px; margin-bottom: 0; line-height: 1.4;">{{HEADING}}</h2>
+            				    <h3 style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; font-family: 'Lato', sans-serif; margin-top: 0; font-weight: 600; font-size: 24px; font-weight: bold;">{{POSTTITLELINK}}</h3>
+
+                                {{CUSTOMAFTERPOSTLINK}}
+
+                                {{VERIFYBUTTON}}
+            				    <p style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;"><a href="{{URL}}" style="-ms-text-size-adjust: 100%; font-size: 14px; -webkit-text-size-adjust: 100%; color: #363535 !important;">{{RAWURL}}</a></p>
+                            </div>
+
+                            {{CUSTOMBEFOREBOTTOMCONTENT}}
+
+                            {{BOTTOMCONTENT}}
+
+                            {{CUSTOMAFTERBOTTOMCONTENT}}
             			</div>
             		</td>
             	</tr>
@@ -360,7 +355,7 @@
         <!-- end: tr -->
         <tr style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
           <td style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; mso-table-lspace: 0pt !important; mso-table-rspace: 0pt !important;" align="center">
-          	<p style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; font-size: 11px;">Powered by <a title="Hubbub: The best social sharing plugin for WordPress" href="https://morehubbub.com/" style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; text-decoration: none; color: rgba(0,0,0,.4); ">Hubbub Pro+</a></p>
+          	<p style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; font-size: 11px;">{{POWEREDBY}}</p>
           </td>
         </tr>
       

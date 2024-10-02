@@ -615,7 +615,7 @@ function dpsp_save_post_meta( $post_id ) {
 		$share_options = '';
 	}
 
-	update_post_meta( $post_id, 'dpsp_share_options_json', json_encode( $share_options, JSON_UNESCAPED_UNICODE ) );
+	update_post_meta( $post_id, 'dpsp_share_options_json', wp_slash( json_encode( $share_options, JSON_UNESCAPED_UNICODE ) ) );
 	update_post_meta( $post_id, 'dpsp_share_options', $share_options ); // Maintaining backwards compatibitly, to be deprecated TODO: Remove when safe to do so
 
 	// Save information for the Pinterest hidden images

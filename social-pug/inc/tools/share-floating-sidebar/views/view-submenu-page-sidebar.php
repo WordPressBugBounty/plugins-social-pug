@@ -186,6 +186,10 @@
 
 				<?php dpsp_settings_field( 'switch', 'dpsp_location_sidebar[display][show_count_total]', ( isset( $dpsp_location_sidebar['display']['show_count_total'] ) ? $dpsp_location_sidebar['display']['show_count_total'] : '' ), __( 'Show total share count', 'social-pug' ), [ 'yes' ], __( 'Display the share count for all social networks.', 'social-pug' ) ); ?>
 
+				<div class="dpsp-setting-field-wrapper dpsp-setting-field-text dpsp-has-field-label">
+					<span class="dpsp-email-save-this-help-text">Share counts will only be displayed once they're greater than zero. See each setting's tooltip for additional information.</span>
+				</div>
+
 				<?php
 				dpsp_settings_field(
 					'select',

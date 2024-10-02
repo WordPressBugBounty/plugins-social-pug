@@ -7,7 +7,6 @@ namespace Composer\Autoload;
 class ComposerStaticInitdbad39dc26fd4d97df07584afba69ed0
 {
     public static $files = array (
-        'bda24f59d7a3a75993aec917eda2b203' => __DIR__ . '/..' . '/kernl/kernl-update-checker/load-v4p10.php',
         '673039df3db79b49f4ab2b0268bae29c' => __DIR__ . '/../..' . '/inc/functions.php',
         '8807b4c04000a1194d2d3e46e190642d' => __DIR__ . '/../..' . '/inc/functions-admin.php',
         '9431618cffb341c7b079bc855a124994' => __DIR__ . '/../..' . '/inc/functions-cron.php',
@@ -55,6 +54,8 @@ class ComposerStaticInitdbad39dc26fd4d97df07584afba69ed0
         'Mediavine\\Grow\\Connections\\Flodesk' => __DIR__ . '/../..' . '/inc/connections/class-flodesk.php',
         'Mediavine\\Grow\\Connections\\Mailchimp' => __DIR__ . '/../..' . '/inc/connections/class-mailchimp.php',
         'Mediavine\\Grow\\Connections\\MailerLite' => __DIR__ . '/../..' . '/inc/connections/class-mailerlite.php',
+        'Mediavine\\Grow\\Connections\\MailerLiteClassic' => __DIR__ . '/../..' . '/inc/connections/class-mailerlite-classic.php',
+        'Mediavine\\Grow\\Connections\\Zapier' => __DIR__ . '/../..' . '/inc/connections/class-zapier.php',
         'Mediavine\\Grow\\Critical_Styles' => __DIR__ . '/../..' . '/inc/class-critical-styles.php',
         'Mediavine\\Grow\\Custom_Color' => __DIR__ . '/../..' . '/inc/class-custom-color.php',
         'Mediavine\\Grow\\Frontend_Content' => __DIR__ . '/../..' . '/inc/tools/share-inline-content/functions-frontend.php',

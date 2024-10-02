@@ -363,7 +363,7 @@ class Share_Counts extends \Social_Pug {
 		}
 
 		$total_share_meta = dpsp_maybe_convert_post_meta_to_json( $post_id, 'dpsp_networks_shares_total', true );
-		$total_shares     = $total_share_meta ? $total_share_meta : [];
+		$total_shares     = $total_share_meta ? $total_share_meta : 0;
 
 		/**
 		 * Filter total shares before returning them.
