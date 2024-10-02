@@ -342,7 +342,7 @@ class Frontend_Content {
 
 		$total_share_count = dpsp_get_output_total_share_count( 'content' );
 
-		if ( 0 != intval( $total_share_count ) ) {
+		if ( ! empty( $total_share_count ) ) {
 			$wrapper_classes[] = ( isset( $settings['show_total_count'] ) && $settings['show_total_count'] ? 'dpsp-show-total-share-count' : '' );
 			$wrapper_classes[] = ( isset( $settings['show_total_count'] ) && $settings['show_total_count'] ? ( ! empty( $settings['display']['total_count_position'] ) ? 'dpsp-show-total-share-count-' . $settings['display']['total_count_position'] : 'dpsp-show-total-share-count-before' ) : '' );
 		}
