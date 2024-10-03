@@ -639,7 +639,7 @@ class Share_Counts extends \Social_Pug {
 		}
 
 		if ( ctype_digit( (string) $location_settings['display']['minimum_count'] ) && intval( $location_settings['display']['minimum_count'] ) > intval( $total_shares ) ) {
-			$total_shares = null;
+			$total_shares = 0;
 		}
 
 		return $total_shares;

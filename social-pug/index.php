@@ -3,7 +3,7 @@
  * Plugin Name:         Hubbub Lite
  * Plugin URI:          https://morehubbub.com/
  * Description:         Add customizable website growth tools such as social sharing buttons, follow buttons, and the new Save This mailing list signup form.
- * Version:             1.34.5
+ * Version:             1.34.6
 
  * Requires at least:   5.3
  * Requires PHP:        7.2.24
