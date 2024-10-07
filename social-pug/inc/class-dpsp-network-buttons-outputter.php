@@ -316,7 +316,7 @@ class DPSP_Network_Buttons_Outputter {
 			// Network doesn't support share counts
 			return false;
 		}
-		if ( 0 <= intval( $network_shares ) ) {
+		if ( 0 == intval( $network_shares ) ) {
 			//Shares are not more than zero
 			return false;
 		}

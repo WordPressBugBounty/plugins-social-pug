@@ -233,7 +233,7 @@ function dpsp_ajax_send_save_this_email() {
 	 * Add email address to mailing list?
 	 */
 	if ( isset( $settings['connection']['service'] ) && $settings['connection']['service'] != 'none' ) {
-		if ( $settings['display']['consent'] == 'yes' || ( $settings['display']['consent'] == 'mailing-list' && $consentCheckbox == 'yes' ) ) {
+		if ( $settings['display']['consent'] == "" || ( $settings['display']['consent'] == 'yes' && $consentCheckbox == "yes" ) || ( $settings['display']['consent'] == 'mailing-list' && $consentCheckbox == 'yes' ) ) {
 
 			do_action( 'hubbub_save_this_action_before_mailing_list_add', $post_id, $is_shortcode );
 
