@@ -58,11 +58,71 @@ abstract class Tool implements Has_Settings_API {
 	protected $settings_slug = '';
 
 	/**
+	 * @var array $settings_santization Array of the settings to sanitize and the setting value type to sanitize.
+	 */
+	protected $settings_santization = array();
+
+	/**
 	 * Construct action to run child init method
 	 */
 	public function __construct() {
 		$this->init();
 		$this->load_settings();
+		$this->sanitize_settings_setup();
+	}
+
+	/**
+	 * Sets up the hook so that Hubbub options are sanitized before they are updated.
+	 */
+	private function sanitize_settings_setup() {
+		if ( empty( $this->settings_santization ) || empty( $this->settings_slug ) ) {
+			return;
+		}
+		add_filter( 'pre_update_option_' . $this->settings_slug, array( $this, 'sanitize_settings' ), 10, 1 );
+	}
+
+	/**
+	 * Sanitizes the settings whenever they are updated.
+	 *
+	 * @param array  $input Array of settings to sanitize.
+	 * @param string $recursive If anything but "false", sanitize nested arrays. Default is "false".
+	 *
+	 * @return array Sanitized input array.
+	 */
+	public function sanitize_settings( $input, $recursive = 'false' ) {
+		if ( empty( $this->settings_santization ) ) {
+			return $input;
+		}
+
+		$settings_to_sanitize = 'false' !== $recursive && ! empty( $this->settings_santization[ $recursive ] ) ? $this->settings_santization[ $recursive ] : $this->settings_santization;
+		// loop throgh the input array and sanitize each value based on the type. The key of each setting is the key in the sanitized array.
+		// if the value is a key-value array, also attemtp to santize it.
+		foreach ( $settings_to_sanitize as $key => $value_type ) {
+			if ( isset( $input[ $key ] ) ) {
+				switch ( $value_type ) {
+					case 'text':
+						$input[ $key ] = sanitize_text_field( $input[ $key ] );
+						break;
+					case 'color':
+						$input[ $key ] = sanitize_hex_color( $input[ $key ] );
+						break;
+					case 'number':
+						$safe_input    = intval( $input[ $key ] );
+						$input[ $key ] = $safe_input ? $safe_input : '';
+						break;
+					case 'post_content':
+						$input[ $key ] = wp_kses_post( $input[ $key ] );
+						break;
+					default:
+						if ( is_array( $input[ $key ] ) ) {
+							$input[ $key ] = $this->sanitize_settings( $input[ $key ], $key );
+						}
+						break;
+				}
+			}
+		}
+
+		return $input;
 	}
 
 	abstract public function init();

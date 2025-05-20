@@ -18,6 +18,17 @@ class Inline_Content extends Tool {
 		$this->settings_slug = 'dpsp_location_content';
 		$this->img           = 'assets/dist/tool-content.png?' . DPSP_VERSION;
 		$this->admin_page    = 'admin.php?page=dpsp-content';
+
+		$this->settings_santization = array(
+			'display' => array(
+				'screen_size'              => 'number',
+				'minimum_individual_count' => 'number',
+				'minimum_count'            => 'number',
+				'custom_color'             => 'color',
+				'custom_hover_color'       => 'color',
+				'message'                  => 'text',
+			),
+		);
 		add_filter( 'dpsp_output_inline_style', [ $this, 'inline_styles' ] );
 	}
 

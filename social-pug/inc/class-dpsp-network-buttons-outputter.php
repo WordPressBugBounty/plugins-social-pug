@@ -383,8 +383,6 @@ class DPSP_Network_Buttons_Outputter {
 			if ( ! empty( $data['post_details']['post_custom_image_pinterest'] ) ) {
 				$post_image = $data['post_details']['post_custom_image_pinterest'];
 			}
-		} elseif ( 'yummly' === $network_slug ) {
-			$post_image = $data['post_details']['post_featured_image_url'];
 		}
 
 		// Filter values before getting the share links

@@ -375,10 +375,6 @@ function get_settings_partials() {
 			'type'        => 'string',
 			'description' => esc_html__( 'Twitch Username', 'mediavine' ),
 		],
-		'yummly_username'                     => [
-			'type'        => 'string',
-			'description' => esc_html__( 'Yummly Username', 'mediavine' ),
-		],
 		'behance_username'                    => [
 			'type'        => 'string',
 			'description' => esc_html__( 'Behance Username', 'mediavine' ),

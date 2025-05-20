@@ -94,9 +94,10 @@ class Networks {
 				'tooltip'        => 'The Grow button will only show as an option if the Grow widget is also on the post. <a rel="noopener" href="https://help.grow.me/hc/en-us/articles/4416469985819-What-is-Grow">Learn more about Grow</a>',
 			],
 			[
-				'slug'         => 'email',
-				'name'         => 'Email',
-				'share_format' => 'mailto:?subject=%2$s&amp;body=%1$s', // 2 is page title, 1 is URL
+				'slug'          => 'email',
+				'name'          => 'Email',
+				'share_format'  => 'mailto:?subject=%2$s&amp;body=%1$s', // 2 is page title, 1 is URL
+				'follow_format' => 'mailto:%1$s'
 			],
 			[
 				'slug'         => 'print',

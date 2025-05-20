@@ -84,8 +84,7 @@
 	?>
 	</div><!-- End of Share Tools -->
 
-	<p>Made with ❤️ and ☕ by <a href="https://www.nerdpress.net/" title="NerdPress - WordPress support that feels like family">NerdPress</a>.</p>
-	<p>⭐ Love Hubbub? Please <a href="https://wordpress.org/support/plugin/social-pug/reviews/?filter=5#new-post" title="Rate Hubbub on WordPress.org">rate Hubbub 5-stars on WordPress.org</a>. Thank you!</p>
+	<?php echo \Mediavine\Grow\View_Loader::get_view( '/inc/views/made-with-love.php' ); ?>
 
 	<?php
 	/*

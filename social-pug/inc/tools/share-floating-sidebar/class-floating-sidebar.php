@@ -19,6 +19,19 @@ class Floating_Sidebar extends Tool {
 		$this->settings_slug = 'dpsp_location_sidebar';
 		$this->img           = 'assets/dist/tool-sidebar.png?' . DPSP_VERSION;
 		$this->admin_page    = 'admin.php?page=dpsp-sidebar';
+
+		$this->settings_santization = array(
+			'display' => array(
+				'scroll_distance'          => 'number',
+				'stop_selector'            => 'string',
+				'minimum_individual_count' => 'number',
+				'minimum_count'            => 'number',
+				'custom_color'             => 'color',
+				'custom_hover_color'       => 'color',
+				'screen_size'              => 'number',
+			),
+		);
+
 		add_filter( 'dpsp_output_inline_style', [ $this, 'inline_styles' ] );
 		add_filter( 'mv_grow_frontend_data', [ $this, 'frontend_data' ] );
 	}

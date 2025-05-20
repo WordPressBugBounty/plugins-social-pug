@@ -132,7 +132,6 @@ function put_general_settings() {
 			'vimeo_username',
 			'soundcloud_username',
 			'twitch_username',
-			'yummly_username',
 			'behance_username',
 			'xing_username',
 			'github_username',

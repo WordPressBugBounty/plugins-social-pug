@@ -177,9 +177,9 @@
 
 				<?php dpsp_settings_field( 'switch', 'dpsp_location_sticky_bar[display][count_round]', ( isset( $dpsp_location_sticky_bar['display']['count_round'] ) ? $dpsp_location_sticky_bar['display']['count_round'] : '' ), __( 'Share count round', 'social-pug' ), [ 'yes' ], __( 'If the share count for each network is bigger than 1000 it will be rounded to one decimal ( eg. 1267 will show as 1.2k ).', 'social-pug' ) ); ?>
 
-				<?php dpsp_settings_field( 'text', 'dpsp_location_sticky_bar[display][minimum_count]', ( isset( $dpsp_location_sticky_bar['display']['minimum_count'] ) ? $dpsp_location_sticky_bar['display']['minimum_count'] : '' ), __( 'Minimum global share count', 'social-pug' ), [], __( 'Display share counts only if the total share count is higher than this value.', 'social-pug' ) ); ?>
+				<?php dpsp_settings_field( 'text', 'dpsp_location_sticky_bar[display][minimum_count]', ( isset( $dpsp_location_sticky_bar['display']['minimum_count'] ) ? $dpsp_location_sticky_bar['display']['minimum_count'] : '' ), __( 'Minimum total share count', 'social-pug' ), [], __( 'We won\'t display any share counts unless the total is higher than this number.', 'social-pug' ) ); ?>
 
-				<?php dpsp_settings_field( 'text', 'dpsp_location_sticky_bar[display][minimum_individual_count]', ( isset( $dpsp_location_sticky_bar['display']['minimum_individual_count'] ) ? $dpsp_location_sticky_bar['display']['minimum_individual_count'] : '' ), __( 'Minimum individual share count', 'social-pug' ), [], __( 'Display share counts for an individual network only if the share count for that network is higher than this value.', 'social-pug' ) ); ?>
+				<?php dpsp_settings_field( 'text', 'dpsp_location_sticky_bar[display][minimum_individual_count]', ( isset( $dpsp_location_sticky_bar['display']['minimum_individual_count'] ) ? $dpsp_location_sticky_bar['display']['minimum_individual_count'] : '' ), __( 'Minimum individual share count', 'social-pug' ), [], __( 'Display individual network share counts only if the share count for that specific network is higher than this number.', 'social-pug' ) ); ?>
 
 			</div>
 
@@ -226,7 +226,6 @@
 		
 		<p><strong>Please note:</strong> To ensure that changes take effect, please clear all caches. (Need help? <a href="https://morehubbub.com/docs/cache-help/" title="Read our support doc on caches">See our support doc</a>.)</p>
 
-		<p>Made with ❤️ and ☕ by <a href="https://www.nerdpress.net/" title="NerdPress - WordPress support that feels like family">NerdPress</a>.</p>
-		<p>⭐ Love Hubbub? Please <a href="https://wordpress.org/support/plugin/social-pug/reviews/?filter=5#new-post" title="Rate Hubbub on WordPress.org">rate Hubbub 5-stars on WordPress.org</a>. Thank you!</p>
+		<?php echo \Mediavine\Grow\View_Loader::get_view( '/inc/views/made-with-love.php' ); ?>
 	</div>
 </form>

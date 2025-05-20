@@ -16,9 +16,7 @@ endif;
 	<?php
 	echo'<' . $args['tag'] . ' rel="' . esc_attr( $args['rel'] ) . '" ' . $args['href_attribute']. ' class="' . $args['button_classes'] . '" target="_blank" aria-label="' . esc_attr( $args['title_attribute'] ) . '" title="' . esc_attr( $args['title_attribute'] ) . '" ' . Critical_Styles::get( 'single-button-link', $args['location'] ) . ' >';
 	?>
-	<span class="dpsp-network-icon <?php echo 'grow' === $args['network_slug'] ? 'dpsp-network-icon-outlined' : ''; ?>">
-		<span class="dpsp-network-icon-inner" <?php echo Critical_Styles::get( 'single-button-icon-inner', $args['location'] ); ?>><?php echo $args['icon_svg']; ?></span>
-	</span>
+	<span class="dpsp-network-icon <?php echo 'grow' === $args['network_slug'] ? 'dpsp-network-icon-outlined' : ''; ?>"><span class="dpsp-network-icon-inner" <?php echo Critical_Styles::get( 'single-button-icon-inner', $args['location'] ); ?>><?php echo $args['icon_svg']; ?></span></span>
 	<?php
 	// For all tools except the sidebar, the label span is inside the wrapper tag
 	$showLabelsOnMobile = ! $args['show_labels_mobile'] ? ' dpsp-network-hide-label-mobile' : '';

@@ -85,6 +85,9 @@ function dpsp_get_documentation_link( string $page ) : string {
 		case 'pinterest-images':
 			$url = 'https://morehubbub.com/docs/how-to-add-a-pin-it-button-to-your-posts-images/';
 			break;
+		case 'dashboard':
+			$url = 'https://morehubbub.com/docs/how-to-use-the-hubbub-dashboard/';
+			break;
 		case 'follow-widget':
 			$url = 'https://morehubbub.com/docs/using-the-follow-widget-in-social-pro/';
 			break;
@@ -640,7 +643,7 @@ function dpsp_add_submenu_page_sidebar() {
 	echo '<p>' . wp_kses_post( $icon ) . esc_html__( 'Add unlimited hidden Pinterest images to your posts and pages.', 'social-pug' ) . '</p>';
 	echo '<p>' . wp_kses_post( $icon ) . __( 'New: <a href="https://morehubbub.com/save-this/?utm_source=hubbub_plugin&utm_content=save_this_announce_sidebar_button_lite" title="Learn more about the Save This tool" target="_blank">Save This</a>! Add a form users can save the current page via email and add them to your mailing list.', 'social-pug' ) . '</p>';
 	echo '<p>' . wp_kses_post( $icon ) . esc_html__( 'Share to Threads, Mastodon, and 17+ other social networks!', 'social-pug' ) . '</p>';
-	echo '<p>' . wp_kses_post( $icon ) . esc_html__( 'Attract users to your social media profiles with our Follow Buttons Widget and follow shortcode. You can place it in your sidebar, template files, or anywhere on your site. Buttons include Facebook, X, Pinterest, Threads, Mastodon, LinkedIn, Reddit, Instagram, YouTube, Flipboard, Vimeo, SoundCloud, Twitch, Yummly, and Behance.', 'social-pug' ) . '</p>';
+	echo '<p>' . wp_kses_post( $icon ) . esc_html__( 'Attract users to your social media profiles with our Follow Buttons Widget and follow shortcode. You can place it in your sidebar, template files, or anywhere on your site. Buttons include Facebook, X, Pinterest, Threads, Mastodon, LinkedIn, Reddit, Instagram, YouTube, Flipboard, Vimeo, SoundCloud, Twitch, and Behance.', 'social-pug' ) . '</p>';
 	echo '<p>' . wp_kses_post( $icon ) . esc_html__( 'Make your website mobile-friendly with sticky footer social share buttons.', 'social-pug' ) . '</p>';
 	echo '<p>' . wp_kses_post( $icon ) . esc_html__( 'Trigger a pop-up with the social sharing buttons when a user starts to scroll, arrives at the bottom of a post or begins to leave your site.', 'social-pug' ) . '</p>';
 	echo '<p>' . wp_kses_post( $icon ) . esc_html__( 'Add custom pin descriptions and repin IDs to your in-post images.', 'social-pug' ) . '</p>';

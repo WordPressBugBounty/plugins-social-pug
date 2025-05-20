@@ -107,12 +107,11 @@ function dpsp_share_options_output( $post ) {
 
 			// Social media title
 			echo '<div class="dpsp-setting-field-wrapper">';
-
 				$maximum_count   = 70;
 				$current_count   = ( ! empty( $share_options['custom_title'] ) ? strlen( wp_kses_post( $share_options['custom_title'] ) ) : 0 );
 				$remaining_count = $maximum_count - $current_count;
 
-					echo '<label for="dpsp_share_options[custom_title]"><span class="dpsp-admin-icon dpsp-admin-icon-share">' . wp_kses( dpsp_get_svg_icon_output( 'share' ), View_Loader::get_allowed_tags() ) . '</span>' . esc_html__( 'Social Media Title', 'social-pug' ) . '<span class="dpsp-textarea-characters-remaining-wrapper" data-maximum-count="' . esc_attr( $maximum_count ) . '"><span class="dpsp-textarea-characters-remaining">' . esc_attr( $remaining_count ) . '</span> ' . esc_html__( 'Characters Remaining', 'social-pug' ) . '</span>';
+				echo '<label for="dpsp_share_options[custom_title]"><span class="dpsp-admin-icon dpsp-admin-icon-share">' . wp_kses( dpsp_get_svg_icon_output( 'share' ), View_Loader::get_allowed_tags() ) . '</span>' . esc_html__( 'Social Media (Open Graph) Title', 'social-pug' ) . '<span class="dpsp-textarea-characters-remaining-wrapper" data-maximum-count="' . esc_attr( $maximum_count ) . '"><span class="dpsp-textarea-characters-remaining">' . esc_attr( $remaining_count ) . '</span> ' . esc_html__( 'Characters Remaining', 'social-pug' ) . '</span>';
 					dpsp_output_backend_tooltip( __( 'Add a title that will populate the "og:title" Open Graph meta tag. This will be used when users share your content on Facebook or LinkedIn. The title of the post will be used if this field is empty.', 'social-pug' ), false );
 				echo '</label>';
 				echo '<textarea id="dpsp_share_options[custom_title]" name="dpsp_share_options[custom_title]" placeholder="' . esc_attr__( 'Write a social media title...', 'social-pug' ) . '">' . ( isset( $share_options['custom_title'] ) ? wp_kses_post( $share_options['custom_title'] ) : '' ) . '</textarea>';
@@ -125,7 +124,7 @@ function dpsp_share_options_output( $post ) {
 				$current_count   = ( ! empty( $share_options['custom_description'] ) ? strlen( wp_kses_post( $share_options['custom_description'] ) ) : 0 );
 				$remaining_count = $maximum_count - $current_count;
 
-					echo '<label for="dpsp_share_options[custom_description]"><span class="dpsp-admin-icon dpsp-admin-icon-share">' . wp_kses( dpsp_get_svg_icon_output( 'share' ), View_Loader::get_allowed_tags() ) . '</span>' . esc_html__( 'Social Media Description', 'social-pug' ) . '<span class="dpsp-textarea-characters-remaining-wrapper" data-maximum-count="' . esc_attr( $maximum_count ) . '"><span class="dpsp-textarea-characters-remaining">' . esc_attr( $remaining_count ) . '</span> ' . esc_html__( 'Characters Remaining', 'social-pug' ) . '</span>';
+				echo '<label for="dpsp_share_options[custom_description]"><span class="dpsp-admin-icon dpsp-admin-icon-share">' . wp_kses( dpsp_get_svg_icon_output( 'share' ), View_Loader::get_allowed_tags() ) . '</span>' . esc_html__( 'Social Media (Open Graph) Description', 'social-pug' ) . '<span class="dpsp-textarea-characters-remaining-wrapper" data-maximum-count="' . esc_attr( $maximum_count ) . '"><span class="dpsp-textarea-characters-remaining">' . esc_attr( $remaining_count ) . '</span> ' . esc_html__( 'Characters Remaining', 'social-pug' ) . '</span>';
 					dpsp_output_backend_tooltip( __( 'Add a description that will populate the "og:description" Open Graph meta tag. This will be used when users share your content on Facebook or LinkedIn.', 'social-pug' ), false );
 				echo '</label>';
 				echo '<textarea id="dpsp_share_options[custom_description]" name="dpsp_share_options[custom_description]" placeholder="' . esc_html__( 'Write a social media description...', 'social-pug' ) . '">' . ( isset( $share_options['custom_description'] ) ? wp_kses_post( $share_options['custom_description'] ) : '' ) . '</textarea>';
@@ -175,28 +174,33 @@ function dpsp_share_options_output( $post ) {
 
 			// Pinterest title
 			echo '<div class="dpsp-setting-field-wrapper">';
-
+				
+				// TODO: remove all code related to character counts for Pinterest
+				/* 
 				$maximum_count   = 70;
 				$current_count   = ( ! empty( $share_options['custom_title_pinterest'] ) ? strlen( wp_kses_post( $share_options['custom_title_pinterest'] ) ) : 0 );
 				$remaining_count = $maximum_count - $current_count;
+				*/
 
-			echo '<label for="dpsp_share_options[custom_title_pinterest]"><span class="dpsp-admin-icon dpsp-admin-icon-pinterest">' . wp_kses( dpsp_get_svg_icon_output( 'pinterest' ), View_Loader::get_allowed_tags() ) . '</span>' . esc_html__( 'Pinterest Title', 'social-pug' ) . '<span class="dpsp-textarea-characters-remaining-wrapper" data-maximum-count="' . esc_attr( $maximum_count ) . '"><span class="dpsp-textarea-characters-remaining">' . esc_attr( $remaining_count ) . '</span> ' . esc_html__( 'Characters Remaining', 'social-pug' ) . '</span></label>';
-				echo '<textarea id="dpsp_share_options[custom_title_pinterest]" name="dpsp_share_options[custom_title_pinterest]" placeholder="' . esc_attr__( 'Write a custom Pinterest title...', 'social-pug' ) . '">' . ( isset( $share_options['custom_title_pinterest'] ) ? wp_kses_post( $share_options['custom_title_pinterest'] ) : '' ) . '</textarea>';
-				echo '<p class="description">' . esc_html__( 'Pinterest has unofficially switched from custom titles to Open Graph metadata to pull titles. You can add og:title using the Social Media Title field. The Custom Title field will be visible to show historic values.', 'social-pug' ) . '</p>';
+			//echo '<label for="dpsp_share_options[custom_title_pinterest]"><span class="dpsp-admin-icon dpsp-admin-icon-pinterest">' . wp_kses( dpsp_get_svg_icon_output( 'pinterest' ), View_Loader::get_allowed_tags() ) . '</span>' . esc_html__( 'Pinterest Title (deprecated)', 'social-pug' ) . '<span class="dpsp-textarea-characters-remaining-wrapper" data-maximum-count="' . esc_attr( $maximum_count ) . '"><span class="dpsp-textarea-characters-remaining">' . esc_attr( $remaining_count ) . '</span> ' . esc_html__( 'Characters Remaining', 'social-pug' ) . '</span></label>';
+			echo '<label for="dpsp_share_options[custom_title_pinterest]"><span class="dpsp-admin-icon dpsp-admin-icon-deprecated dpsp-admin-icon-pinterest">' . wp_kses( dpsp_get_svg_icon_output( 'pinterest' ), View_Loader::get_allowed_tags() ) . '</span>' . esc_html__( 'Pinterest Title (deprecated)', 'social-pug' ) . '</label>';
+				echo '<p class="deprecated description">👉 Heads up! Pinterest no longer uses these custom title and description fields. Instead, they rely on the Social Media (Open Graph) Title and Description above. <a href="https://morehubbub.com/docs/pinterest-title-and-description-deprecated/" target="_blank">Please read our Support Doc to learn more</a>. (Pinterest Images are still working as expected.)</p>';
+				echo '<textarea id="dpsp_share_options[custom_title_pinterest]" name="dpsp_share_options[custom_title_pinterest]" placeholder="">' . ( isset( $share_options['custom_title_pinterest'] ) ? wp_kses_post( $share_options['custom_title_pinterest'] ) : '' ) . '</textarea>';
 			echo '</div>';
 
 			// Pinterest description
 			echo '<div class="dpsp-setting-field-wrapper">';
 
+				/*
 				$maximum_count   = 500;
 				$current_count   = ( ! empty( $share_options['custom_description_pinterest'] ) ? strlen( wp_kses_post( $share_options['custom_description_pinterest'] ) ) : 0 );
 				$remaining_count = $maximum_count - $current_count;
+				*/
 
-				echo '<label for="dpsp_share_options[custom_description_pinterest]"><span class="dpsp-admin-icon dpsp-admin-icon-pinterest">' . wp_kses( dpsp_get_svg_icon_output( 'pinterest' ), View_Loader::get_allowed_tags() ) . '</span>' . esc_html__( 'Pinterest Description', 'social-pug' ) . '<span class="dpsp-textarea-characters-remaining-wrapper" data-maximum-count="' . esc_attr( $maximum_count ) . '"><span class="dpsp-textarea-characters-remaining">' . esc_attr( $remaining_count ) . '</span> ' . esc_html__( 'Characters Remaining', 'social-pug' ) . '</span>';
-				dpsp_output_backend_tooltip( __( 'Add a customized message that will be used when this post is shared on Pinterest.', 'social-pug' ), false );
-				echo '</label>';
-				echo '<textarea id="dpsp_share_options[custom_description_pinterest]" name="dpsp_share_options[custom_description_pinterest]" placeholder="' . esc_attr__( 'Write a custom Pinterest description...', 'social-pug' ) . '">' . ( isset( $share_options['custom_description_pinterest'] ) ? wp_kses_post( $share_options['custom_description_pinterest'] ) : '' ) . '</textarea>';
-				echo '<p class="description">' . esc_html__( 'Pinterest has unofficially switched from custom descriptions to Open Graph metadata to pull descriptions. You can add the og:description using the Social Media Description field. The Custom Descriptions field will be visible to show historic values.', 'social-pug' ) . '</p>';
+				//echo '<label for="dpsp_share_options[custom_description_pinterest]"><span class="dpsp-admin-icon dpsp-admin-icon-pinterest">' . wp_kses( dpsp_get_svg_icon_output( 'pinterest' ), View_Loader::get_allowed_tags() ) . '</span>' . esc_html__( 'Pinterest Description (deprecated)', 'social-pug' ) . '<span class="dpsp-textarea-characters-remaining-wrapper" data-maximum-count="' . esc_attr( $maximum_count ) . '"><span class="dpsp-textarea-characters-remaining">' . esc_attr( $remaining_count ) . '</span> ' . esc_html__( 'Characters Remaining', 'social-pug' ) . '</span>';
+				echo '<label for="dpsp_share_options[custom_description_pinterest]"><span class="dpsp-admin-icon dpsp-admin-icon-deprecated dpsp-admin-icon-pinterest">' . wp_kses( dpsp_get_svg_icon_output( 'pinterest' ), View_Loader::get_allowed_tags() ) . '</span>' . esc_html__( 'Pinterest Description (deprecated)', 'social-pug' ) . '</label>';
+				// reminder, if brought back, this needs to be in <label> dpsp_output_backend_tooltip( __( 'Add a customized message that will be used when this post is shared on Pinterest.', 'social-pug' ), false );
+				echo '<textarea id="dpsp_share_options[custom_description_pinterest]" name="dpsp_share_options[custom_description_pinterest]" placeholder="">' . ( isset( $share_options['custom_description_pinterest'] ) ? wp_kses_post( $share_options['custom_description_pinterest'] ) : '' ) . '</textarea>';
 			echo '</div>';
 
 			// Twitter custom tweet

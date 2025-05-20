@@ -2,13 +2,13 @@
 Contributors: eatingrules, cdevroe, nerdpressteam, iova.mihai
 Tags: social share, social sharing, social media, social network, social buttons
 Requires at least: 5.3
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.2.24
-Stable tag: 1.34.7
+Stable tag: 1.35.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Add Pinterest, Facebook, Twitter/X social network sharing buttons with a Floating Sidebar, Sticky Bar, Inline Buttons, Shortcodes, and more.
+Add Pinterest, Facebook, LinkedIn, X/Twitter social network sharing buttons with a Floating Sidebar, Sticky Bar, Inline Buttons, Shortcodes, and more.
 
 == Description ==
 
@@ -26,7 +26,7 @@ Hubbub Lite, formerly Grow Social by Mediavine, is one of the easiest to use soc
 * **Retina Ready Share Icons** - Hubbub uses SVGs to display the sharpest social media icons on any screen size
 
 = Pro Features =
-* **17+ Additional Social Media Networks (including Threads)** - Reach more people by adding any of the following social share networks Flipboard, Threads, Reddit, Yummly, VK, Tumblr, WhatsApp, Buffer, Telegram, Pocket, and Email
+* **17+ Additional Social Media Networks (including Threads)** - Reach more people by adding any of the following social share networks Flipboard, Threads, Reddit, VK, Tumblr, WhatsApp, Buffer, Telegram, Pocket, and Email
 * **Social Media Open Graph Tags** - Customize the social media preview title, description and images that your users share on social media using industry standard Open Graph tags which work across all social networks and chat services.
 * **Social Share Counts** - Display the posts social share count **( including Twitter )** to provide social media proof and increase your website's credibility.
 * **Mobile Sticky Footer Share Buttons** - Place the share buttons in a sticky bar that stays at the bottom of a user's mobile device
@@ -35,7 +35,7 @@ Hubbub Lite, formerly Grow Social by Mediavine, is one of the easiest to use soc
 * **Shortcode for Share Buttons** - Place the buttons anywhere in your template files or the body of your content with the [hubbub_share] shortcode
 * **Link Shortening through Bitly** - Hide long URL's behind their shorter version with Bitly integration
 * **Google Analytics UTM tracking** - Track the source of your incoming traffic with the help of the Google Analytics UTM parameters
-* **Follow Buttons Widget** - Place follow buttons anywhere on your website to allow users to follow your social media profiles on: Facebook, Twitter, Pinterest, LinkedIn, Flipboard, Threads, Reddit, Instagram, YouTube, Vimeo, SoundCloud, Twitch, Yummly and Behance. Use the [hubbub_follow] shortcode
+* **Follow Buttons Widget** - Place follow buttons anywhere on your website to allow users to follow your social media profiles on: Facebook, Twitter, Pinterest, LinkedIn, Flipboard, Threads, Reddit, Instagram, YouTube, Vimeo, SoundCloud, Twitch and Behance. Use the [hubbub_follow] shortcode
 * **Sharable Quotes ( Click to Tweet ) Feature** - Let your readers easily share a custom tweet with just one click
 * **Top Shared Posts Widget** - Want to showcase your most social shared articles? No problem. You can use this widget in any widget area to add your top shared posts
 * **Import / Export Settings** - Move all the settings from one website to another with just a few clicks
@@ -86,6 +86,16 @@ Hubbub Pro has additional add-ons for migrating data from a few popular alternat
 
 == Changelog ==
 This changelog is for Hubbub Lite. Here is [the changelog for Hubbub Pro](https://morehubbub.com/changelog/).
+
+= 1.35.0 =
+* May 20, 2025
+- New: [Dashboard](https://morehubbub.com/dashboard/)! Quickly view the latest Hubbub news, share counts from all posts, and [Save This](https://morehubbub.com/save-this/) counts (Pro+ only).
+- Improvement: Better default settings for new users.
+- Improvement: Better compatiblity with similar third-party plugins.
+
+= 1.34.8 =
+* October 23, 2024
+* Fix: An issue with the plugin deactivation link.
 
 = 1.34.7 =
 * October 7, 2024
@@ -434,4 +444,4 @@ Important: If you have odd issues after updating, please clear all caches for yo
 == Upgrade Notice ==
 
 = 1.33.1 =
-Versions of Hubbub Lite greater than 1.30.0 include important bug fixes. Please keep Hubbub Lite up-to-date.
+All of our updates include important bug fixes and security improvements. Please keep Hubbub Lite up-to-date.

@@ -38,7 +38,7 @@
 					<?php
 					dpsp_settings_field(
 						'select', 'dpsp_settings[facebook_share_counts_provider]', ( isset( $dpsp_settings['facebook_share_counts_provider'] ) ? $dpsp_settings['facebook_share_counts_provider'] : '' ), __( 'Facebook Share Counts Provider', 'social-pug' ), [
-							'authorized_app' => __( 'Hubbub App', 'social-pug' ),
+							'authorized_app' => __( 'Hubbub Lite App', 'social-pug' ),
 							'own_app'        => __( 'Facebook Graph API', 'social-pug' ),
 						]
 					);
@@ -75,7 +75,7 @@
 										'referer'    => home_url(),
 										'tkn'        => wp_create_nonce( 'dpsp_authorize_facebook_app' ),
 										'client_url' => urlencode( add_query_arg( [ 'page' => 'dpsp-settings' ], admin_url( 'admin.php' ) ) ), // @codingStandardsIgnoreLine
-									], 'http://apitest.devpups.com/1.0/'
+									], 'https://api.morehubbub.com/1.0/'
 								);
 								?>
 								<a class="dpsp-button-primary" href="<?php echo esc_url( $api_url ); ?>"><?php esc_html_e( 'Reauthorize App', 'social-pug' ); ?></a>
@@ -91,7 +91,7 @@
 											'referer'    => home_url(),
 											'tkn'        => wp_create_nonce( 'dpsp_authorize_facebook_app' ),
 											'client_url' => urlencode( add_query_arg( [ 'page' => 'dpsp-settings' ], admin_url( 'admin.php' ) ) ), // @codingStandardsIgnoreLine
-										], 'http://apitest.devpups.com/1.0/'
+										], 'https://api.morehubbub.com/1.0/'
 									);
 							?>
 							<a class="dpsp-button-primary" href="<?php echo esc_url( $api_url ); ?>"><?php esc_html_e( 'Authorize App', 'social-pug' ); ?></a>
@@ -115,8 +115,9 @@
 		<p class="submit"><input type="submit" class="dpsp-button-primary" value="<?php esc_html_e( 'Save Changes' ); ?>" /></p>
 		<p><strong>Please note:</strong> To ensure that changes take effect, please clear all caches. (Need help? <a href="https://morehubbub.com/docs/cache-help/" title="Read our support doc on caches">See our support doc</a>.)</p>
 	</form>
-	<p>Made with ❤️ and ☕ by <a href="https://www.nerdpress.net/" title="NerdPress - WordPress support that feels like family">NerdPress</a>.</p>
-	<p>⭐ Love Hubbub? Please <a href="https://wordpress.org/support/plugin/social-pug/reviews/?filter=5#new-post" title="Rate Hubbub on WordPress.org">rate Hubbub 5-stars on WordPress.org</a>. Thank you!</p>
+
+	<?php echo \Mediavine\Grow\View_Loader::get_view( '/inc/views/made-with-love.php' ); ?>
+	
 </div>
 
 <?php do_action( 'dpsp_submenu_page_bottom' ); ?>

@@ -18,6 +18,19 @@ class Sticky_Bar extends Tool {
 		$this->settings_slug = 'dpsp_location_sticky_bar';
 		$this->img           = 'assets/dist/tool-mobile.png?' . DPSP_VERSION;
 		$this->admin_page    = 'admin.php?page=dpsp-sticky-bar';
+
+		$this->settings_santization = array(
+			'display' => array(
+				'scroll_distance'          => 'number',
+				'minimum_individual_count' => 'number',
+				'minimum_count'            => 'number',
+				'custom_color'             => 'color',
+				'custom_hover_color'       => 'color',
+				'custom_background_color'  => 'color',
+				'screen_size'              => 'number',
+			),
+		);
+
 		add_filter( 'dpsp_output_inline_style', [ $this, 'inline_styles' ] );
 	}
 

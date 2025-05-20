@@ -12,7 +12,7 @@ class Social_Pug {
 	public const API_NAMESPACE = 'mv-grow-social/v1';
 
 	/** @var string|null Build tool sets this. */
-	const VERSION = '1.34.7';
+	const VERSION = '1.35.0';
 
 	/** @var string|null Version number for this release. @deprecated Use MV_GROW_VERSION */
 	public static $VERSION;
@@ -70,6 +70,7 @@ class Social_Pug {
 			// If the build tool has run, use its version.
 			self::$VERSION = self::VERSION; // @codingStandardsIgnoreLine
 			define( 'MV_GROW_VERSION', self::VERSION );
+			define( 'HUBBUB_VERSION', self::VERSION );
 			return;
 		}
 		// Pull version from the plugin bootstrap file
@@ -80,6 +81,7 @@ class Social_Pug {
 		$version = ! empty( $version ) ? $version : '99';
 		self::$VERSION = $version; // @codingStandardsIgnoreLine
 		define( 'MV_GROW_VERSION', $version );
+		define( 'HUBBUB_VERSION', $version );
 	}
 
 	/**
@@ -201,6 +203,7 @@ class Social_Pug {
 		dpsp_register_admin_widgets();
 		dpsp_register_admin_debugger();
 		dpsp_register_admin_settings();
+		dpsp_register_admin_dashboard();
 		dpsp_register_admin_toolkit();
 
 		// Version-specific feature registration.
@@ -233,6 +236,9 @@ class Social_Pug {
 
 		// Register Gutenberg editor assets
 		add_action( 'enqueue_block_editor_assets', [ $this, 'init_gutenberg_scripts' ] );
+
+		// Register Block editor assets for IFrame / WP 6.7
+		add_action( 'enqueue_block_assets', [ $this, 'init_block_assets' ] );
 
 		dpsp_register_follow_widget();
 		dpsp_register_import_export();
@@ -494,6 +500,19 @@ class Social_Pug {
 	}
 
 	/**
+	 * Enqueue scripts that are specific to the Block Editor's new IFrame (WP 6.7+)
+	 */
+	public function init_block_assets() {
+		if ( is_admin() ) { // just in case
+			wp_register_style( 'dpsp-dashboard-style-pro', DPSP_PLUGIN_DIR_URL . 'assets/dist/style-dashboard-pro.css', [], self::$VERSION );
+			wp_enqueue_style( 'dpsp-dashboard-style-pro' );
+
+			wp_register_style( 'dpsp-frontend-style-pro', DPSP_PLUGIN_DIR_URL . 'assets/dist/style-frontend-pro.css', [], self::$VERSION );
+			wp_enqueue_style( 'dpsp-frontend-style-pro' );
+		}
+	}
+
+	/**
 	 * Fallback for setting defaults when updating the plugin,
 	 * as register_activation_hook does not fire for automatic updates
 	 *
@@ -584,9 +603,12 @@ class Social_Pug {
 		$all_links = array(
 			'<a href="' . esc_url( get_admin_url( null, 'admin.php?page=dpsp-toolkit' ) ) . '">' . __( 'Settings', 'social-pug' ) . '</a>',
 			'<a target="_blank" href="https://morehubbub.com/docs/" title="Read Support Docs">' . __( 'Docs', 'social-pug' ) . '</a>',
-			'<a target="_blank" href="https://morehubbub.com/docs/upgrading-your-hubbub-pro-license/" title="Upgrade your license">' . __( 'Upgrade', 'social-pug' ) . '</a>',
-			$links['deactivate']
+			'<a target="_blank" href="https://morehubbub.com/docs/upgrading-your-hubbub-pro-license/" title="Upgrade your license">' . __( 'Upgrade', 'social-pug' ) . '</a>'
 		);
+
+		if ( isset( $links['deactivate'] ) ) {
+			$all_links[] = $links['deactivate'];
+		}
 
 		return $all_links;
 
