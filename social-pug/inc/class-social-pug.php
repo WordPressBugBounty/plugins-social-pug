@@ -12,7 +12,7 @@ class Social_Pug {
 	public const API_NAMESPACE = 'mv-grow-social/v1';
 
 	/** @var string|null Build tool sets this. */
-	const VERSION = '1.35.0';
+	const VERSION = '1.35.1';
 
 	/** @var string|null Version number for this release. @deprecated Use MV_GROW_VERSION */
 	public static $VERSION;
@@ -681,6 +681,69 @@ class Social_Pug {
 	 */
 	public function is_pro() : bool {
 		return ! self::is_free();
+	}
+
+	/**
+	 * Are plus-level features available?
+	 *
+	 * @return bool
+	 */
+	public static function is_pro_plus() : bool {
+
+		if ( self::is_free() ) {
+			return false;
+		}
+
+		$hubbub_activation 	= new \Mediavine\Grow\Activation;
+		$license_tier 		= $hubbub_activation->get_license_tier();
+
+		if ( ! empty( $license_tier ) && $license_tier != 'pro' && $license_tier != 'priority' ) { 
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Are plus-level or above features available?
+	 *
+	 * @return bool
+	 */
+	public static function is_pro_plus_or_above() : bool {
+
+		if ( self::is_free() ) {
+			return false;
+		}
+
+		$hubbub_activation 	= new \Mediavine\Grow\Activation;
+		$license_tier 		= $hubbub_activation->get_license_tier();
+
+		if ( ! empty( $license_tier ) && $license_tier != 'pro' ) { 
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Are priority-level features available?
+	 *
+	 * @return bool
+	 */
+	public static function is_priority() : bool {
+
+		if ( self::is_free() ) {
+			return false;
+		}
+
+		$hubbub_activation 	= new \Mediavine\Grow\Activation;
+		$license_tier 		= $hubbub_activation->get_license_tier();
+
+		if ( ! empty( $license_tier ) && $license_tier != 'pro' && $license_tier != 'pro+' ) { 
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

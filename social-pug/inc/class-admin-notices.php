@@ -32,7 +32,6 @@ class Admin_Notices {
 		add_action( 'admin_notices', [ $this, 'dpsp_admin_notices' ] );
 		add_action( 'admin_notices', [ $this, 'dpsp_admin_notice_initial_setup_nag' ] );
 		add_action( 'admin_notices', [ $this, 'dpsp_admin_notice_facebook_access_token_expired' ] );
-		add_action( 'admin_notices', [ $this, 'dpsp_admin_notice_grow_name_change_hubbub' ] );
 		add_action( 'admin_notices', [ $this, 'dpsp_admin_notice_announce_save_this' ] );
 
 		/*
@@ -51,7 +50,6 @@ class Admin_Notices {
 
 		if ( ! \Social_Pug::is_free() ) {
 			add_action( 'admin_notices', [ $this, 'dpsp_license_admin_notification' ] );
-			add_action( 'admin_notices', [ $this, 'dpsp_admin_notice_announce_mastodon_threads' ] );
 		}
 	}
 
@@ -284,9 +282,6 @@ class Admin_Notices {
 
 		$numberOfNoticesToShow = 0;
 
-		// From dpsp_admin_notice_grow_name_change_hubbub
-		$numberOfNoticesToShow = ( ! $admin_notices_instance->was_first_activation_after( '2023-12-12 00:00:00' ) && '' === get_user_meta( get_current_user_id(), 'dpsp_admin_notice_grow_name_change_hubbub', true ) && empty( get_option( 'dpsp_admin_notice_grow_name_change_hubbub' ) ) ) ? $numberOfNoticesToShow+1 : $numberOfNoticesToShow;
-
 		// From dpsp_admin_notice_announce_save_this
 		$numberOfNoticesToShow = ( empty( get_option( 'dpsp_admin_notice_announce_save_this' ) ) ) ? $numberOfNoticesToShow+1 : $numberOfNoticesToShow;
 
@@ -302,9 +297,6 @@ class Admin_Notices {
 		if ( empty( $license_key) ) : // No need to continue without a license key
 			return $numberOfNoticesToShow;
 		endif;
-
-		// From dpsp_admin_notice_announce_mastodon_threads
-		$numberOfNoticesToShow = ( empty( get_option( 'dpsp_admin_notice_announce_mastodon_threads' ) ) ) ? $numberOfNoticesToShow+1 : $numberOfNoticesToShow;
 
 		$license_status      = get_option( 'mv_grow_license_status' );
 
@@ -367,63 +359,15 @@ class Admin_Notices {
 	}
 
 	/**
-	 * Add admin notice to announce the name change.
-	 */
-	function dpsp_admin_notice_grow_name_change_hubbub() {
-		if ( !$this->dpsp_is_hubbub_screen() ) return; // Limit to just Hubbub screens
-
-		// Do not display this notice if user cannot activate plugins
-		if ( ! current_user_can( 'activate_plugins' ) ) :
-			return;
-		endif;
-
-		// Don't show this if the plugin has been activated after December 12, 2023
-		if ( $this->was_first_activation_after( '2023-12-12 00:00:00' ) ) :
-			return;
-		endif;
-
-		// Do not display this notice for USERS that have dismissed it
-		// And, if one user has dismissed it, hide it for all users.
-		if ( '' !== get_user_meta( get_current_user_id(), 'dpsp_admin_notice_grow_name_change_hubbub', true ) ) :
-			if ( empty( get_option( 'dpsp_admin_notice_grow_name_change_hubbub' ) ) ) : // If a single user has dismissed this notice, hide for all users
-				update_option( 'dpsp_admin_notice_grow_name_change_hubbub', '1', false );
-			endif;
-			return;
-		endif;
-
-		// Do not display this notice any user on the site has dismissed it
-		if ( ! empty( get_option( 'dpsp_admin_notice_grow_name_change_hubbub' ) ) ) :
-			return;
-		endif;
-
-		// Echo the admin notice
-		echo '<div class="dpsp-admin-notice dpsp-admin-grow-notice notice notice-info" style="min-height: 300px">';
-		echo '<div class="notice-img-wrap">';
-		echo '<img width="250" height="250" style="float: left;" src="' . esc_url( DPSP_PLUGIN_DIR_URL . 'assets/dist/hubbub-notice-name-image.png?' . DPSP_VERSION ) . '" />';
-		echo '</div>';
-		echo '<div class="notice-text-wrap">';
-		echo '<h4>' . esc_html__( 'Grow Social is now Hubbub! 🎉', 'social-pug' ) . '</h4>';
-		echo '<p>' . esc_html__( 'If you updated your Grow Social plugin within the last few days you may have noticed a few things have changed. NerdPress has acquired the plugin from Mediavine, and we\'ve changed the name to Hubbub. We\'ll be making lots of improvements in order to make Hubbub even better for you and your site!', 'social-pug' ) . '</p>';
-		echo '<p><a href="https://www.nerdpress.net/announcing-hubbub/" target="_blank">' . esc_html__( 'Check out our blog post', 'social-pug' ) . '</a>' . esc_html__( ' for more information and answers to frequently asked questions.', 'social-pug' ) . '</p>';
-		echo '<p class="notice-subtext">' . esc_html__( 'At NerdPress, our motto is "WordPress support that feels like family." Our acquisition of Hubbub is one more step towards fulfilling our mission of helping people do what they love, so they can lead richer, more fulfilling lives.', 'social-pug' ) . '</p>';
-		echo '<p><a href="' . $this->dpsp_create_dismiss_notice_admin_url( 'dpsp_admin_notice_grow_name_change_hubbub' ) . '">' . esc_html__( 'Awesome - Click to dismiss this notice.', 'social-pug' ) . '</a></p>';
-		echo '</div>';
-		echo '</div>';
-	}
-
-	/**
 	 * Create a secure cruft free Admin URL to the current page for dismissing Hubbub notices
 	 * List of known dismissable notices:
 	 * - dpsp_admin_notice_announce_save_this
-	 * - dpsp_admin_notice_announce_mastodon_threads
-	 * - dpsp_admin_notice_grow_name_change_hubbub
 	 * - dpsp_admin_notice_initial_setup_nag (works differently, see dpsp_admin_notice_dismiss() )
 	 * - deprecated: dpsp_admin_notice_twitter_counts
 	 * - deprecated: dpsp_admin_notice_renew_1
 	 * - deprecated: dpsp_admin_notice_recovery_system
 	 * - deprecated: dpsp_admin_notice_major_update_2_6_0
 	 * - deprecated: dpsp_admin_notice_google_plus_removal
-	 * - deprecated: dpsp_admin_notice_grow_name_change
 	 * - deprecated: dpsp_admin_notice_jquery_deprecation
 	 * TODO: Possibly clear deprecated values from user's database?
 	 */
@@ -481,38 +425,6 @@ class Admin_Notices {
 		echo '</div>';
 
 	}
-	
-
-	/**
-	 * Add admin notice for enabling Threads and Mastodon
-	 * May 2024
-	 */
-	function dpsp_admin_notice_announce_mastodon_threads() {
-		if ( !$this->dpsp_is_hubbub_screen() ) return; // Limit to just Hubbub screens
-
-
-		// Do not display this notice if user cannot activate plugins
-		if ( ! current_user_can( 'activate_plugins' ) ) {
-			return;
-		}
-
-		// Do not display this notice any user on the site has dismissed it
-		if ( ! empty( get_option( 'dpsp_admin_notice_announce_mastodon_threads' ) ) ) :
-			return;
-		endif;
-
-		$active_tools = dpsp_get_active_tools_nicenames( 'csv', true ); // Includes links
-
-		echo '<div class="dpsp-admin-notice notice notice-info">';
-		echo '<a class="notice-dismiss" href="' . $this->dpsp_create_dismiss_notice_admin_url( 'dpsp_admin_notice_announce_mastodon_threads' ) . '"></a>';
-		echo '<h4>' . esc_html__( '@ 🐘 New networks: Threads and Mastodon', 'social-pug' ) . '</h4>';
-		echo '<p>' . esc_html__( 'The fediverse awaits! Hubbub has added support for sharing to Threads and Mastodon.', 'social-pug' ) . '</p>';
-		if ( $active_tools != '' ) {
-		echo '<p>Would you like to adjust the sharing buttons on your sharing tools? These tools are currently active: ' . $active_tools . '.</p>';
-		}
-		echo '<p><a class="dpsp-button-secondary" target="_blank" href="https://morehubbub.com/docs/adding-sharing-buttons/">' . esc_html__( 'Learn how to add share buttons', 'social-pug' ) . ' ↗ </a></p>';
-		echo '</div>';
-	}
 
 	/**
 	 * Add admin notice for initial setup help documentation
@@ -563,8 +475,8 @@ class Admin_Notices {
 				wp_redirect($_SERVER['HTTP_REFERER']);
 			endif;
 		} else {
-			// If this is the name change notice, dismiss for all users
-			if ( $notice_to_dismiss == 'dpsp_admin_notice_grow_name_change_hubbub' || $notice_to_dismiss == 'dpsp_admin_notice_announce_mastodon_threads' || $notice_to_dismiss == 'dpsp_admin_notice_announce_save_this' ) :
+			// Dismiss for all users
+			if ( $notice_to_dismiss == 'dpsp_admin_notice_announce_save_this' ) :
 				update_option( $notice_to_dismiss, '1', false );
 			else :
 				add_user_meta( get_current_user_id(), $notice_to_dismiss, 1, true );

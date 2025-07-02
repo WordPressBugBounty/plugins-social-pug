@@ -19,7 +19,7 @@ class Inline_Content extends Tool {
 		$this->img           = 'assets/dist/tool-content.png?' . DPSP_VERSION;
 		$this->admin_page    = 'admin.php?page=dpsp-content';
 
-		$this->settings_santization = array(
+               $this->settings_sanitization = array(
 			'display' => array(
 				'screen_size'              => 'number',
 				'minimum_individual_count' => 'number',

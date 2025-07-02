@@ -296,7 +296,13 @@ function dpsp_get_back_end_display_option( string $option_name ) : array {
  * @return string
  *
  */
-function dpsp_get_network_share_link( string $network_slug = '', string $post_url = null, string $post_title = null, string $post_description = null, string $post_image = null ) : string {
+function dpsp_get_network_share_link( 
+	string $network_slug = '',
+	?string $post_url = null, 
+	?string $post_title = null, 
+	?string $post_description = null,
+	?string $post_image = null ) : string {
+	
 	if ( empty( $network_slug ) ) {
 		return '';
 	}

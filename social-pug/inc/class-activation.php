@@ -319,7 +319,7 @@ class Activation extends \Social_Pug {
 			case ( $pid >= 15 && $pid <= 20 ):
 				$tier = 'pro+';
 				break;
-			case ( $pid >= 21 && $pid <= 25 ):
+			case ( $pid >= 21 && $pid <= 26 ):
 				$tier = 'priority';
 				break;
 			default:

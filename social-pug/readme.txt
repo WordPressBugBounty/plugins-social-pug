@@ -4,7 +4,7 @@ Tags: social share, social sharing, social media, social network, social buttons
 Requires at least: 5.3
 Tested up to: 6.8
 Requires PHP: 7.2.24
-Stable tag: 1.35.0
+Stable tag: 1.35.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,6 +86,13 @@ Hubbub Pro has additional add-ons for migrating data from a few popular alternat
 
 == Changelog ==
 This changelog is for Hubbub Lite. Here is [the changelog for Hubbub Pro](https://morehubbub.com/changelog/).
+
+= 1.35.1 =
+* July 2, 2025
+* Improvement: Engagement Stats supports Custom Post Types.
+* New: Added a filter `dpsp_filter_dashboard_post_types` to remove any Custom Post Types from dashboard features. [See filters](https://morehubbub.com/docs/hubbub-filters/).
+* Improvement: Several UI improvements to the new dashboard.
+* Other fixes and adjustments including those related to PHP 8.x.
 
 = 1.35.0 =
 * May 20, 2025

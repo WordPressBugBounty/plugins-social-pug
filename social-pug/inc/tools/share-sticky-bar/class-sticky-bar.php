@@ -19,7 +19,7 @@ class Sticky_Bar extends Tool {
 		$this->img           = 'assets/dist/tool-mobile.png?' . DPSP_VERSION;
 		$this->admin_page    = 'admin.php?page=dpsp-sticky-bar';
 
-		$this->settings_santization = array(
+               $this->settings_sanitization = array(
 			'display' => array(
 				'scroll_distance'          => 'number',
 				'minimum_individual_count' => 'number',

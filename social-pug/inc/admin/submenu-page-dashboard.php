@@ -85,7 +85,7 @@ function dpsp_dashboard_get_post_list( $list = 'most_shares' ) {
 		
 		$query = new WP_Query( 
 			array(
-				'post_type'			=> array( 'post', 'page' ),
+				'post_type'			=> apply_filters( 'dpsp_filter_dashboard_post_types', array_keys( dpsp_get_post_types() ), $is_requires_attention_list ),
 				'posts_per_page' 	=> -1,
 				'orderby' 			=> 'ID',
 				'order' 			=> 'DESC',
@@ -289,14 +289,39 @@ function dpsp_show_total_count( $key ) {
 
 function dpsp_dashboard_display_news( $number_of_entries = 6 ) {
     
-	$rss_url 		= 'https://morehubbub.com/feed/dashboard_news/';
+	$rss_url 		= 'https://morehubbub.com/feed/dashboard_news/category/all/';
+
+	if ( \Social_Pug::is_free() ) {
+		$tier = 'lite';
+	} else {
+		$hubbub_activation 	= new \Mediavine\Grow\Activation;
+		$tier 		= $hubbub_activation->get_license_tier();
+	}
+
+	switch ($tier) {
+		case 'lite':
+			$second_rss_url = 'https://morehubbub.com/feed/dashboard_news/category/lite-only/';
+			break;
+		case 'pro':
+			$second_rss_url = 'https://morehubbub.com/feed/dashboard_news/category/pro-only/';
+			break;
+		case 'pro+':
+			$second_rss_url = 'https://morehubbub.com/feed/dashboard_news/category/pro-plus-only/';
+			break;
+		case 'priority':
+			$second_rss_url = 'https://morehubbub.com/feed/dashboard_news/category/priority-only/';
+			break;
+	}
+
+	$feeds = array( $rss_url, $second_rss_url );
+
 	$return_html	= '';
         
 	if ( ! function_exists( 'fetch_feed' ) ) {
 		require_once ABSPATH . WPINC . '/feed.php';
 	}
 
-	$rss = fetch_feed( $rss_url );
+	$rss = fetch_feed( $feeds );
 
 	if ( is_wp_error( $rss ) ) {
 		error_log( 'Warning: WordPress fetch_feed() function is not working. Reported by Hubbub.' ); // @codingStandardsIgnoreLine
@@ -310,9 +335,29 @@ function dpsp_dashboard_display_news( $number_of_entries = 6 ) {
         
         foreach ( $rss_feed as $item ) {
 
+			/**
+			 * Adds target="_blank" to all links in the RSS item
+			 */
+			$desc = $item->get_description();
+			$doc = new DOMDocument();
+			libxml_use_internal_errors(true);
+			$doc->loadHTML('<?xml encoding="utf-8" ?>' . $desc);
+			libxml_clear_errors();
+
+			foreach ($doc->getElementsByTagName('a') as $a) {
+				$a->setAttribute('target', '_blank');
+			}
+
+			$body = $doc->getElementsByTagName('body')->item(0);
+			$desc_with_target = '';
+			foreach ($body->childNodes as $child) {
+				$desc_with_target .= $doc->saveHTML($child);
+			}
+			// End adds target
+
 			$return_html .= '<div class="dpsp-news-item">';
 			$return_html .= '<h3>' . esc_html( $item->get_title() ) . '</h3>' ."\n";
-			$return_html .= $item->get_description();
+			$return_html .= $desc_with_target;
 			$return_html .= '</div>' . "\n\n";
 	
 		}	
@@ -331,7 +376,7 @@ function dpsp_ajax_get_hubbub_metaboxes() {
 	$arguments = stripslashes_deep( $_POST );
 
 	ob_start();
-	echo '<h3>Quick Edit: ' . get_the_title( $arguments['post_id'] ) . '</h3>';
+	echo '<h3>Quick Edit: <a title="View this post" href="' . get_the_permalink( $arguments['post_id'] ) . '" target="_blank">' . get_the_title( $arguments['post_id'] ) . '</a> <a title="Edit this post" href="' . admin_url( 'post.php?post=' . $arguments['post_id'] . '&action=edit' ) . '" target="_blank"><span class="dashicons dashicons-edit"></span></a></h3>';
 	echo '<div class="buttons">
 		<a class="cancel" href="#">Cancel</a>
 		<button type="button" id="dpsp-dashboard-edit-post-save" aria-disabled="false" class="dpsp-dashboard-save-button components-button editor-post-publish-button editor-post-publish-button__button is-primary is-compact">Save</button><br><small>Note: Saving does not update Modified Date.</small>

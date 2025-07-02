@@ -57,10 +57,10 @@ abstract class Tool implements Has_Settings_API {
 	 */
 	protected $settings_slug = '';
 
-	/**
-	 * @var array $settings_santization Array of the settings to sanitize and the setting value type to sanitize.
-	 */
-	protected $settings_santization = array();
+       /**
+        * @var array $settings_sanitization Array of the settings to sanitize and the setting value type to sanitize.
+        */
+       protected $settings_sanitization = array();
 
 	/**
 	 * Construct action to run child init method
@@ -75,7 +75,7 @@ abstract class Tool implements Has_Settings_API {
 	 * Sets up the hook so that Hubbub options are sanitized before they are updated.
 	 */
 	private function sanitize_settings_setup() {
-		if ( empty( $this->settings_santization ) || empty( $this->settings_slug ) ) {
+               if ( empty( $this->settings_sanitization ) || empty( $this->settings_slug ) ) {
 			return;
 		}
 		add_filter( 'pre_update_option_' . $this->settings_slug, array( $this, 'sanitize_settings' ), 10, 1 );
@@ -90,13 +90,17 @@ abstract class Tool implements Has_Settings_API {
 	 * @return array Sanitized input array.
 	 */
 	public function sanitize_settings( $input, $recursive = 'false' ) {
-		if ( empty( $this->settings_santization ) ) {
+               if ( empty( $this->settings_sanitization ) ) {
 			return $input;
 		}
 
-		$settings_to_sanitize = 'false' !== $recursive && ! empty( $this->settings_santization[ $recursive ] ) ? $this->settings_santization[ $recursive ] : $this->settings_santization;
-		// loop throgh the input array and sanitize each value based on the type. The key of each setting is the key in the sanitized array.
-		// if the value is a key-value array, also attemtp to santize it.
+        $settings_to_sanitize = 'false' !== $recursive && ! empty( $this->settings_sanitization[ $recursive ] ) ? $this->settings_sanitization[ $recursive ] : $this->settings_sanitization;
+		
+		/**
+		 * Sanitize each value in the input array by type.
+		 * If a value is a key-value array, sanitize its contents as well.
+		 * Each original key is preserved in the sanitized array.
+		**/
 		foreach ( $settings_to_sanitize as $key => $value_type ) {
 			if ( isset( $input[ $key ] ) ) {
 				switch ( $value_type ) {

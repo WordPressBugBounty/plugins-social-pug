@@ -15,8 +15,12 @@ $preload_cached_posts_attention = dpsp_dashboard_get_post_list( $selected_list_a
 // Preload Hubbub settings
 $settings = get_option( 'dpsp_settings', [] );
 
-// Should we show saves count?
-$show_saves_count = false;
+// Used to determine whether or not to show specific features
+$is_plus_or_above = \Social_Pug::is_pro_plus_or_above();
+
+// Link URLs for the Missing Information count
+$missing_information_url = 		( $is_plus_or_above ) ? admin_url( 'admin.php?page=dpsp-dashboard&dpsp-tab=find-fix') : 'https://morehubbub.com/find-and-fix/?utm_source=hubbub_plugin&utm_medium=dashboard&utm_campaign=missing-information';
+$missing_information_target = 	( $is_plus_or_above ) ? '' : "target=\"_blank\"";
 ?>
 
 <div class="dpsp-page-wrapper dpsp-page-dashboard wrap">
@@ -35,7 +39,7 @@ $show_saves_count = false;
 						<?php echo esc_attr( $tab_name ); ?>
 				
 						<?php if ( $tab_slug == 'find-fix' ) { ?>
-							<span class="dpsp-tab-badge"><?php echo ( ! get_transient( 'dpsp_dashboard_count_requires_attention' ) ) ? 0 : number_format( get_transient( 'dpsp_dashboard_count_requires_attention' ), 0, '', ',' ); ?></span>
+							<span class="dpsp-tab-badge" title="The number of posts that may be missing social media data"><?php echo ( ! get_transient( 'dpsp_dashboard_count_requires_attention' ) ) ? 0 : number_format( get_transient( 'dpsp_dashboard_count_requires_attention' ), 0, '', ',' ); ?></span>
 						<?php } ?>
 					</a>
 					
@@ -101,27 +105,17 @@ $show_saves_count = false;
 
 				<div class="dpsp-counts-item">
 					<h3>Total Saves</h3>
-					<p><?php echo number_format( dpsp_show_total_count( 'dpsp_save_this_count' ), 0, '', ',' ); ?></p>
+					<p><?php
+						if ( $is_plus_or_above ) {
+							echo number_format( dpsp_show_total_count( 'dpsp_save_this_count' ), 0, '', ',' );
+						} else {
+							echo '<a href="https://morehubbub.com/save-this/?utm_source=hubbub_plugin&utm_medium=dashboard&utm_campaign=share-padlocks" target="_blank" style="text-decoration: none;" title="Unlock Hubbub Save This by upgrading to Hubbub Pro+. Click to learn more.">🔒</a>';
+						} ?>
+					</p>
 				</div>
 
 				<div class="dpsp-counts-item warning">
 					<h3>Missing Information</h3>
-
-						<?php
-						$missing_information_url = 'https://morehubbub.com/find-and-fix/?utm_source=hubbub_plugin&utm_medium=dashboard&utm_campaign=missing-information';
-						$missing_information_target = "target=\"_blank\"";
-
-						if ( ! \Social_Pug::is_free() ) {
-							$hubbub_activation 	= new \Mediavine\Grow\Activation;
-							$license_tier 		= $hubbub_activation->get_license_tier();
-
-							if ( ! empty( $license_tier ) && $license_tier != 'pro' ) { 
-								$missing_information_url = admin_url( 'admin.php?page=dpsp-dashboard&dpsp-tab=find-fix');
-								$missing_information_target = '';
-								$show_saves_count = true;
-							}
-						}
-						 ?>
 					<p><a href="<?=$missing_information_url;?>" <?=$missing_information_target;?>><?php
 					echo ( ! get_transient( 'dpsp_dashboard_count_requires_attention' ) ) ? 0 : number_format( get_transient( 'dpsp_dashboard_count_requires_attention' ), 0, '', ',' );
 					?></a></p>
@@ -187,10 +181,10 @@ $show_saves_count = false;
 									<td class="shares"><?=number_format( $post['shares_count'], 0, '', ',' );?></td>
 									<td class="saves">
 										<?php
-										if ( $show_saves_count ) :
+										if ( $is_plus_or_above ) :
 											echo number_format( $post['saves_count'], 0, '', ',' );
 										else :
-											echo '<a href="https://morehubbub.com/save-this/?utm_source=hubbub_plugin&utm_medium=dashboard&utm_campaign=share-padlocks" target="_blank" style="text-decoration: none;" title="Unlock Hubbub Save This by upgrading to Hubbub Pro+. Click to learn more.">🔒</abbr>';
+											echo '<a href="https://morehubbub.com/save-this/?utm_source=hubbub_plugin&utm_medium=dashboard&utm_campaign=share-padlocks" target="_blank" style="text-decoration: none;" title="Unlock Hubbub Save This by upgrading to Hubbub Pro+. Click to learn more.">🔒</a>';
 										endif;
 										?>
 									</td>

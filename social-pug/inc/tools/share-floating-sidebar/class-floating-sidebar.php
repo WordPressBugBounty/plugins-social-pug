@@ -20,7 +20,7 @@ class Floating_Sidebar extends Tool {
 		$this->img           = 'assets/dist/tool-sidebar.png?' . DPSP_VERSION;
 		$this->admin_page    = 'admin.php?page=dpsp-sidebar';
 
-		$this->settings_santization = array(
+               $this->settings_sanitization = array(
 			'display' => array(
 				'scroll_distance'          => 'number',
 				'stop_selector'            => 'string',
