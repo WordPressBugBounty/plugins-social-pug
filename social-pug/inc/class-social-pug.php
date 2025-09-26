@@ -12,7 +12,7 @@ class Social_Pug {
 	public const API_NAMESPACE = 'mv-grow-social/v1';
 
 	/** @var string|null Build tool sets this. */
-	const VERSION = '1.35.1';
+	const VERSION = '1.35.2';
 
 	/** @var string|null Version number for this release. @deprecated Use MV_GROW_VERSION */
 	public static $VERSION;
@@ -454,10 +454,12 @@ class Social_Pug {
 		);
 		wp_localize_script(
 			'dpsp-dashboard-js-pro',
-			'dpsp_ajax_verify_save_this_email',
+			'dpsp_ajax',
 			array(
 				'ajax_url' 					=> admin_url( 'admin-ajax.php' ),
 				'hubbub_save_this_verify'   => wp_create_nonce('hubbub_save_this_verify'),
+				'hubbub_dashboard_quick_edit' => wp_create_nonce('hubbub_dashboard_quick_edit'),
+				'hubbub_dashboard_quick_edit_save' => wp_create_nonce('hubbub_dashboard_quick_edit_save'),
 			)
 		);
 		wp_enqueue_script( 'dpsp-dashboard-js-pro' );

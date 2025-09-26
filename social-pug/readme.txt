@@ -4,7 +4,7 @@ Tags: social share, social sharing, social media, social network, social buttons
 Requires at least: 5.3
 Tested up to: 6.8
 Requires PHP: 7.2.24
-Stable tag: 1.35.1
+Stable tag: 1.35.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,6 +76,10 @@ Yes! You can place social share buttons on any custom post type that your WordPr
 
 Hubbub Pro has additional add-ons for migrating data from a few popular alternative plugins. Please see our website for the latest plugins we support.
 
+= Where do I report security bugs found in this plugin? =
+
+Please report security bugs found in the source code of the this plugin [to us via email](mailto:support@morehubbub.com) or through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/9e5fb428-6e27-4a14-a57f-f4943e33ecb7). The Patchstack team will assist you with verification, CVE assignment, and notify us.
+
 
 == Screenshots ==
 1. Inline-Content social sharing buttons output
@@ -86,6 +90,10 @@ Hubbub Pro has additional add-ons for migrating data from a few popular alternat
 
 == Changelog ==
 This changelog is for Hubbub Lite. Here is [the changelog for Hubbub Pro](https://morehubbub.com/changelog/).
+
+= 1.35.2 =
+* September 26, 2025
+* Fixes CVE-2025-58007. Our thanks to Que Thanh Tuan.
 
 = 1.35.1 =
 * July 2, 2025

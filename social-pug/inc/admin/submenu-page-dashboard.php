@@ -373,7 +373,23 @@ return $return_html;
 
 function dpsp_ajax_get_hubbub_metaboxes() {
 
+	if ( !is_user_logged_in() ) {
+		echo 0;
+		wp_die();
+	}
+
+	if ( \Social_Pug::is_free() ) {
+		echo 0;
+		wp_die();
+	}
+
 	$arguments = stripslashes_deep( $_POST );
+
+	$dpsp_token = filter_input( INPUT_POST, '_ajax_nonce' );
+	if ( empty( $dpsp_token ) || ! wp_verify_nonce( $dpsp_token, 'hubbub_dashboard_quick_edit' ) ) {
+		echo'failed';		echo 0;
+		wp_die();
+	}
 
 	ob_start();
 	echo '<h3>Quick Edit: <a title="View this post" href="' . get_the_permalink( $arguments['post_id'] ) . '" target="_blank">' . get_the_title( $arguments['post_id'] ) . '</a> <a title="Edit this post" href="' . admin_url( 'post.php?post=' . $arguments['post_id'] . '&action=edit' ) . '" target="_blank"><span class="dashicons dashicons-edit"></span></a></h3>';
@@ -397,7 +413,23 @@ function dpsp_ajax_get_hubbub_metaboxes() {
  */
 function dpsp_ajax_dashboard_save_post_meta() {
 
+	if ( !is_user_logged_in() ) {
+		echo 0;
+		wp_die();
+	}
+
+	if ( \Social_Pug::is_free() ) {
+		echo 0;
+		wp_die();
+	}
+
 	$arguments = stripslashes_deep( $_POST );
+
+	$dpsp_token = filter_input( INPUT_POST, '_ajax_nonce' );
+	if ( empty( $dpsp_token ) || ! wp_verify_nonce( $dpsp_token, 'hubbub_dashboard_quick_edit_save' ) ) {
+		echo 0;
+		wp_die();
+	}
 
 	// Check the user's permissions.
 	// $post_type = filter_input( INPUT_POST, 'post_type' );
