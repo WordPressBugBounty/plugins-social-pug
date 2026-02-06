@@ -71,7 +71,7 @@ function dpsp_share_options_output( $post ) {
 			// Social media image
 			echo '<div class="dpsp-setting-field-wrapper dpsp-setting-field-image">';
 				echo '<label for="dpsp_share_options[custom_image]"><span class="dpsp-admin-icon dpsp-admin-icon-share">' . wp_kses( dpsp_get_svg_icon_output( 'share' ), View_Loader::get_allowed_tags() ) . '</span>' . esc_html__( 'Social Media Image', 'social-pug' );
-				dpsp_output_backend_tooltip( __( 'Add an image that will populate the "og:image" Open Graph meta tag. For maximum exposure on Facebook, Google, or LinkedIn we recommend an image size of 1200px X 630px.', 'social-pug' ), false );
+				dpsp_output_backend_tooltip( __( 'Add an image that will populate the "og:image" Open Graph meta tag. For maximum exposure on social networks (excluding Pinterest) we recommend an image size of 1200px X 630px.', 'social-pug' ), false );
 				echo '</label>';
 				echo '<div>';
 
@@ -112,7 +112,7 @@ function dpsp_share_options_output( $post ) {
 				$remaining_count = $maximum_count - $current_count;
 
 				echo '<label for="dpsp_share_options[custom_title]"><span class="dpsp-admin-icon dpsp-admin-icon-share">' . wp_kses( dpsp_get_svg_icon_output( 'share' ), View_Loader::get_allowed_tags() ) . '</span>' . esc_html__( 'Social Media (Open Graph) Title', 'social-pug' ) . '<span class="dpsp-textarea-characters-remaining-wrapper" data-maximum-count="' . esc_attr( $maximum_count ) . '"><span class="dpsp-textarea-characters-remaining">' . esc_attr( $remaining_count ) . '</span> ' . esc_html__( 'Characters Remaining', 'social-pug' ) . '</span>';
-					dpsp_output_backend_tooltip( __( 'Add a title that will populate the "og:title" Open Graph meta tag. This will be used when users share your content on Facebook or LinkedIn. The title of the post will be used if this field is empty.', 'social-pug' ), false );
+					dpsp_output_backend_tooltip( __( 'Add a title that will populate the "og:title" Open Graph meta tag. This will be used when users share your content on social networks. The title of the post will be used if this field is empty.', 'social-pug' ), false );
 				echo '</label>';
 				echo '<textarea id="dpsp_share_options[custom_title]" name="dpsp_share_options[custom_title]" placeholder="' . esc_attr__( 'Write a social media title...', 'social-pug' ) . '">' . ( isset( $share_options['custom_title'] ) ? wp_kses_post( $share_options['custom_title'] ) : '' ) . '</textarea>';
 			echo '</div>';
@@ -125,7 +125,7 @@ function dpsp_share_options_output( $post ) {
 				$remaining_count = $maximum_count - $current_count;
 
 				echo '<label for="dpsp_share_options[custom_description]"><span class="dpsp-admin-icon dpsp-admin-icon-share">' . wp_kses( dpsp_get_svg_icon_output( 'share' ), View_Loader::get_allowed_tags() ) . '</span>' . esc_html__( 'Social Media (Open Graph) Description', 'social-pug' ) . '<span class="dpsp-textarea-characters-remaining-wrapper" data-maximum-count="' . esc_attr( $maximum_count ) . '"><span class="dpsp-textarea-characters-remaining">' . esc_attr( $remaining_count ) . '</span> ' . esc_html__( 'Characters Remaining', 'social-pug' ) . '</span>';
-					dpsp_output_backend_tooltip( __( 'Add a description that will populate the "og:description" Open Graph meta tag. This will be used when users share your content on Facebook or LinkedIn.', 'social-pug' ), false );
+					dpsp_output_backend_tooltip( __( 'Add a description that will populate the "og: description" Open Graph meta tag. This will be used when users share your content on social networks.', 'social-pug' ), false );
 				echo '</label>';
 				echo '<textarea id="dpsp_share_options[custom_description]" name="dpsp_share_options[custom_description]" placeholder="' . esc_html__( 'Write a social media description...', 'social-pug' ) . '">' . ( isset( $share_options['custom_description'] ) ? wp_kses_post( $share_options['custom_description'] ) : '' ) . '</textarea>';
 			echo '</div>';

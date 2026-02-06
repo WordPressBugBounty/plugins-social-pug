@@ -83,9 +83,9 @@ $missing_information_target = 	( $is_plus_or_above ) ? '' : "target=\"_blank\"";
 
 				<div class="dpsp-card-inner">
 					<?php if ( Social_Pug::is_free() ) { ?>
-						<script src="https://api.morehubbub.com/nan/?p=hubbub-lite&v=<?php echo HUBBUB_VERSION; ?>&d=<?php echo get_site_url(); ?>&s=300x250"></script>
+						<script src="https://api.morehubbub.com/nan/?p=hubbub-lite&v=<?php echo HUBBUB_VERSION; ?>&d=<?php echo get_site_url(); ?>&l=<?=get_option ( 'mv_grow_license_status' );?>&s=300x250"></script>
 					<?php } else { ?>
-						<script src="https://api.morehubbub.com/nan/?p=hubbub-pro&v=<?php echo HUBBUB_VERSION; ?>&d=<?php echo get_site_url(); ?>&l=<?php get_option ( 'mv_grow_license_status' ); ?>&s=300x250"></script>
+						<script src="https://api.morehubbub.com/nan/?p=hubbub-pro&v=<?php echo HUBBUB_VERSION; ?>&d=<?php echo get_site_url(); ?>&l=<?=get_option ( 'mv_grow_license_status' );?>&s=300x250"></script>
 					<?php } ?>
 				</div>
 
@@ -129,9 +129,9 @@ $missing_information_target = 	( $is_plus_or_above ) ? '' : "target=\"_blank\"";
 
 			<div class="dpsp-card-inner">
 				<?php if ( Social_Pug::is_free() ) { ?>
-					<script src="https://api.morehubbub.com/nan/?p=hubbub-lite&v=<?php echo HUBBUB_VERSION; ?>&d=<?php echo get_site_url(); ?>&s=300x250"></script>
+					<script src="https://api.morehubbub.com/nan/?p=hubbub-lite&v=<?php echo HUBBUB_VERSION; ?>&d=<?php echo get_site_url(); ?>&l=<?=get_option ( 'mv_grow_license_status' );?>&s=300x250"></script>
 				<?php } else { ?>
-					<script src="https://api.morehubbub.com/nan/?p=hubbub-pro&v=<?php echo HUBBUB_VERSION; ?>&d=<?php echo get_site_url(); ?>&l=<?php get_option ( 'mv_grow_license_status' ); ?>&s=300x250"></script>
+					<script src="https://api.morehubbub.com/nan/?p=hubbub-pro&v=<?php echo HUBBUB_VERSION; ?>&d=<?php echo get_site_url(); ?>&l=<?=get_option ( 'mv_grow_license_status' );?>&s=300x250"></script>
 				<?php } ?>
 			</div>
 
@@ -204,137 +204,10 @@ $missing_information_target = 	( $is_plus_or_above ) ? '' : "target=\"_blank\"";
 
 	</div> <!-- End Dashboard tab -->
 
-	<!-- Missing Information Tab Content -->
-	<div id="dpsp-tab-find-fix" class="dpsp-tab <?php echo ( 'find-fix' === $active_tab ? 'dpsp-active' : '' ); ?>">
-
-		<!-- Require Attention -->
-		<div class="dpsp-card dpsp-card-list-attention">
-
-			<div class="dpsp-card-header">
-				<?php esc_html_e( 'Missing Information', 'social-pug' ); ?>
-
-				<div class="dpsp-list-dropdown">
-					<select id="dpsp_list_attention" name="dpsp_list_attention">
-						<option value="social_information" <?php echo ( $selected_list_attention=='social_information') ? 'selected' : '';?>>Missing Any Social Data</option>
-						<option value="custom_title" <?php echo ( $selected_list_attention=='custom_title') ? 'selected' : '';?>>Missing Social Media Title</option>
-						<option value="custom_description" <?php echo ( $selected_list_attention=='custom_description') ? 'selected' : '';?>>Missing Social Media Description</option>
-						<option value="custom_image" <?php echo ( $selected_list_attention=='custom_image') ? 'selected' : '';?>>Missing Social Media Image</option>
-						<option value="custom_image_pinterest" <?php echo ( $selected_list_attention=='custom_image_pinterest') ? 'selected' : '';?>>Missing Pinterest Image</option>
-						<!-- TODO: Temporarily disabled <option value="featured_image" <?php echo ( $selected_list_attention=='featured_image') ? 'selected' : '';?>>Featured Image</option> -->
-					</select>
-					<input type="search" name="list-attention-search" id="dpsp_list_attention_search" placeholder="Or, search titles..." value="<?php echo isset( $_GET['dpsp_list_attention_search'] ) ? $_GET['dpsp_list_attention_search'] : '';?>">
-					<button id="dpsp_button_attention_search">Search</button>
-				</div>
-			</div>
-
-			<div class="dpsp-card-inner">
-
-				<?php
-				$cached_posts = $preload_cached_posts_attention;
-				
-				if ( count( $cached_posts ) == 0 ) { ?>
-				
-					<p class="no-results"><?php esc_html_e('Excellent job! All of your posts are in tip-top shape!', 'social-pug'); ?></p>
-
-				<?php } else { ?>
-
-					<table class="dpsp-table-attention" width="100%">
-						<tr>
-							<th class="missing">Missing</th>
-							<th></th>
-							<th class="post-date"></th>
-							<th class="edit"></th>
-						</tr>
-						<?php
-
-						$icons = [
-							'custom_title',
-							'custom_description',
-							'custom_image',
-							'custom_image_pinterest',
-						];
-
-
-						foreach( $cached_posts as $post ) :
-							
-							$icon_html = '';
-							foreach( $icons as $icon ) {
-
-								switch ( $icon ) {
-									case 'custom_title':
-										$alt = 'Social Media Title';
-										break;
-									case 'custom_description':
-										$alt = 'Social Media Description';
-										break;
-									case 'custom_image':
-										$alt = 'Social Media Image';
-										break;
-									case 'custom_image_pinterest':
-										$alt = 'Pinterest Image';
-										break;
-								}
-
-
-								$icon_html .= '<img src="' . DPSP_PLUGIN_DIR_URL . '/assets/dist/' . $icon . '.svg" width="25" ';
-								$icon_html .= ( in_array( $icon, $post['missing_data'] ) ) ? 'class="inactive" alt="Missing ' . $alt . '" title="Missing ' . $alt . '" ' : 'alt="Has ' . $alt . '" title="Has ' . $alt . '" ';
-								$icon_html .= '/>';
-							}
-							?>
-							<tr>
-								<td class="missing"><?=$icon_html;?></td>
-								<td class="post-title"><a href="<?=$post['permalink'];?>" target="_blank"><?=$post['title'];?></a> <span class="edit"><a href="<?=admin_url( 'post.php?post=' . $post['id'] . '&action=edit' );?>" target="_blank"><span class="dashicons dashicons-edit"></span></a></span></td>
-								<td class="post-date"><?=$post['post_date'];?></td>
-								<td class="edit"><a href="#" data-post="<?=$post['id'];?>">Quick Edit</a></td>
-							</tr>
-						
-						<?php
-
-						endforeach; 
-						?>
-					</table>
-
-					<?php
-					// TODO: Move to a helper function
-					$is_requires_attention_list = in_array($selected_list_attention, [
-						'social_information',
-						'custom_title',
-						'custom_description',
-						'custom_image',
-						'custom_image_pinterest',
-					], true);
-					$transient_key 					= ( $is_requires_attention_list ) ? 'dpsp_dashboard_posts_requires_attention' : 'dpsp_dashboard_posts_' . $selected_list_attention;
-					$cached_posts 					= json_decode( get_transient( $transient_key ), true, 5 );
-
-					if ( $is_requires_attention_list && $selected_list_attention != 'social_information' ) : // Filter the list to only include the selected choice
-						$filtered_cached_posts = array_filter( $cached_posts, function( $post ) use ( $selected_list_attention ) {	
-							return isset( $post['missing_data'] ) && in_array( $selected_list_attention, $post['missing_data'] );
-						});
-						
-						$cached_posts = array_values($filtered_cached_posts);
-					endif;
-
-					if ( $is_requires_attention_list && isset( $_GET['dpsp_list_attention_search'] ) ) {
-						$filtered_cached_posts = array_filter( $cached_posts, function( $post ) {	
-							return stripos($post['title'], $_GET['dpsp_list_attention_search'] ) !== false;
-						});
-						$cached_posts = array_values($filtered_cached_posts);
-					}
-
-					if ( count( $cached_posts ) > 50 && ! isset( $_GET['dpsp_display_all_posts'] ) ) { ?>
-						<p style="text-align: center;"><a href="<?=dpsp_dashboard_output_show_all_posts_link();?>">show all <?php echo count($cached_posts);?> posts</a></p>
-					<?php }
-				}
-			
-				if ( isset( $settings['disable_meta_tags' ] ) ) { ?>
-					<p class="dpsp-find-fix-metatags-disabled"><strong>Attention:</strong> Hubbub's Open Graph meta tags feature is currently disabled. This means the data you add to these fields isn't currently being used on your site. You can <a href="<?=admin_url( 'admin.php?page=dpsp-settings');?>">turn it back on in settings</a>.</p>
-				<?php } ?>
-			</div>
-		</div> <!-- End Require Attention -->
-
-		<div id="dpsp-attention-needed" class="dpsp-attention-needed hidden"></div>
-
-	</div> <!-- End Missing Information Tab -->
+	<?php if ( ! \Social_Pug::is_free() ) {
+		include( \Mediavine\Grow\View_Loader::$plugin_path . '/inc/admin/views/view-submenu-page-dashboard-tab-missing-information.php' );
+	} ?>
 	
-	<?php echo \Mediavine\Grow\View_Loader::get_view( '/inc/views/made-with-love.php' ); ?>
+	<?php echo \Mediavine\Grow\View_Loader::get_view( '/inc/admin/views/view-footer-made-with-love.php' ); ?>
+	<?php echo \Mediavine\Grow\View_Loader::get_view( '/inc/admin/views/view-footer-unlock-features.php' ); ?>
 </div>

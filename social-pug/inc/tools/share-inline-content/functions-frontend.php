@@ -198,9 +198,11 @@ class Frontend_Content {
 			 */
 			$blocked_filters = apply_filters( 'dpsp_output_the_content_callback', $blocked_filters );
 
-			foreach ( $wp_current_filter as $filter ) {
-				if ( in_array( $filter, $blocked_filters, true ) ) {
-					return true;
+			if ( is_array( $blocked_filters ) ) {
+				foreach ( $wp_current_filter as $filter ) {
+					if ( in_array( $filter, $blocked_filters, true ) ) {
+						return true;
+					}
 				}
 			}
 		}

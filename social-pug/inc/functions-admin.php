@@ -21,6 +21,43 @@ function dpsp_admin_header() {
 	echo wp_kses( dpsp_get_admin_header( $page ), View_Loader::get_allowed_tags() );
 }
 
+/** 
+ * Saves and activates Hubbub Lite license
+ */
+function dpsp_ajax_lite_save_and_activate_license() {
+	$dpsp_nonce_lite_save_and_activate_license = filter_input( INPUT_POST, 'dpsp_nonce_lite_save_and_activate_license' );
+	if ( empty( $dpsp_nonce_lite_save_and_activate_license ) || ! wp_verify_nonce( $dpsp_nonce_lite_save_and_activate_license, 'dpsp_nonce_lite_save_and_activate_license' ) ) {
+		error_log('Nonce failed');
+		echo 0;
+		wp_die();
+	}
+
+	$license_key = filter_input( INPUT_POST, 'license_key' );
+
+	if ( empty( $license_key ) ) {
+		error_log('empty license');
+		echo 0;
+		wp_die();
+	}
+
+	require_once 'class-activation-lite.php';
+
+	$dpsp_settings   = Mediavine\Grow\Settings::get_setting( 'dpsp_settings', 'not_set' );
+	$mv_grow_license = Mediavine\Grow\Settings::get_setting( 'mv_grow_license', null );
+
+	$dpsp_settings['mv_grow_license'] = $license_key;
+	$mv_grow_license = $license_key;
+
+	update_option( 'dpsp_settings', $dpsp_settings );
+	update_option( 'mv_grow_license', $mv_grow_license );
+
+	$hubbub_activation_lite = new \Mediavine\Grow\ActivationLite;
+	$hubbub_activation_lite->check_license();
+
+	echo 1;
+	wp_die();
+}
+
 /**
  * Returns the HTML of the plugin admin header.
  *
@@ -28,11 +65,18 @@ function dpsp_admin_header() {
  */
 function dpsp_get_admin_header( string $page ) : string {
 
+	$is_lite_registered = false;
+
 	if ( ! Social_Pug::is_free() ) {
 		$hubbub_activation 	= new \Mediavine\Grow\Activation;
 		$license_tier 		= $hubbub_activation->get_license_tier();
 	} else {
 		$license_tier 		= 'Lite';
+
+		$hubbub_activation_lite = new \Mediavine\Grow\ActivationLite;
+		if ( $hubbub_activation_lite->is_lite_registered() ) {
+			$is_lite_registered = true;
+		}
 	}
 	
 	$logo_base_url 		= DPSP_PLUGIN_DIR_URL . 'assets/dist/hubbub-logo-white.svg?' . MV_GROW_VERSION;
@@ -41,8 +85,10 @@ function dpsp_get_admin_header( string $page ) : string {
 	$logo_alt           = esc_attr( sprintf( __( '%1$s logo', 'mediavine' ), __( 'Hubbub', 'mediavine' ) ) );
 	$logo_src           = esc_attr( $logo_base_url );
 	$html_version       = esc_html( MV_GROW_VERSION );
+	$html_version		.= ( $is_lite_registered ) ? ' Unlocked' : '';
 	$documentation_href = esc_attr( dpsp_get_documentation_link( $page ) );
 	$html_tier 			= esc_html( ( ! $license_tier ) ? 'Pro' : ucfirst( $license_tier ) );
+	$unlock_class		= ( ! Social_Pug::is_free() || $is_lite_registered ) ? ' hidden' : '';
 
 	$result = /** @lang HTML */ <<<HTML
 <div class="dpsp-page-header">
@@ -54,6 +100,7 @@ function dpsp_get_admin_header( string $page ) : string {
 	</span>
 
 	<nav>
+	<a href="#" id="dpsp-button-unlock-features" class="{$unlock_class}" title="Register Hubbub Lite to unlock additional features free" target="_blank">🔓 Get More Features Free</a>
 	<a href="{$documentation_href}" title="Read our Support Doc for help with this Hubbub settings page" target="_blank"><i class="dashicons dashicons-book"></i>Need help?</a>
 	</nav>
 	</div>
@@ -163,6 +210,20 @@ function dpsp_output_tool_box( string $tool_slug, array $tool ) : void {
 			$license_tier 		= $hubbub_activation->get_license_tier();
 		} else {
 			$license_tier 		= 'Lite';
+
+			$hubbub_activation_lite = new \Mediavine\Grow\ActivationLite;
+			if ( $hubbub_activation_lite->is_lite_registered() ) {
+				$license_tier .= '+';
+			}
+		}
+
+		$show_switch = true;
+
+		if ( $tool_slug == 'follow_widget' && $license_tier == 'Lite' ) {
+			echo '<p style="text-align: center; font-size: 15px; font-weight: bold; margin: 0 0 10px 0;">Add Follow Buttons to your website</p>';
+			echo '<div style="text-align: center"><a style="margin-bottom: 10px;" class="dpsp-button-secondary dpsp-button-unlock-hubbub-lite" id="dpsp-button-unlock-features-follow-widget-tool" target="_blank" href="" title="Register Hubbub Lite to unlock additional features free">🔓 Get More Features Free</a></div>';
+
+			$show_switch = false;
 		}
 
 		if ( $tool_slug == 'email_save_this' && ( $license_tier == 'pro' || ! $license_tier ) ) {
@@ -170,7 +231,11 @@ function dpsp_output_tool_box( string $tool_slug, array $tool ) : void {
 			echo '<div style="text-align: center"><a style="margin-bottom: 10px;" class="dpsp-button-primary" target="_blank" href="https://morehubbub.com/save-this/?utm_source=hubbub_plugin&utm_content=save_this_announce_learn_more_button" title="Learn more about the Save This tool and our Pro+ and Priority licenses">Learn More</a><br/>';
 			$check_license_url = esc_attr( add_query_arg( [ '_wpnonce' => wp_create_nonce( 'dpsp_check_license' ), 'dpsp_check_license' => 'dpsp_check_license' ] ), remove_query_arg( ['_wpnonce', 'dpsp_check_license' ], $_SERVER['REQUEST_URI'] ) );
 			echo 'Already upgraded? <a style="text-decoration: underline; color: #2271b1;" class="dpsp-get-license" href="' . $check_license_url . '">Refresh your license.</a></div>';
-		} else {
+
+			$show_switch = false;
+		}
+		
+		if ( $show_switch ) {
 			// Tool activation switch
 			echo '<div class="dpsp-switch small">';
 
@@ -402,6 +467,12 @@ function dpsp_output_selectable_networks( array $networks = [], array $settings_
 	$output .= '</ul>';
 	$output .= '<div id="dpsp-networks-selector-footer" class="dpsp-card-footer">';
 	$output .= '<a href="#" class="dpsp-button-primary">' . esc_html__( 'Apply Selection', 'social-pug' ) . '</a>';
+	if ( \Social_Pug::is_free() ) {
+		$hubbub_activation_lite = new \Mediavine\Grow\ActivationLite;
+		if ( ! $hubbub_activation_lite->is_lite_registered() ) {
+			$output .= '<a href="#" class="dpsp-button-secondary dpsp-button-unlock-hubbub-lite" id="dpsp-button-unlock-features-network-selector">' . esc_html__( '🔓 Unlock More Networks Free!', 'social-pug' ) . '</a>';
+		}
+	}
 	$output .= '</div>';
 	$output .= '</div>';
 
@@ -417,7 +488,7 @@ function dpsp_output_selectable_networks( array $networks = [], array $settings_
  *
  * @return string
  */
-function dpsp_output_sortable_networks( array $networks, string $settings_name = '' ) : string {
+function dpsp_output_sortable_networks( array $networks, string $settings_name = '', array $missing_accounts = [] ) : string {
 	$networks_container = Networks::get_instance();
 	$output             = '<ul class="dpsp-social-platforms-sort-list sortable">';
 	$current_network    = 1;
@@ -454,6 +525,10 @@ function dpsp_output_sortable_networks( array $networks, string $settings_name =
 
 			// The social network icon
 			$output .= '<div class="dpsp-list-icon dpsp-list-icon-social dpsp-icon-' . esc_attr( $network_slug_background_color ) . ' dpsp-background-color-network-' . esc_attr( $network_slug_background_color ) . '">' . dpsp_get_svg_icon_output( $network_slug ) . '</div>';
+
+			if ( $settings_name == 'dpsp_location_follow_widget' && in_array( $network_slug, $missing_accounts ) ) {
+				$output .= '<div class="dpsp-list-icon-social-missing-account" title="Network information missing in settings.">⚠️</div>';
+			}
 
 			// The label edit field
 			$output .= '<div class="dpsp-list-input-wrapper">';

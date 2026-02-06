@@ -46,30 +46,6 @@
 		$cron_jobs[] = 'dpsp_cron_get_posts_networks_share_count - weekly';
 	}
 
-	/**
-	 * Get serial check request response
-	 *
-	 */
-	if ( function_exists( 'dpsp_get_serial_key_request_response' ) ) {
-		$serial_response = dpsp_get_serial_key_request_response();
-	} else {
-$serial_response = null;
-	}
-
-	if ( ! isset( $serial_response ) ) {
-		$serial_response = '';
-	}
-
-	$serial_status_db = Mediavine\Grow\Settings::get_setting( 'dpsp_product_serial_status', '' );
-
-	if ( function_exists( 'dpsp_get_serial_key_status' ) ) {
-		$serial_status_request = dpsp_get_serial_key_status();
-	}
-
-	if ( ! isset( $serial_status_request ) ) {
-		$serial_status_request = '';
-	}
-
 ?>
 
 <div class="dpsp-page-wrapper dpsp-page-content wrap">

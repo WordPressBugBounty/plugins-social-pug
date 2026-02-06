@@ -9,9 +9,9 @@ use WP_HTTP_Requests_Response;
 /**
  * Handler for license and activation requirements.
  */
-class Activation extends \Social_Pug {
+class ActivationLite extends \Social_Pug {
 
-	public const ITEM_ID = 28;
+	public const ITEM_ID = 15370151;
 
 	public const MARKETPLACE_API_BASE_URL = 'https://morehubbub.com';
 
@@ -135,7 +135,7 @@ class Activation extends \Social_Pug {
 						update_option('hubbub_temp_site_activated_message', $response['error'] );
 					} else {
 						$this->set_license_status( self::LICENSE_STATUS_VALID ); // Sets license to active
-						$this->set_license_tier( $response['price_id'], $response['customer_email'] ); // Sets the license tier hash
+						$this->set_license_tier( 'lite' ); // Sets the license tier hash
 						if ( $previous_license_status != 'valid' ) : // If the license was anything except valid
 							set_transient( 'hubbub_license_activated_on_this_website', true, 60 ); // shows woohoo message
 						endif;
@@ -143,12 +143,11 @@ class Activation extends \Social_Pug {
 					
 					return;
 				case 'invalid':
-				case 'invalid_item_id':
 					$this->set_license_status( self::LICENSE_STATUS_INVALID );
 					return;
 				case 'valid':
 					$this->set_license_status( self::LICENSE_STATUS_VALID );
-					$this->set_license_tier( $response['price_id'], $response['customer_email'] ); // Sets the license tier hash
+					$this->set_license_tier( 'lite' ); // Sets the license tier hash
 					if ( $previous_license_status != 'valid' ) : // If the license was anything except valid
 						set_transient( 'hubbub_license_activated_on_this_website', true, 60 ); // shows woohoo message
 					endif;
@@ -159,7 +158,7 @@ class Activation extends \Social_Pug {
 			add_settings_error(
 				'mv_grow_license',
 				'mv_grow_license_invalid',
-				__( 'The Hubbub license key could not be validated.', 'mediavine' )
+				__( 'The Hubbub Lite license key could not be validated.', 'mediavine' )
 			);
 
 		endif;
@@ -241,46 +240,47 @@ class Activation extends \Social_Pug {
 
 		if ( empty( $license_tier ) ) return false;
 
-		$pid = substr( $license_tier, 11, 1 );
-		$pid .= ( substr( $license_tier, 4, 1 ) == 'H' ) ? '' : substr( $license_tier, 4, 1 );
-
-		switch ( true ) {
-			case ( $pid >= 15 && $pid <= 20 ):
-				$tier = 'pro+';
-				break;
-			case ( $pid >= 21 && $pid <= 26 ):
-				$tier = 'priority';
-				break;
-			default:
-				$tier = 'pro';
-				break;
-		}
-
-		return $tier;
+		return $license_tier;
 	}
 
 	/**
-	 * Set the addon license tier as a hash.
+	 * Set the license tier
 	 *
-	 * @param string|null $price_id The ID of the price in EDD returned from API. Null to delete.
-	 * @param string|null $customer_email The email address of the customer as returned from the EDD API
+	 * @param string|null $tier The tier to set. (Should be "lite"). Null to delete. (Never used?)
 	 */
-	private function set_license_tier( ?string $price_id, ?string $customer_email ) : void {
-		if ( null === $price_id ) {
+	private function set_license_tier( ?string $tier ) : void {
+		if ( null === $tier ) {
 			delete_option( self::OPTION_LICENSE_TIER );
 			return;
 		}
 
-		if ( empty( $customer_email ) ) return;
+		update_option( self::OPTION_LICENSE_TIER, $tier );
+	}
 
-		$license_tier = substr_replace( hash( 'md5', $price_id . '#' . $customer_email ) , substr( $price_id, 0, 1 ), 10, 0 );
-		$license_tier = substr_replace( $license_tier, ( strlen($price_id) > 1 ) ? substr( $price_id, 1, 1 ) : 'H', 4, 0 );
+	public function is_lite_registered() {
+		
+		$license_key = get_option( 'mv_grow_license' );
+		if ( empty( $license_key ) ) return false;
 
-		update_option( self::OPTION_LICENSE_TIER, $license_tier );
+		$license_tier = self::get_license_tier();
+		if ( ! $license_tier || $license_tier != 'lite' ) return false;
+
+		$license_status = get_option( self::OPTION_LICENSE_STATUS );
+
+		if ( 
+			empty( $license_status ) ||
+			( $license_status != 'valid' &&
+			$license_status != 'site_inactive' &&
+			$license_status != 'inactive' )
+		) return false;
+
+		
+
+		return true;
 	}
 
 	/**
-	 * Set the addon license status.
+	 * Set the license status.
 	 *
 	 * @param string|null $license_status Updated license status. Must be one of the LICENSE_STATUS_* constants. Null to delete.
 	 * @throws InvalidArgumentException If $license_status is invalid.
@@ -349,8 +349,6 @@ class Activation extends \Social_Pug {
 			case 'inactive':
 			case 'site_inactive':
 				$this->set_license_status( self::LICENSE_STATUS_INACTIVE ); // Sets license to inactive
-				// If license status is valid but inactive, activate the site URL for this key
-				// Added Hubbub Pro 2.19.0
 				try {
 					$activation_response = $this->api_request( [
 						'edd_action' 		=> 'activate_license',
@@ -369,19 +367,18 @@ class Activation extends \Social_Pug {
 				}
 
 				if ( ! isset( $activation_response['error'] ) ) {
-					$this->set_license_status( self::LICENSE_STATUS_VALID ); // Sets license to active
-					$this->set_license_tier( $response['price_id'], $response['customer_email'] ); // Sets the license tier hash
+					$this->set_license_status( self::LICENSE_STATUS_VALID ); // Sets license to valid
+					$this->set_license_tier( 'lite' ); // Sets the license tier hash
 					set_transient( 'hubbub_license_activated_on_this_website', true, 60 ); // Shows woohoo message
 				}
 				
 				return;
 			case 'invalid':
-			case 'invalid_item_id':
 				$this->set_license_status( self::LICENSE_STATUS_INVALID );
 				return;
 			case 'valid':
 				$this->set_license_status( self::LICENSE_STATUS_VALID );
-				$this->set_license_tier( $response['price_id'], $response['customer_email'] ); // Sets the license tier hash
+				$this->set_license_tier( 'lite' ); // Sets the license tier hash
 				if ( $previous_license_status != 'valid' ) : // If the license was anything except valid
 					set_transient( 'hubbub_license_activated_on_this_website', true, 60 ); // shows woohoo message
 				endif;
@@ -392,32 +389,8 @@ class Activation extends \Social_Pug {
 		add_settings_error(
 			'mv_grow_license',
 			'mv_grow_license_invalid',
-			__( 'The Hubbub Pro license could not be validated.', 'mediavine' )
+			__( 'The Hubbub Lite license could not be validated.', 'mediavine' )
 		);
 	}
 
-	/**
-	 * Updates the license to the value the user enters. If empty, nullifies the license status
-	 *
-	 * @param array $old_values Original settings form values.
-	 * @param array $new_values Updated settings form values.
-	 */
-	public function manage_grow_license( $old_values, $new_values ) {
-		$new_license = $new_values['mv_grow_license'] ?? null;
-		$old_license = $old_values['mv_grow_license'] ?? null;
-
-		if ( $old_license !== $new_license ) {
-			update_option( 'mv_grow_license', $new_license );
-
-			// DEPRECATED in 2.19.0, Unnecessary caused duplicate calls. if ( ! empty( $new_license ) ) {
-			// 	$this->validate_license( $old_values, $new_values );
-			// } else {
-			// 	$this->set_license_status( null );
-			// }
-
-			if ( empty($new_license ) ) :
-				$this->set_license_status( null );
-			endif;
-		}
-	}
 }

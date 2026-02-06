@@ -73,22 +73,27 @@ function dpsp_generate_facebook_app_access_token( $new_settings = [], $old_setti
 function dpsp_update_serial_key_status( $old_settings = [], $new_settings = [] ) {
 
 	if ( \Social_Pug::is_free() ) :
+		$hubbub_activation_lite = new \Mediavine\Grow\ActivationLite;
+		$hubbub_activation_lite->validate_license( $old_settings, $new_settings );
+
+		if ( $new_settings['mv_grow_license'] == '' ) {
+			delete_option( 'mv_grow_license' );
+			delete_option( 'mv_grow_license_status' );
+			delete_option( 'mv_grow_license_status_date' );
+			delete_option( 'mv_grow_license_tier' );
+		}
 		return;
 	endif;
-
-	$serial = ( isset( $new_settings['product_serial'] ) ? $new_settings['product_serial'] : '' ); // TODO: Remove this in the near future. Product serial is no longer used in favor of mv_grow_license
 
 	$hubbub_activation = new \Mediavine\Grow\Activation;
 	$hubbub_activation->validate_license( $old_settings, $new_settings );
 
-	// Get serial status
-	//$serial_status = dpsp_get_serial_key_status( $serial );
-
-	// if ( ! is_null( $serial_status ) ) {
-	// 	update_option( 'dpsp_product_serial_status', $serial_status );
-	// } else {
-	// 	update_option( 'dpsp_product_serial_status', '' );
-	// }
+	if ( isset($new_settings) && isset($new_settings['mv_grow_license']) && $new_settings['mv_grow_license'] == '' ) {
+		delete_option( 'mv_grow_license' );
+		delete_option( 'mv_grow_license_status' );
+		delete_option( 'mv_grow_license_status_date' );
+		delete_option( 'mv_grow_license_tier' );
+	}
 }
 
 
@@ -106,37 +111,6 @@ function dpsp_check_serial_key_status() {
 }
 
 /**
- * Adds a validation icon for the serial key.
- */
-function dpsp_add_serial_status_icon( $slug, $type, $name ) {
-
-	if ( 'serial-key' === $slug ) {
-		return;
-	}
-
-	$dpsp_settings      = Mediavine\Grow\Settings::get_setting( 'dpsp_settings', [] );
-	$dpsp_serial_status = Mediavine\Grow\Settings::get_setting( 'dpsp_product_serial_status', '' );
-
-	if ( Mediavine\Grow\Settings::get_setting( 'mv_grow_license', false ) ) {
-		return;
-	}
-
-	if ( empty( $dpsp_settings['product_serial'] ) && empty( $dpsp_serial_status ) ) {
-		return;
-	}
-
-	switch ( $dpsp_serial_status ) {
-		case 1:
-		case 2:
-			echo '<div id="dpsp-serial-key-status" class="dpsp-valid"><span title="' . esc_html__( 'Serial key is valid.', 'social-pug' ) . '" class="dashicons dashicons-yes"></span><span>' . esc_html__( 'Serial key is valid.', 'social-pug' ) . '</span></div>';
-			break;
-		default:
-			echo '<div id="dpsp-serial-key-status" class="dpsp-invalid"><span title="' . esc_html__( 'Serial key is invalid or expired.', 'social-pug' ) . '" class="dashicons dashicons-warning"></span><span>' . esc_html__( 'Serial key is invalid or expired.', 'social-pug' ) . '</span></div>';
-			break;
-	}
-}
-
-/**
  * Santizes all settings for Hubbub prior to being saved to the database
  */
 function dpsp_sanitize_all_settings( $settings ){
@@ -150,9 +124,6 @@ function dpsp_register_admin_settings() {
 	add_action( 'admin_menu', 'dpsp_register_settings_subpage', 100 );
 	add_action( 'admin_init', 'dpsp_settings_register_settings' );
 	add_filter( 'pre_update_option_dpsp_settings', 'dpsp_generate_facebook_app_access_token', 10, 2 );
-	//add_action( 'add_option_dpsp_settings', 'dpsp_update_serial_key_status', 10, 2 );
 	add_action( 'update_option_dpsp_settings', 'dpsp_update_serial_key_status', 10, 2 );
-	//add_action( 'update_option_dpsp_settings', [ 'Mediavine\Grow\Activation', 'validate_license' ], 10, 2 );
-	add_action( 'dpsp_inner_after_settings_field', 'dpsp_add_serial_status_icon', 10, 3 );
 	add_action( 'pre_update_option_dpsp_settings', 'dpsp_sanitize_all_settings', 10, 2 );
 }

@@ -284,7 +284,7 @@ function dpsp_show_total_count( $key ) {
 		set_transient( 'dpsp_dashboard_total_' . $key, $total, 60 );
 	}
 
-	return $total;
+	return (int)$total;
 }
 
 function dpsp_dashboard_display_news( $number_of_entries = 6 ) {
@@ -310,6 +310,9 @@ function dpsp_dashboard_display_news( $number_of_entries = 6 ) {
 			break;
 		case 'priority':
 			$second_rss_url = 'https://morehubbub.com/feed/dashboard_news/category/priority-only/';
+			break;
+		default:
+			$second_rss_url = 'https://morehubbub.com/feed/dashboard_news/category/pro-only/';
 			break;
 	}
 
@@ -385,6 +388,11 @@ function dpsp_ajax_get_hubbub_metaboxes() {
 
 	$arguments = stripslashes_deep( $_POST );
 
+	if ( ! current_user_can( 'edit_post', $arguments['post_id'] ) ) {
+		echo 0;
+		wp_die();
+	}
+
 	$dpsp_token = filter_input( INPUT_POST, '_ajax_nonce' );
 	if ( empty( $dpsp_token ) || ! wp_verify_nonce( $dpsp_token, 'hubbub_dashboard_quick_edit' ) ) {
 		echo'failed';		echo 0;
@@ -425,23 +433,16 @@ function dpsp_ajax_dashboard_save_post_meta() {
 
 	$arguments = stripslashes_deep( $_POST );
 
+	if ( ! current_user_can( 'edit_post', $arguments['post_id'] ) ) {
+		echo 0;
+		wp_die();
+	}
+
 	$dpsp_token = filter_input( INPUT_POST, '_ajax_nonce' );
 	if ( empty( $dpsp_token ) || ! wp_verify_nonce( $dpsp_token, 'hubbub_dashboard_quick_edit_save' ) ) {
 		echo 0;
 		wp_die();
 	}
-
-	// Check the user's permissions.
-	// $post_type = filter_input( INPUT_POST, 'post_type' );
-	// if ( 'page' === $post_type ) {
-	// 	if ( ! current_user_can( 'edit_page', $post_id ) ) {
-	// 		return;
-	// 	}
-	// } else {
-	// 	if ( ! current_user_can( 'edit_post', $post_id ) ) {
-	// 		return;
-	// 	}
-	// }
 
 	$post_id 			= $arguments['post_id'];
 	$dpsp_share_options = $arguments['dpsp_share_options'];

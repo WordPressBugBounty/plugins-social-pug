@@ -6,38 +6,38 @@ use Mediavine\Grow\Share_Counts;
 /**
  * Listens for the Facebook response with the access code from the Hubbub Facebook app.
  */
-function dpsp_capture_authorize_facebook_access_token() {
-	$token = filter_input( INPUT_GET, 'tkn' );
-	if ( empty( $token ) || ! wp_verify_nonce( $token, 'dpsp_authorize_facebook_app' ) ) {
-		return false;
-	}
+// function dpsp_capture_authorize_facebook_access_token() {
+// 	$token = filter_input( INPUT_GET, 'tkn' );
+// 	if ( empty( $token ) || ! wp_verify_nonce( $token, 'dpsp_authorize_facebook_app' ) ) {
+// 		return false;
+// 	}
 
-	if ( empty( $_GET['facebook_access_token'] ) ) {
-		return false;
-	}
+// 	if ( empty( $_GET['facebook_access_token'] ) ) {
+// 		return false;
+// 	}
 
-	if ( empty( $_GET['expires_in'] ) ) {
-		return false;
-	}
+// 	if ( empty( $_GET['expires_in'] ) ) {
+// 		return false;
+// 	}
 
-	$facebook_access_token = [
-		'access_token' => sanitize_text_field( filter_input( INPUT_GET, 'facebook_access_token' ) ),
-		'expires_in'   => time() + absint( filter_input( INPUT_GET, 'expires_in' ) ),
-	];
+// 	$facebook_access_token = [
+// 		'access_token' => sanitize_text_field( filter_input( INPUT_GET, 'facebook_access_token' ) ),
+// 		'expires_in'   => time() + absint( filter_input( INPUT_GET, 'expires_in' ) ),
+// 	];
 
-	update_option( 'dpsp_facebook_access_token', $facebook_access_token );
-	wp_redirect(
-		add_query_arg(
-			[
-				'page'             => 'dpsp-settings',
-				'dpsp_message_id'  => 4,
-				'settings-updated' => '',
-			],
-			admin_url( 'admin.php' )
-		)
-	);
-	exit;
-}
+// 	update_option( 'dpsp_facebook_access_token', $facebook_access_token );
+// 	wp_redirect(
+// 		add_query_arg(
+// 			[
+// 				'page'             => 'dpsp-settings',
+// 				'dpsp_message_id'  => 4,
+// 				'settings-updated' => '',
+// 			],
+// 			admin_url( 'admin.php' )
+// 		)
+// 	);
+// 	exit;
+// }
 
 /**
  * Not all social networks support social count.

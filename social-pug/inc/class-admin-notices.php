@@ -175,7 +175,6 @@ class Admin_Notices {
 
 		$dpsp_settings = Settings::get_setting( 'dpsp_settings' );
 
-		$serial  = ( ! empty( $dpsp_settings['product_serial'] ) ? $dpsp_settings['product_serial'] : '' );
 		$license = ( ! empty( $dpsp_settings['mv_grow_license'] ) ? $dpsp_settings['mv_grow_license'] : '' );
 		
 		if ( empty( $serial ) && empty( $license ) ) {

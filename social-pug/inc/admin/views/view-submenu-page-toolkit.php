@@ -61,7 +61,10 @@
 
 	<?php do_action( 'dpsp_page_toolkit_after_misc_tools' ); ?>
 
-	<?php echo \Mediavine\Grow\View_Loader::get_view( '/inc/views/made-with-love.php' ); ?>
+	<?php echo \Mediavine\Grow\View_Loader::get_view( '/inc/admin/views/view-footer-made-with-love.php' ); ?>
+	<?php echo \Mediavine\Grow\View_Loader::get_view( '/inc/admin/views/view-footer-unlock-features.php' ); ?>
+
+	<?php do_action( 'dpsp_page_toolkit_after_made_with_love' ); ?>
 </div>
 
 <?php do_action( 'dpsp_submenu_page_bottom' ); ?>

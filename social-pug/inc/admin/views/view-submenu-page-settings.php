@@ -5,11 +5,26 @@
 	<form method="post" action="options.php">
 		<?php
 		$dpsp_settings = get_option( 'dpsp_settings', 'not_set' );
+		$mv_grow_license = Mediavine\Grow\Settings::get_setting( 'mv_grow_license', null );
+
+		$hubbub_activation_lite = new \Mediavine\Grow\ActivationLite;
+
+		if ( empty( $mv_grow_license ) && isset( $dpsp_settings['mv_grow_license'] ) && ! empty( $dpsp_settings['mv_grow_license'] ) ) {
+			update_option( 'mv_grow_license', $dpsp_settings['mv_grow_license'] ); // Just for Lite?
+		}
+		if ( empty( $dpsp_settings['mv_grow_license'] ) && ! empty( $mv_grow_license ) ) {
+			delete_option( 'mv_grow_license' );
+		}
 		settings_fields( 'dpsp_settings' );
 		?>
 
 		<!-- General Settings Tab Content -->
 		<div id="dpsp-tab-general-settings">
+
+			<?php 
+			if ( $hubbub_activation_lite->is_lite_registered() ) {
+				include( \Mediavine\Grow\View_Loader::$plugin_path . '/inc/admin/views/view-tab-settings-social-identity.php' );
+			}  else { ?>
 
 			<div class="dpsp-card">
 
@@ -25,6 +40,8 @@
 				</div>
 
 			</div>
+
+			<?php } ?>
 
 			<!-- Misc -->
 			<div id="dpsp-card-misc" class="dpsp-card">
@@ -108,6 +125,40 @@
 
 			</div>
 
+			<div class="dpsp-card">
+
+				<div class="dpsp-card-header">
+					<?php esc_html_e( 'License Key', 'social-pug' ); ?>
+				</div>
+
+				<div class="dpsp-card-inner">
+
+					<?php
+					
+					
+						// translators: %s Plugin Name
+						dpsp_settings_field( 'text', 'dpsp_settings[mv_grow_license]', ( isset( $dpsp_settings['mv_grow_license'] ) ? $dpsp_settings['mv_grow_license'] : '' ), 'Lite License key' );
+
+						$license_tier = $hubbub_activation_lite->get_license_tier();
+						?>
+						<div class="dpsp-setting-field-wrapper dpsp-setting-field-text dpsp-has-field-label">
+							<span class="dpsp-email-save-this-help-text">
+								<?php
+								if ( isset( $dpsp_settings['mv_grow_license'] ) && $license_tier == 'lite' ) {
+									$license_text = 'This is a Hubbub Lite license key.';
+								} else {
+									$license_text = '<a href="#" class="dpsp-button-secondary dpsp-button-unlock-hubbub-lite" id="dpsp-button-unlock-features-license-key">' . esc_html__( '🔓 Register For Free', 'social-pug' ) . '</a> ';
+									$license_text .= '<a href="https://morehubbub.com/" class="dpsp-button-secondary" target="_blank">' . esc_html__( '🔓 Get Pro Features', 'social-pug' ) . '</a>';
+									$license_text .= '<br/>';
+									
+								}
+								echo $license_text;
+								?>
+							</span>
+				</div>
+
+			</div>
+
 		</div><!-- End of General Settings Tab Content -->
 
 		<input type="hidden" name="action" value="update" />
@@ -116,8 +167,12 @@
 		<p><strong>Please note:</strong> To ensure that changes take effect, please clear all caches. (Need help? <a href="https://morehubbub.com/docs/cache-help/" title="Read our support doc on caches">See our support doc</a>.)</p>
 	</form>
 
-	<?php echo \Mediavine\Grow\View_Loader::get_view( '/inc/views/made-with-love.php' ); ?>
+	<?php echo \Mediavine\Grow\View_Loader::get_view( '/inc/admin/views/view-footer-made-with-love.php' ); ?>
+	<?php echo \Mediavine\Grow\View_Loader::get_view( '/inc/admin/views/view-footer-unlock-features.php' ); ?>
+
+	<?php do_action( 'dpsp_submenu_page_settings_lite_after_made_with_love' ); ?>
 	
+</div>
 </div>
 
 <?php do_action( 'dpsp_submenu_page_bottom' ); ?>

@@ -12,7 +12,7 @@ class Social_Pug {
 	public const API_NAMESPACE = 'mv-grow-social/v1';
 
 	/** @var string|null Build tool sets this. */
-	const VERSION = '1.35.2';
+	const VERSION = '1.36.3';
 
 	/** @var string|null Version number for this release. @deprecated Use MV_GROW_VERSION */
 	public static $VERSION;
@@ -132,6 +132,11 @@ class Social_Pug {
 		$this->setup_integrations();
 		$this->setup_free_tools();
 
+		$hubbub_activation_lite = new \Mediavine\Grow\ActivationLite;
+		if ( $hubbub_activation_lite->is_lite_registered() ) {
+			require_once( __DIR__ . '/networks/class-pro-networks.php' );
+		}
+
 		$this->asset_loader     = \Mediavine\Grow\Asset_Loader::get_instance();
 		$this->frontend_data    = \Mediavine\Grow\Frontend_Data::get_instance();
 		$this->networks         = \Mediavine\Grow\Networks::get_instance();
@@ -168,7 +173,11 @@ class Social_Pug {
 		add_filter( 'perfmatters_delay_js_exclusions', [ $this, 'add_hubbub_perfmatters_delay_js_exclusion' ] );
 
 		// Set up Facebook Authorization
-		add_action( 'admin_init', 'dpsp_capture_authorize_facebook_access_token' );
+		//add_action( 'admin_init', 'dpsp_capture_authorize_facebook_access_token' );
+
+		// Set up OAuth Authorization capture
+		add_action( 'admin_init', 'dpsp_capture_oauth_access_token' );
+
 		// Add a class to the admin body to tell plugin pages apart
 		add_filter( 'admin_body_class', [ $this, 'admin_body_class' ] );
 
@@ -206,8 +215,7 @@ class Social_Pug {
 		dpsp_register_admin_dashboard();
 		dpsp_register_admin_toolkit();
 
-		// Version-specific feature registration.
-		if ( class_exists( '\Mediavine\Grow\Shortcodes' ) && ! self::is_free() ) {
+		if ( file_exists( DPSP_PLUGIN_DIR . '/inc/tools/share-pop-up/class-pop-up.php' ) && ! self::is_free() ) {
 			$this->register_pro_features();
 		} else {
 			$this->register_free_features();
@@ -276,6 +284,16 @@ class Social_Pug {
 		add_action( 'dpsp_submenu_page_bottom', 'dpsp_add_submenu_page_sidebar' );
 		add_action( 'admin_menu', 'dpsp_register_extensions_subpage', 102 );
 		add_filter( 'mv_grow_is_free', '__return_true' );
+
+		$hubbub_activation_lite = new \Mediavine\Grow\ActivationLite;
+		if ( $hubbub_activation_lite->is_lite_registered() ) {
+			\Mediavine\Grow\Shortcodes::register_shortcodes();
+			dpsp_register_follow_widget();
+		}
+
+		// Unlock Features Modal
+		add_action( 'wp_ajax_dpsp_ajax_lite_save_and_activate_license', 'dpsp_ajax_lite_save_and_activate_license' );
+    	add_action( 'wp_ajax_nopriv_dpsp_ajax_lite_save_and_activate_license', 'dpsp_ajax_lite_save_and_activate_license' );
 	}
 
 	/**
@@ -321,6 +339,12 @@ class Social_Pug {
 			new \Mediavine\Grow\Tools\Inline_Content(),
 			new \Mediavine\Grow\Tools\Floating_Sidebar(),
 		];
+
+		$hubbub_activation_lite = new \Mediavine\Grow\ActivationLite;
+		if ( $hubbub_activation_lite->is_lite_registered() ) {
+			$tools[] = new \Mediavine\Grow\Tools\Follow_Widget();
+		}
+
 		$tool_container->add( $tools );
 		foreach ( $tools as $tool ) {
 			$this->settings_api->register_setting( $tool );

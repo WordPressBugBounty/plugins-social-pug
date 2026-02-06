@@ -1,55 +1,77 @@
-=== Hubbub Lite - Fast, Reliable Social Sharing Buttons ===
+=== Hubbub Lite - Fast, free social sharing and follow buttons ===
 Contributors: eatingrules, cdevroe, nerdpressteam, iova.mihai
 Tags: social share, social sharing, social media, social network, social buttons
 Requires at least: 5.3
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 7.2.24
-Stable tag: 1.35.2
+Stable tag: 1.36.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Add Pinterest, Facebook, LinkedIn, X/Twitter social network sharing buttons with a Floating Sidebar, Sticky Bar, Inline Buttons, Shortcodes, and more.
+Your content is worth sharing. Let's makes it easier!
 
 == Description ==
 
-New: [NerdPress](https://www.nerdpress.net/) has acquired Grow Social from Mediavine. [Read our blog post](https://www.nerdpress.net/announcing-hubbub/)
+**Your content is worth sharing. Let’s make it easier.**
 
-**What can Hubbub Lite do for you?**
+Hubbub gives you simple, customizable social share and follow buttons that work right out of the box. No coding, no clutter. Just an easy way for visitors to share your content to tons of popular social media platforms, like Facebook, Pinterest, X, Threads, and more. Unlock additional growth features when you register for free or upgrade.
 
-Hubbub Lite, formerly Grow Social by Mediavine, is one of the easiest to use social sharing button plugins available that adds personalized sharing buttons to your website for a wide variety of social networking platforms. It is simple to add sharing buttons to multiple locations on your webpages using Hubbub Lite's Floating Sidebar and Inline Content Bar tools. Hubbub Lite comes with four of the biggest social media platforms: Facebook, Twitter / X, Pinterest and LinkedIn. [Hubbub Pro](https://morehubbub.com/) adds an additional 17+ social networks and many additional features including additional toolbars, a ton of options for sharing to Pinterest, and more.
+= What’s in Hubbub Lite: =
 
-= Lite Features =
-* **Share Buttons Above or Below Your Content** - Place the share buttons above or below your content (or both!)
-* **Floating Sidebar Share Buttons** - Place the share buttons on the left or right and have them follow the user as they scroll up and down your webpage
-* **Social Share Counts and Total Share Counts** - Display share counts for all four included social media networks
-* **Editable Button Labels** - Edit the labels that appear in the share buttons to maximize your engagement
-* **Retina Ready Share Icons** - Hubbub uses SVGs to display the sharpest social media icons on any screen size
+**⏩️ [Add social share buttons](https://morehubbub.com/share-buttons/):** Above your content, below your content. Add social share buttons wherever they make the most sense.
 
-= Pro Features =
-* **17+ Additional Social Media Networks (including Threads)** - Reach more people by adding any of the following social share networks Flipboard, Threads, Reddit, VK, Tumblr, WhatsApp, Buffer, Telegram, Pocket, and Email
-* **Social Media Open Graph Tags** - Customize the social media preview title, description and images that your users share on social media using industry standard Open Graph tags which work across all social networks and chat services.
-* **Social Share Counts** - Display the posts social share count **( including Twitter )** to provide social media proof and increase your website's credibility.
-* **Mobile Sticky Footer Share Buttons** - Place the share buttons in a sticky bar that stays at the bottom of a user's mobile device
-* **Pop-Up Share Buttons** - Trigger a pop-up with the sharing buttons when a user triggers an action
-* **Custom Button Colors and Hover Colors** - Personalize the color of your share buttons to match your website's design
-* **Shortcode for Share Buttons** - Place the buttons anywhere in your template files or the body of your content with the [hubbub_share] shortcode
-* **Link Shortening through Bitly** - Hide long URL's behind their shorter version with Bitly integration
-* **Google Analytics UTM tracking** - Track the source of your incoming traffic with the help of the Google Analytics UTM parameters
-* **Follow Buttons Widget** - Place follow buttons anywhere on your website to allow users to follow your social media profiles on: Facebook, Twitter, Pinterest, LinkedIn, Flipboard, Threads, Reddit, Instagram, YouTube, Vimeo, SoundCloud, Twitch and Behance. Use the [hubbub_follow] shortcode
-* **Sharable Quotes ( Click to Tweet ) Feature** - Let your readers easily share a custom tweet with just one click
-* **Top Shared Posts Widget** - Want to showcase your most social shared articles? No problem. You can use this widget in any widget area to add your top shared posts
-* **Import / Export Settings** - Move all the settings from one website to another with just a few clicks
+**📍 Floating social share sidebar:** A tidy little toolbar that sticks with your readers as they scroll.
+
+**📊 Show off your share counts:** Social proof that shows visitors how many people love your content.
+
+**🖼️ Crisp social icons**: Hubbub uses SVG icons so everything looks clean and sharp, on every screen, in every size.
+
+**📈 [Engagement Stats dashboard](https://morehubbub.com/dashboard/)** – Get a quick look at the most-shared content across your entire site. Plus, find out how many times your content has been saved by email when you get Hubbub Pro+!
+
+= Unlock Hubbub Lite for even more features, free! =
+
+**Register your copy of Hubbub Lite and get the following features:**
+
+**🌐 17+ more platforms for sharing:** Flipboard, Threads, Reddit, WhatsApp, Tumblr, and more (including email sharing).
+
+📥 [**Follow buttons**](https://morehubbub.com/dashboard/)**:** Grow your followers on other platforms by linking your audience directly to Instagram, YouTube, Twitch, Behance, Apple Podcasts, Spotify and more.
+
+= What’s in Hubbub Pro when you’re ready for more =
+
+**📍 Additional Pinterest options:** Get specific with how your audience shares your content to Pinterest using hidden images, image hover buttons, and more.
+
+**📸 Control your social previews:** Customize the titles, descriptions, and images that show up when someone shares your post.
+
+**📱 Sticky mobile footer bar:** Buttons stay right where readers can tap them, perfect for readers on mobile devices.
+
+**🎯 Pop-up share buttons:**  Trigger a sharing pop-up based on actions or timing (it’s subtle, not spammy).
+
+**📈 Show off your most-shared posts:** Add a widget that spotlights your most-shared content, automatically.
+
+**👋 Best-in-class support:** Provided by the [helpful team of Nerds at NerdPress](https://www.nerdpress.net/).
+
+**And more!**
+
+= What’s in Hubbub Pro+ when you’re ready to go beyond Pro =
+
+**📧 [Save This](https://morehubbub.com/save-this/):** Grow your mailing list by inserting a highly customizable form into your content so visitors can save your content to their inbox.
+
+**🔍 [Find & Fix](https://morehubbub.com/find-and-fix/)**: See which blog posts are missing social sharing info and quickly update them without opening the full post.
+
+💡 [Learn more about Hubbub Pro and Pro+](https://morehubbub.com/)
 
 = Website and Documentation =
 
-* [Visit morehubbub.com/](https://morehubbub.com/)
+* [Visit morehubbub.com](https://morehubbub.com/)
 * [Hubbub Support docs](https://morehubbub.com/docs/)
+
+Made with ❤️ and ☕ by [NerdPress](https://www.nerdpress.net/).
 
 == Installation ==
 
 1. Upload the social-pug folder to the '/wp-content/plugins/' directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Choose Hubbub in your WordPress Admin menu and turn on each location where you wish the buttons to appear
+1. Choose Hubbub in your WordPress Admin menu and turn on each tool where you wish the buttons to appear
 1. Under each tool (e.g. Floating Sidebar) you can choose individual settings
 1. Need help? We have [support docs](https://morehubbub.com/docs/) to help you
 
@@ -78,7 +100,7 @@ Hubbub Pro has additional add-ons for migrating data from a few popular alternat
 
 = Where do I report security bugs found in this plugin? =
 
-Please report security bugs found in the source code of the this plugin [to us via email](mailto:support@morehubbub.com) or through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/9e5fb428-6e27-4a14-a57f-f4943e33ecb7). The Patchstack team will assist you with verification, CVE assignment, and notify us.
+Please report security bugs found in the source code of the Social Pug plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/9e5fb428-6e27-4a14-a57f-f4943e33ecb7). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 
 
 == Screenshots ==
@@ -90,6 +112,30 @@ Please report security bugs found in the source code of the this plugin [to us v
 
 == Changelog ==
 This changelog is for Hubbub Lite. Here is [the changelog for Hubbub Pro](https://morehubbub.com/changelog/).
+
+= 1.36.3 =
+* December 9, 2025
+* Fix: Addressed two PHP warnings.
+
+= 1.36.2 =
+* December 2, 2025
+* Fix: Circle and Rounded shape option on Inline Content Tool.
+* Fix: A change with libxml 2.14+ that caused an XML comment to be displayed (thanks for the help, [Deep Roots](https://deeprootshosting.com)!).
+* Tested up to WordPress 6.9
+
+= 1.36.1 =
+* November 4, 2025
+* New: Updated colors to match the NerdPress brand. :-) 
+* Fixes CVE-2025-12471. Our thanks to LionTree via WordFence.
+* Improvement: Share Count settings are more clear.
+* Improvement: Reduced CSS for faster load time.
+* Other fixes and improvements.
+
+= 1.36.0 =
+* October 6, 2025
+* New: Unlock all Sharing and Follow Buttons by registering your copy of Hubbub Lite for free!
+* Improvement: Added Aria labels to Pinterest Sharing Button.
+* Other fixes and adjustments including those related to _load_textdomain and Trellis theme and child themes.
 
 = 1.35.2 =
 * September 26, 2025

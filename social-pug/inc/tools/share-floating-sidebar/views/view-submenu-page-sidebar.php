@@ -182,14 +182,17 @@
 
 			<div class="dpsp-card-inner">
 
-				<?php dpsp_settings_field( 'switch', 'dpsp_location_sidebar[display][show_count]', ( isset( $dpsp_location_sidebar['display']['show_count'] ) ? $dpsp_location_sidebar['display']['show_count'] : '' ), __( 'Show share count for each network', 'mediavine' ), [ 'yes' ], __( 'Display the share count for each social network.<br /><br />Please note: You may see a zero share count for Facebook if the share count is under 100 shares due to limitations with Facebook’s API.', 'mediavine' ) ); ?>
+				<?php dpsp_settings_field( 'switch', 'dpsp_location_sidebar[display][show_count]', ( isset( $dpsp_location_sidebar['display']['show_count'] ) ? $dpsp_location_sidebar['display']['show_count'] : '' ), __( 'Show share count for each network', 'mediavine' ), [ 'yes' ], __( 'Display the share count for each network individually.<br><br>You may not see a count for Facebook if it is under 100 due to limitations with Facebook\'s API.', 'mediavine' ) ); ?>
+				
+				<?php dpsp_settings_field( 'text', 'dpsp_location_sidebar[display][minimum_individual_count]', ( isset( $dpsp_location_sidebar['display']['minimum_individual_count'] ) ? $dpsp_location_sidebar['display']['minimum_individual_count'] : '' ), __( 'Minimum individual share count', 'social-pug' ), [], __( 'Individual share counts will be displayed only if the number of shares for that network is higher than this number.<br><br>Zero counts will never be displayed. Leave blank for no minimum.', 'social-pug' ) ); ?>
 
-				<?php dpsp_settings_field( 'switch', 'dpsp_location_sidebar[display][show_count_total]', ( isset( $dpsp_location_sidebar['display']['show_count_total'] ) ? $dpsp_location_sidebar['display']['show_count_total'] : '' ), __( 'Show total share count', 'social-pug' ), [ 'yes' ], __( 'Display the share count for all social networks.', 'social-pug' ) ); ?>
+				<?php dpsp_settings_field( 'switch', 'dpsp_location_sidebar[display][show_count_total]', ( isset( $dpsp_location_sidebar['display']['show_count_total'] ) ? $dpsp_location_sidebar['display']['show_count_total'] : '' ), __( 'Show total share count', 'social-pug' ), [ 'yes' ], __( 'Display the total share count across all networks.', 'social-pug' ) ); ?>
 
-				<div class="dpsp-setting-field-wrapper dpsp-setting-field-text dpsp-has-field-label">
-					<span class="dpsp-email-save-this-help-text">Share counts will only be displayed once they're greater than zero. See each setting's tooltip for additional information.</span>
+				<?php dpsp_settings_field( 'text', 'dpsp_location_sidebar[display][minimum_count]', ( isset( $dpsp_location_sidebar['display']['minimum_count'] ) ? $dpsp_location_sidebar['display']['minimum_count'] : '' ), __( 'Minimum total share count', 'social-pug' ), [], __( 'Total share counts will be displayed only if the total number of shares across all networks is higher than this number.<br><br>Zero counts will never be displayed. Leave blank for no minimum.', 'social-pug' ) ); ?>
+				<div class="dpsp-setting-field-wrapper dpsp-setting-field-text dpsp-has-field-label dpsp-setting-field-text-total-share-count disabled">
+					<span class="dpsp-email-save-this-help-text">Share counts will not be displayed at all (total or individuals) unless the total number of shares across all networks is higher than this number.</span>
 				</div>
-
+				
 				<?php
 				dpsp_settings_field(
 					'select',
@@ -203,14 +206,11 @@
 							'social-pug'
 						),
 					]
-				);
-?>
+				); ?>
 
-				<?php dpsp_settings_field( 'switch', 'dpsp_location_sidebar[display][count_round]', ( isset( $dpsp_location_sidebar['display']['count_round'] ) ? $dpsp_location_sidebar['display']['count_round'] : '' ), __( 'Share count round', 'social-pug' ), [ 'yes' ], __( 'If the share count for each network is bigger than 1000 it will be rounded to one decimal ( eg. 1267 will show as 1.2k ). Applies to Total Share Counts as well.', 'social-pug' ) ); ?>
+				<?php dpsp_settings_field( 'switch', 'dpsp_location_sidebar[display][count_round]', ( isset( $dpsp_location_sidebar['display']['count_round'] ) ? $dpsp_location_sidebar['display']['count_round'] : '' ), __( 'Share count round', 'social-pug' ), [ 'yes' ], __( 'Shortens large share counts into a human-readable format (for example, 1267 becomes 1.2k).', 'social-pug' ) ); ?>
 
-				<?php dpsp_settings_field( 'text', 'dpsp_location_sidebar[display][minimum_count]', ( isset( $dpsp_location_sidebar['display']['minimum_count'] ) ? $dpsp_location_sidebar['display']['minimum_count'] : '' ), __( 'Minimum total share count', 'social-pug' ), [], __( 'We won\'t display any share counts unless the total is higher than this number.', 'social-pug' ) ); ?>
 
-				<?php dpsp_settings_field( 'text', 'dpsp_location_sidebar[display][minimum_individual_count]', ( isset( $dpsp_location_sidebar['display']['minimum_individual_count'] ) ? $dpsp_location_sidebar['display']['minimum_individual_count'] : '' ), __( 'Minimum individual share count', 'social-pug' ), [], __( 'Display individual network share counts only if the share count for that specific network is higher than this number.', 'social-pug' ) ); ?>
 			</div>
 
 		</div>
@@ -253,7 +253,10 @@
 		<p class="submit"><input type="submit" class="dpsp-button-primary" value="<?php esc_attr_e( 'Save Changes', 'social-pug' ); ?>" /></p>
 		<p><strong>Please note:</strong> To ensure that changes take effect, please clear all caches. (Need help? <a href="https://morehubbub.com/docs/cache-help/" title="Read our support doc on caches">See our support doc</a>.)</p>
 
-		<?php echo \Mediavine\Grow\View_Loader::get_view( '/inc/views/made-with-love.php' ); ?>
+		<?php echo \Mediavine\Grow\View_Loader::get_view( '/inc/admin/views/view-footer-made-with-love.php' ); ?>
+		<?php echo \Mediavine\Grow\View_Loader::get_view( '/inc/admin/views/view-footer-unlock-features.php' ); ?>
+
+		<?php do_action( 'dpsp_submenu_page_floating_sidebar_after_made_with_love' ); ?>
 		
 	</div>
 </form>

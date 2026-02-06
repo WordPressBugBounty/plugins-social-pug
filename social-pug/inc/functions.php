@@ -502,58 +502,6 @@ function dpsp_default_settings() {
 }
 
 /**
- * Connects to DevPups to return the status of the serial key.
- */
-function dpsp_get_serial_key_status( $serial = '' ) {
-	// @TODO Determine if this function is still needed and delete if not
-	// Get serial from settings if the serial is not passed
-	if ( empty( $serial ) ) {
-		$dpsp_settings = Mediavine\Grow\Settings::get_setting( 'dpsp_settings' );
-		$serial        = ( isset( $dpsp_settings['product_serial'] ) ? $dpsp_settings['product_serial'] : '' );
-	}
-
-	if ( empty( $serial ) ) {
-		return null;
-	}
-
-	// Make request
-	$request = wp_remote_get(
-		add_query_arg(
-			[
-				'serial' => $serial,
-				'action' => 'check_serial',
-			],
-			'http://updates.devpups.com'
-		),
-		[ 'timeout' => 30 ]
-	);
-
-	if ( is_wp_error( $request ) ) {
-		$request = wp_remote_get(
-			add_query_arg(
-				[
-					'serial' => $serial,
-					'action' => 'check_serial',
-				],
-				'http://updates.devpups.com'
-			),
-			[
-				'timeout'   => 30,
-				'sslverify' => false,
-			]
-		);
-	}
-
-	if ( ( 200 === $request['response']['code'] ) && ! is_wp_error( $request ) && isset( $request['response']['code'] ) ) {
-		$serial_status = trim( $request['body'] );
-
-		return $serial_status;
-	}
-
-	return null;
-}
-
-/**
  * Determines whether to display the buttons for a location.
  *
  * Checks if post has overwrite display option selected.
