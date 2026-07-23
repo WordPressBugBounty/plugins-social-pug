@@ -119,7 +119,7 @@ class Shortcodes {
 		}
 
 		if ( ! empty( $args['columns'] ) ) {
-			$settings['display']['column_count'] = $args['columns'];
+			$settings['display']['column_count'] = sanitize_html_class( $args['columns'] );
 		}
 
 		if ( ! empty( $args['show_labels'] ) ) {
@@ -195,9 +195,9 @@ class Shortcodes {
 
 		// Classes for the wrapper
 		$wrapper_classes   = [ 'dpsp-shortcode-wrapper' ];
-		$wrapper_classes[] = ( isset( $settings['display']['shape'] ) ? 'dpsp-shape-' . $settings['display']['shape'] : '' );
-		$wrapper_classes[] = ( isset( $settings['display']['size'] ) ? 'dpsp-size-' . $settings['display']['size'] : 'dpsp-size-medium' );
-		$wrapper_classes[] = ( isset( $settings['display']['column_count'] ) ? 'dpsp-column-' . $settings['display']['column_count'] : '' );
+		$wrapper_classes[] = ( isset( $settings['display']['shape'] ) ? 'dpsp-shape-' . sanitize_html_class( $settings['display']['shape'] ) : '' );
+		$wrapper_classes[] = ( isset( $settings['display']['size'] ) ? 'dpsp-size-' . sanitize_html_class( $settings['display']['size'] ) : 'dpsp-size-medium' );
+		$wrapper_classes[] = ( isset( $settings['display']['column_count'] ) ? 'dpsp-column-' . sanitize_html_class( $settings['display']['column_count'] ) : '' );
 		$wrapper_classes[] = ( isset( $settings['display']['spacing'] ) ? 'dpsp-has-spacing' : '' );
 		$wrapper_classes[] = ( isset( $settings['display']['show_labels'] ) || isset( $settings['display']['show_count'] ) ? '' : 'dpsp-no-labels' );
 		$wrapper_classes[] = ( isset( $settings['display']['show_labels_mobile'] ) ? '' : 'dpsp-no-labels-mobile' );
@@ -209,10 +209,10 @@ class Shortcodes {
 		$show_total_count = ( $minimum_count <= (int) Share_Counts::post_total_share_counts() && ! empty( $settings['display']['show_count_total'] ) ? true : false );
 
 		$wrapper_classes[] = ( $show_total_count ? 'dpsp-show-total-share-count' : '' );
-		$wrapper_classes[] = ( $show_total_count ? ( ! empty( $settings['display']['total_count_position'] ) ? 'dpsp-show-total-share-count-' . $settings['display']['total_count_position'] : 'dpsp-show-total-share-count-before' ) : '' );
+		$wrapper_classes[] = ( $show_total_count ? ( ! empty( $settings['display']['total_count_position'] ) ? 'dpsp-show-total-share-count-' . sanitize_html_class( $settings['display']['total_count_position'] ) : 'dpsp-show-total-share-count-before' ) : '' );
 
 		// Button styles
-		$wrapper_classes[] = ( isset( $settings['button_style'] ) ? 'dpsp-button-style-' . $settings['button_style'] : '' );
+		$wrapper_classes[] = ( isset( $settings['button_style'] ) ? 'dpsp-button-style-' . sanitize_html_class( $settings['button_style'] ) : '' );
 
 		$wrapper_classes = implode( ' ', array_filter( $wrapper_classes ) );
 
@@ -227,7 +227,11 @@ class Shortcodes {
 		}
 		$output .= dpsp_get_output_network_buttons( $settings, 'share', 'content', $data );
 
-		$output = '<div ' . ( ! empty( $args['id'] ) ? 'id="' . $args['id'] . '"' : '' ) . ' class="' . $wrapper_classes . '">' . $output . '</div>';
+		// The `id` attribute is author-supplied, so restrict it to characters that are
+		// valid in an HTML id and cannot terminate the attribute. See #2323.
+		$wrapper_id = preg_replace( '/[^A-Za-z0-9_-]/', '', (string) $args['id'] );
+
+		$output = '<div ' . ( '' !== $wrapper_id ? 'id="' . esc_attr( $wrapper_id ) . '"' : '' ) . ' class="' . esc_attr( $wrapper_classes ) . '">' . $output . '</div>';
 
 		// Add back the filters
 		if ( ! isset( $settings['display']['count_round'] ) ) {
@@ -345,7 +349,7 @@ class Shortcodes {
 		}
 
 		if ( ! empty( $args['columns'] ) ) {
-			$settings['display']['column_count'] = $args['columns'];
+			$settings['display']['column_count'] = sanitize_html_class( $args['columns'] );
 		}
 
 		if ( ! empty( $args['show_labels'] ) ) {
@@ -378,7 +382,7 @@ class Shortcodes {
 		$wrapper_classes[] = ( isset( $settings['display']['shape'] ) ? 'dpsp-shape-' . $settings['display']['shape'] : '' );
 		$wrapper_classes[] = ( isset( $settings['display']['size'] ) ? 'dpsp-size-' . $settings['display']['size'] : 'dpsp-size-medium' );
 		$wrapper_classes[] = ( isset( $settings['display']['alignment'] ) ? 'dpsp-follow-align-' . $settings['display']['alignment'] : 'dpsp-follow-align-left' );
-		$wrapper_classes[] = ( isset( $settings['display']['column_count'] ) ? 'dpsp-column-' . $settings['display']['column_count'] : '' );
+		$wrapper_classes[] = ( isset( $settings['display']['column_count'] ) ? 'dpsp-column-' . sanitize_html_class( $settings['display']['column_count'] ) : '' );
 		$wrapper_classes[] = ( isset( $settings['display']['spacing'] ) ? 'dpsp-has-spacing' : '' );
 		$wrapper_classes[] = ( isset( $settings['display']['show_labels'] ) || isset( $settings['display']['show_count'] ) ? '' : 'dpsp-no-labels' );
 		$wrapper_classes[] = ( isset( $settings['display']['show_labels_mobile'] ) ? '' : 'dpsp-no-labels-mobile' );

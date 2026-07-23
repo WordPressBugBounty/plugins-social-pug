@@ -3,7 +3,7 @@
  * Plugin Name:         Hubbub Lite
  * Plugin URI:          https://morehubbub.com/
  * Description:         Hubbub is a suite of website growth tools to help you add customizable social sharing & follow buttons, update missing social media metadata easily, and increase email newsletter signups.
- * Version:             1.36.3
+ * Version:             1.36.3.1
 
  * Requires at least:   5.3
  * Requires PHP:        7.2.24

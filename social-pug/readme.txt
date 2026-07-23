@@ -4,7 +4,7 @@ Tags: social share, social sharing, social media, social network, social buttons
 Requires at least: 5.3
 Tested up to: 6.9
 Requires PHP: 7.2.24
-Stable tag: 1.36.3
+Stable tag: 1.36.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -112,6 +112,10 @@ Please report security bugs found in the source code of the Social Pug plugin th
 
 == Changelog ==
 This changelog is for Hubbub Lite. Here is [the changelog for Hubbub Pro](https://morehubbub.com/changelog/).
+
+= 1.36.3.1 =
+* July 23, 2026
+* Security: Fixed a cross-site scripting vulnerability in the share shortcode.
 
 = 1.36.3 =
 * December 9, 2025

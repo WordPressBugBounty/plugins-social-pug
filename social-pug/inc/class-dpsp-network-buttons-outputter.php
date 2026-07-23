@@ -44,7 +44,7 @@ class DPSP_Network_Buttons_Outputter {
 		}
 		$data['post_details'] = self::get_post_details( $data );
 		// Start concatenating the output
-		$output = '<ul class="' . self::make_wrapper_classes( $data['settings'], $data['action'], $data['location'] ) . '" ' . Critical_Styles::get( 'button-list-wrapper', $location ) . '>';
+		$output = '<ul class="' . esc_attr( self::make_wrapper_classes( $data['settings'], $data['action'], $data['location'] ) ) . '" ' . Critical_Styles::get( 'button-list-wrapper', $location ) . '>';
 
 		// Array position for css classes, start off with first
 		$array_position = [ 'first' ];
@@ -145,7 +145,7 @@ class DPSP_Network_Buttons_Outputter {
 		if ( ! empty( $location ) ) {
 			$wrapper_classes[] = 'dpsp-networks-btns-' . str_replace( '_', '-', $location );
 		}
-		$wrapper_classes[] = ( isset( $settings['display']['column_count'] ) ? 'dpsp-column-' . $settings['display']['column_count'] : '' );
+		$wrapper_classes[] = ( isset( $settings['display']['column_count'] ) ? 'dpsp-column-' . sanitize_html_class( $settings['display']['column_count'] ) : '' );
 		$wrapper_classes[] = ( isset( $settings['display']['icon_animation'] ) ? 'dpsp-has-button-icon-animation' : '' );
 
 		return implode( ' ', $wrapper_classes );

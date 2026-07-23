@@ -114,7 +114,7 @@ function dpsp_get_share_buttons( $args = [] ) {
 
 	// Set columns
 	if ( ! empty( $args['columns'] ) ) {
-		$settings['display']['column_count'] = $args['columns'];
+		$settings['display']['column_count'] = sanitize_html_class( $args['columns'] );
 	}
 
 	// Show labels
