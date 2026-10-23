@@ -2,7 +2,7 @@
 Contributors: eatingrules, cdevroe, nerdpressteam, iova.mihai
 Tags: social share, social sharing, social media, social network, social buttons
 Requires at least: 5.3
-Tested up to: 6.9
+Tested up to: 7.1
 Requires PHP: 7.2.24
 Stable tag: 1.36.3.1
 License: GPLv2 or later
